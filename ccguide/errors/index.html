@@ -1,0 +1,1947 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/errors/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Errors - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#compiler-generated-error-messages" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Errors
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compiler-generated-error-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiler Generated Error Messages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#already-a-local-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        already a local variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        argument :
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argument-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        argument error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argument-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        argument storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bad-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bad character
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#both-must-be-integral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        both must be integral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#break-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        break error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cant-take-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        can't take address
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cannot-cast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cannot cast
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cannot-evaluate-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cannot evaluate size
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cannot-initialize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cannot initialize
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiler-trouble" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compiler trouble
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#condition-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        condition needed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constant-expression-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constant expression required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constant-overflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constant overflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constant-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constant required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continue-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        continue error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declaration-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        declaration mismatch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#divide-by-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        divide by zero
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ? expected
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expression-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expression missing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-header-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function header missing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-type-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function type error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-unfinished" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        function unfinished
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identifier-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        identifier missing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#illegal-declaration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        illegal declaration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#label-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        label required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#label-undefined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        label undefined
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lvalue-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lvalue required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        multiple defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        multiple definition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#must-be-integral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        must be integral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#name-clash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        name clash
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#name-in-cast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        name in cast
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#named-twice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        named twice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-if-for-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        no 'if' for 'else'
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-switch-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        no switch statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        not a function
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-an-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        not an argument
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operand-expected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operand expected
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        out of memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pointer-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pointer mismatch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pointer-or-integer-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pointer or integer required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pointer-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pointer required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-expected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        primary expected
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#should-be-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        should be NULL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stack-overflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        * STACK OVERFLOW *
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        storage error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#struct-member-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct member mismatch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#struct-member-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct member required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#struct-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct syntax
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#struct-or-union-inappropiate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        struct or union inappropiate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        syntax error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#third-expression-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        third expression missing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#too-long" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        too long
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#too-many-brackets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        too many brackets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#too-many-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        too many elements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        type mismatch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typedef-not-a-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        typedef - not a variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undeclared-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        undeclared variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undefined-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        undefined structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unions-not-allowed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unions not allowed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unterminated-character-constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unterminated character constant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unterminated-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        unterminated string
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#while-expected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        while expected
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Errors</h1>
+
+<h2 id="compiler-generated-error-messages">Compiler Generated Error Messages<a class="headerlink" href="#compiler-generated-error-messages" title="Permanent link">&para;</a></h2>
+<p>Below is a list of the error messages that the C compiler generates,
+and, if applicable, probable causes and K &amp; R Appendix A section
+number (in parenthesis) to see for more specific information.</p>
+<h2 id="already-a-local-variable">already a local variable<a class="headerlink" href="#already-a-local-variable" title="Permanent link">&para;</a></h2>
+<p>Variable has already been declared at the current block level.
+(, )</p>
+<h2 id="argument">argument :<a class="headerlink" href="#argument" title="Permanent link">&para;</a></h2>
+<p>Error from preprocessor. Self-explanatory. Most common cause
+of this error is not being able to find an include file.</p>
+<h2 id="argument-error">argument error<a class="headerlink" href="#argument-error" title="Permanent link">&para;</a></h2>
+<p>Function argument declared as type struct, union or function.
+Pointers to such types, however are allowed. ()</p>
+<h2 id="argument-storage">argument storage<a class="headerlink" href="#argument-storage" title="Permanent link">&para;</a></h2>
+<p>Function arguments may only be declared as storage class
+register. ()</p>
+<h2 id="bad-character">bad character<a class="headerlink" href="#bad-character" title="Permanent link">&para;</a></h2>
+<p>A character not in the C character set (probably a control
+char) was encountered in the source file. (2)</p>
+<h2 id="both-must-be-integral">both must be integral<a class="headerlink" href="#both-must-be-integral" title="Permanent link">&para;</a></h2>
+<blockquote>
+<blockquote>
+<p>and )</p>
+</blockquote>
+</blockquote>
+<h2 id="break-error">break error<a class="headerlink" href="#break-error" title="Permanent link">&para;</a></h2>
+<p>The break statement is allowed only inside a while, do, for or
+switch block. ()</p>
+<h2 id="cant-take-address">can't take address<a class="headerlink" href="#cant-take-address" title="Permanent link">&para;</a></h2>
+<p>&amp; operator not allowed in a register variable. Operand must
+otherwise be an lvalue. ()</p>
+<h2 id="cannot-cast">cannot cast<a class="headerlink" href="#cannot-cast" title="Permanent link">&para;</a></h2>
+<p>Type result of cast cannot be FUNCTION or ARRAY. (, )</p>
+<h2 id="cannot-evaluate-size">cannot evaluate size<a class="headerlink" href="#cannot-evaluate-size" title="Permanent link">&para;</a></h2>
+<p>Could not determine size from declaration or initializer.
+(, )</p>
+<h2 id="cannot-initialize">cannot initialize<a class="headerlink" href="#cannot-initialize" title="Permanent link">&para;</a></h2>
+<p>Storage class or type does not allow variable to be
+initialized. ()</p>
+<h2 id="compiler-trouble">compiler trouble<a class="headerlink" href="#compiler-trouble" title="Permanent link">&para;</a></h2>
+<p>Compiler detedted something it couldn't handle. Try compiling
+the program again. If this error still occurs, contact
+Microware.</p>
+<h2 id="condition-needed">condition needed<a class="headerlink" href="#condition-needed" title="Permanent link">&para;</a></h2>
+<p>While, do, for, switch and if statements require a condition
+expression. ()</p>
+<h2 id="constant-expression-required">constant expression required<a class="headerlink" href="#constant-expression-required" title="Permanent link">&para;</a></h2>
+<p>Initializer expressions for statis or external variables cannot
+reference variables. They may, however, refer to the address
+of a previously declared variable. This installation allows no
+initializer expressions unless all operands are of type INT or
+CHAR ()</p>
+<h2 id="constant-overflow">constant overflow<a class="headerlink" href="#constant-overflow" title="Permanent link">&para;</a></h2>
+<p>Input numeric constant was too large for the implied or
+explicit type. (, [PDP-11])</p>
+<h2 id="constant-required">constant required<a class="headerlink" href="#constant-required" title="Permanent link">&para;</a></h2>
+<p>Variables are not allowed for array dimensions or cases. (,
+, )</p>
+<h2 id="continue-error">continue error<a class="headerlink" href="#continue-error" title="Permanent link">&para;</a></h2>
+<p>The continue statement is allowed only inside a while, do, or
+for block. ()</p>
+<h2 id="declaration-mismatch">declaration mismatch<a class="headerlink" href="#declaration-mismatch" title="Permanent link">&para;</a></h2>
+<p>This declaration conflicts with a previous one. This is
+typically caused by declaring a function to return a non-integer
+type after a reference has been made to the function.
+Depending on the line structure of the declaration block, this
+error may be reported on the line following the erroneous
+declaration. (, , )</p>
+<h2 id="divide-by-zero">divide by zero<a class="headerlink" href="#divide-by-zero" title="Permanent link">&para;</a></h2>
+<p>Divide by zero occurred when evaluating a constant expression.</p>
+<h2 id="expected">? expected<a class="headerlink" href="#expected" title="Permanent link">&para;</a></h2>
+<p>? is any character that was expected to appear here. Missing
+semicolons or braces cause this error.</p>
+<h2 id="expression-missing">expression missing<a class="headerlink" href="#expression-missing" title="Permanent link">&para;</a></h2>
+<p>An expression is required here.</p>
+<h2 id="function-header-missing">function header missing<a class="headerlink" href="#function-header-missing" title="Permanent link">&para;</a></h2>
+<p>Statement or expression encountered outside a function.
+Typically causes by mismatched braces. ()</p>
+<h2 id="function-type-error">function type error<a class="headerlink" href="#function-type-error" title="Permanent link">&para;</a></h2>
+<p>A function cannot be declared as returning an array, function,
+struct, or union. (, )</p>
+<h2 id="function-unfinished">function unfinished<a class="headerlink" href="#function-unfinished" title="Permanent link">&para;</a></h2>
+<p>End-of-file encountered before the end of function definition.
+()</p>
+<h2 id="identifier-missing">identifier missing<a class="headerlink" href="#identifier-missing" title="Permanent link">&para;</a></h2>
+<p>Identifier name required here but none was found.</p>
+<h2 id="illegal-declaration">illegal declaration<a class="headerlink" href="#illegal-declaration" title="Permanent link">&para;</a></h2>
+<p>Declarations are allowed only at the beginning of a block.
+()</p>
+<h2 id="label-required">label required<a class="headerlink" href="#label-required" title="Permanent link">&para;</a></h2>
+<p>Label name required on goto statement. (1)</p>
+<h2 id="label-undefined">label undefined<a class="headerlink" href="#label-undefined" title="Permanent link">&para;</a></h2>
+<p>Goto to label not defined in the current function. ()</p>
+<h2 id="lvalue-required">lvalue required<a class="headerlink" href="#lvalue-required" title="Permanent link">&para;</a></h2>
+<p>Left side of assigment must be able to be "stored into".
+Array names, functions, structs, etc. are no lvalues. ()</p>
+<h2 id="multiple-defaults">multiple defaults<a class="headerlink" href="#multiple-defaults" title="Permanent link">&para;</a></h2>
+<p>Only one default statement is allowed in a switch block. ()</p>
+<h2 id="multiple-definition">multiple definition<a class="headerlink" href="#multiple-definition" title="Permanent link">&para;</a></h2>
+<p>Identifier name was declared more than once in the same block
+level (, )</p>
+<h2 id="must-be-integral">must be integral<a class="headerlink" href="#must-be-integral" title="Permanent link">&para;</a></h2>
+<p>Type of object required here must be type int, char or pointer.</p>
+<h2 id="name-clash">name clash<a class="headerlink" href="#name-clash" title="Permanent link">&para;</a></h2>
+<p>Struct-union member and tag names must be mutually distinct.  ()</p>
+<h2 id="name-in-cast">name in cast<a class="headerlink" href="#name-in-cast" title="Permanent link">&para;</a></h2>
+<p>Identifier name found in a cast. Only types are allowed. (, )</p>
+<h2 id="named-twice">named twice<a class="headerlink" href="#named-twice" title="Permanent link">&para;</a></h2>
+<p>Names in a function parameter list may appear only once. ()</p>
+<h2 id="no-if-for-else">no 'if' for 'else'<a class="headerlink" href="#no-if-for-else" title="Permanent link">&para;</a></h2>
+<p>Else statement found with no matching if. This is typically
+caused by extra or missing braces and/or semicolons. ()</p>
+<h2 id="no-switch-statement">no switch statement<a class="headerlink" href="#no-switch-statement" title="Permanent link">&para;</a></h2>
+<p>Case statements can only appear within a switch block. ()</p>
+<h2 id="not-a-function">not a function<a class="headerlink" href="#not-a-function" title="Permanent link">&para;</a></h2>
+<p>Primary in expression is not type "function returning...". If
+this is really a function call, the function name was declared
+differently elsewhere. ()</p>
+<h2 id="not-an-argument">not an argument<a class="headerlink" href="#not-an-argument" title="Permanent link">&para;</a></h2>
+<p>Name does not appear in the function parameter list. ()</p>
+<h2 id="operand-expected">operand expected<a class="headerlink" href="#operand-expected" title="Permanent link">&para;</a></h2>
+<p>Unary operators require one operand, binary operators two.
+This is typically caused by misplaced parenthesis, casts or
+operators. ()</p>
+<h2 id="out-of-memory">out of memory<a class="headerlink" href="#out-of-memory" title="Permanent link">&para;</a></h2>
+<p>Compiler dynamic memory overflow. The compiler requires
+dynamic memory for symbol table entries, block level
+declarations and code generation. Three major factors affect
+this memory usage. Permanent declarations (those appearing on
+the outer block level (used in include files)) must be
+reserved from the dynamic memory for the duration of the
+compilation of the file. Each { causes the compiler to perform
+a block-level recursion which may involve "pushing down"
+previous declarations which consume memory. Auto class
+initializers require saving expression trees until past the
+declarations which may be very memory-expensive if may exist.
+Avoiding excessive declarations, both permanent and inside
+compound statement blocks conserve memory. If this error
+occurs on an auto initializer, try initializing the value in
+the code body.</p>
+<h2 id="pointer-mismatch">pointer mismatch<a class="headerlink" href="#pointer-mismatch" title="Permanent link">&para;</a></h2>
+<p>Pointers refer to different types. Use a case if required. ()</p>
+<h2 id="pointer-or-integer-required">pointer or integer required<a class="headerlink" href="#pointer-or-integer-required" title="Permanent link">&para;</a></h2>
+<p>A pointer (of any type) or integer is required to the left of
+the '-&gt;' operator. ()</p>
+<h2 id="pointer-required">pointer required<a class="headerlink" href="#pointer-required" title="Permanent link">&para;</a></h2>
+<p>Pointer operand required with unary * operator. ()</p>
+<h2 id="primary-expected">primary expected<a class="headerlink" href="#primary-expected" title="Permanent link">&para;</a></h2>
+<p>Primary expression required here. ()</p>
+<h2 id="should-be-null">should be NULL<a class="headerlink" href="#should-be-null" title="Permanent link">&para;</a></h2>
+<p>Second and third expression of ?: conditional operator cannot
+be pointers to different types. If both are pointers, they
+must be of the same type or one of the two must be null. ()</p>
+<h2 id="stack-overflow"><strong><em>* STACK OVERFLOW </em></strong>*<a class="headerlink" href="#stack-overflow" title="Permanent link">&para;</a></h2>
+<p>Compiler stack has overflowed. Most likely cause is very deep
+lock-level nesting or hundreds of switch cases.</p>
+<h2 id="storage-error">storage error<a class="headerlink" href="#storage-error" title="Permanent link">&para;</a></h2>
+<p>Reg and auto storage classes mey only be used within functions.
+()</p>
+<h2 id="struct-member-mismatch">struct member mismatch<a class="headerlink" href="#struct-member-mismatch" title="Permanent link">&para;</a></h2>
+<p>Identical member names in two different structures must have
+the same type and offset in both. ()</p>
+<h2 id="struct-member-required">struct member required<a class="headerlink" href="#struct-member-required" title="Permanent link">&para;</a></h2>
+<p>Identifier used with . and -&gt; operators must be a structure
+member name. ()</p>
+<h2 id="struct-syntax">struct syntax<a class="headerlink" href="#struct-syntax" title="Permanent link">&para;</a></h2>
+<p>Brace, comma, etc. is missing in a struct declaration. ()</p>
+<h2 id="struct-or-union-inappropiate">struct or union inappropiate<a class="headerlink" href="#struct-or-union-inappropiate" title="Permanent link">&para;</a></h2>
+<p>Struct or union cannot be used in the context.</p>
+<h2 id="syntax-error">syntax error<a class="headerlink" href="#syntax-error" title="Permanent link">&para;</a></h2>
+<p>Expression, declaration or statement is incorrectly formed.</p>
+<h2 id="third-expression-missing">third expression missing<a class="headerlink" href="#third-expression-missing" title="Permanent link">&para;</a></h2>
+<p>? must be followed by a : with expression. This error may be
+causes by unmatched parenthesis or other errors in the
+expression. ()</p>
+<h2 id="too-long">too long<a class="headerlink" href="#too-long" title="Permanent link">&para;</a></h2>
+<p>Too many characters provided in a string initializing a
+character array. ()</p>
+<h2 id="too-many-brackets">too many brackets<a class="headerlink" href="#too-many-brackets" title="Permanent link">&para;</a></h2>
+<p>Unmatched or unexpected brackets encountered processiong an
+initializer. ()</p>
+<h2 id="too-many-elements">too many elements<a class="headerlink" href="#too-many-elements" title="Permanent link">&para;</a></h2>
+<p>More data items supplied for aggregate level in initializer
+than members of the aggregate. ()</p>
+<h2 id="type-error">type error<a class="headerlink" href="#type-error" title="Permanent link">&para;</a></h2>
+<p>Compiler type matching error. Should never happen.</p>
+<h2 id="type-mismatch">type mismatch<a class="headerlink" href="#type-mismatch" title="Permanent link">&para;</a></h2>
+<p>Types and/or operators in expression do not correspond. (6)</p>
+<h2 id="typedef-not-a-variable">typedef - not a variable<a class="headerlink" href="#typedef-not-a-variable" title="Permanent link">&para;</a></h2>
+<p>Typedef type name cannot be used in this manner. ()</p>
+<h2 id="undeclared-variable">undeclared variable<a class="headerlink" href="#undeclared-variable" title="Permanent link">&para;</a></h2>
+<p>no declaration exists at any block level for this identifier.</p>
+<h2 id="undefined-structure">undefined structure<a class="headerlink" href="#undefined-structure" title="Permanent link">&para;</a></h2>
+<p>Union or struct declaration refers to an undefined structure
+name. ()</p>
+<h2 id="unions-not-allowed">unions not allowed<a class="headerlink" href="#unions-not-allowed" title="Permanent link">&para;</a></h2>
+<p>Cannot initialize union members. ()</p>
+<h2 id="unterminated-character-constant">unterminated character constant<a class="headerlink" href="#unterminated-character-constant" title="Permanent link">&para;</a></h2>
+<p>Unmatched ' character delimiters. ()</p>
+<h2 id="unterminated-string">unterminated string<a class="headerlink" href="#unterminated-string" title="Permanent link">&para;</a></h2>
+<p>Unmatched " string delimiters. ()</p>
+<h2 id="while-expected">while expected<a class="headerlink" href="#while-expected" title="Permanent link">&para;</a></h2>
+<p>No while found for do statement. ()</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

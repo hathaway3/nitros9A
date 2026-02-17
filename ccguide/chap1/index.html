@@ -1,0 +1,1885 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/chap1/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap1 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-c-compiler-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-c-compiler-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The C Compiler System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-language-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Language Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differences-from-the-k-r-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences from the K &amp; R Specification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enhancements-and-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enhancements and Extensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-direct-storage-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Direct" Storage Class
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedded-assembly-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded Assembly Language
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-character-escape-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Character Escape Sequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-dependent-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation-dependent Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-representation-and-storage-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Representation and Storage Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#register-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-to-command-line-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access To Command Line Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-calls-and-the-standard-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Calls and the Standard Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-system-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operating System Calls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-standard-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Standard Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-time-arithmetic-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run-time Arithmetic Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#achieving-maximum-program-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Achieving Maximum Program Performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programming-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programming Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-optimizer-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Optimizer Pass
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-profiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Profiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-compiler-component-files-and-file-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C Compiler Component Files and File Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-9-level-i-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OS-9 Level I Systems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-9-level-ii-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OS-9 Level II Systems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporary-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporary Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-name-suffix-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Name Suffix Conventions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiler-option-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compiler Option Flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-and-option-flag-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Line and Option Flag Examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Chap1</h1>
+
+<h2 id="the-c-compiler-system">The C Compiler System<a class="headerlink" href="#the-c-compiler-system" title="Permanent link">&para;</a></h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The "C" programming language is rapidly growing in popularity
+and seems destined to become one of the most popular programming
+languages used for microcomputers. The rapid rise in the use of C
+is not surprising. C is an incredibly versatile and efficient
+language that can handle tasks that previously would have required
+complex assembly language programming.</p>
+<p>C was originally developed at Bell Telephone Laboratories as an
+implementation language for the UNIX operating system by Brian
+Kernighan and Dennis Ritchie. They also wrote a book titled The
+C Programming Language which is universally accepted as the standard
+for the language. It is an interesting reflection on the language
+that although no formal industry-wide "standard" was ever developed
+for C, programs written in C tend to be far more portable between
+radically different computer systems as compared to so-called
+"standardized" languages such as BASIC, COBOL, and PASCAL. The
+reason C is so portable is that the language is so inherently
+expandable that is some special function is required, the user can
+create a portable extension to the language, as opposed to the
+common practice of adding additional statements to the language.
+For example, the number of special-purpose BASIC dialects defies all
+reason. A lesser factor is the underlying UNIX operating system,
+which is also sufficiently versatile to discourage bastardization of
+the language. Indeed, standard C compilers and Unix are intimately
+related.</p>
+<p>Fortunately, the 6809 microprocessor, the OS-9 operating
+system, and the C language form an outstanding combination. The
+6809 was specifically designed to efficiently run high-level
+languages, and its stack-oriented instruction set and versatile
+repertoire of addressing modes handle the C language very well. As
+mentioned previously, UNIX and C are closely related, and because
+OS-9 is derived from UNIX, it also supports C to the degree that
+almost any application written in C can be transported from a UNIX
+system to an OS-9 system, recompiled, and correctly executed.</p>
+<h2 id="the-language-implementation">The Language Implementation<a class="headerlink" href="#the-language-implementation" title="Permanent link">&para;</a></h2>
+<p>OS-9 C is implemented almost exactly as described in 'The C
+Programming Language' by Kernighan and Ritchie (hereafter referred
+to as K&amp;R).</p>
+<p>Allthough this version of C follows the specification faithfully,
+there are some differences. The differences mostly reflect
+parts of C that are obsolete or the constraints imposed by memory
+size limitations.</p>
+<h2 id="differences-from-the-k-r-specification">Differences from the K &amp; R Specification<a class="headerlink" href="#differences-from-the-k-r-specification" title="Permanent link">&para;</a></h2>
+<ul>
+<li></li>
+</ul>
+<p>Bit fields are not supported.</p>
+<ul>
+<li></li>
+</ul>
+<p>Constant expressions for initializers may include arithmetic
+operators only if all the operands are of type INT or CHAR.</p>
+<ul>
+<li></li>
+</ul>
+<p>The older forms of assignment operators, '=+' or '=<em>', which
+are recognized by some C compilers, are not supported. You
+must use the newer forms '+=','</em>=' etc.</p>
+<ul>
+<li></li>
+</ul>
+<p>"#ifdef (or #ifndef) ...[#else...] #endif" is supported but
+"#if " is not.</p>
+<ul>
+<li></li>
+</ul>
+<p>It is not possible to extend macro definitions or strings
+over more than one line of source code.</p>
+<ul>
+<li></li>
+</ul>
+<p>The escape sequence for new-line '\n' refers to the ASCII
+carriage return character (used by OS-9 for end-of-line), not
+linefeed. (hex 0A). Programs which use '\n' for end-of-line
+(which includes all programs in K &amp; R), will still work
+properly.</p>
+<h2 id="enhancements-and-extensions">Enhancements and Extensions<a class="headerlink" href="#enhancements-and-extensions" title="Permanent link">&para;</a></h2>
+<h2 id="the-direct-storage-class">The "Direct" Storage Class<a class="headerlink" href="#the-direct-storage-class" title="Permanent link">&para;</a></h2>
+<p>The 6809 microprocessor instructions for accessing memory via
+an index register or the stack pointer can be relatively short and
+fast when they are used in C programs to access "auto" (function
+local) variables or function arguments. The instructions for
+accessing global variables are normally not so nice and must be four
+bytes long and correspondingly slow. However, the 6809 has a nice
+feature which helps considerably. Memory, anywhere in a single page
+(256 byte block), may be accessed with fast, two byte instructions.
+This is called the "direct page", and at any time its location is
+specified by the contents of the "direct page register" within the
+processor. The linkage editor sorts out where this could be, and
+it need not concern the programmer, who only needs to specify for
+the compiler which variables should be in the direct page to give
+the maximum benefit in code size and execution speed.</p>
+<p>To this end, a new storage class specifier is recognized by the
+compiler. In the manner of K &amp; R page 192, the sc-specifier list
+is extended as follows:</p>
+<pre><code>    Sc-specifier:
+    auto
+
+
+
+
+    static
+
+
+
+
+    extern
+
+
+
+
+    register
+
+
+
+
+    typedef
+
+
+
+
+    direct
+    (extension)
+
+
+
+    extern direct
+    (extension)
+
+
+
+    static direct
+    (extension)
+</code></pre>
+<p>The new key word may be used in place of one of the other sc-specifiers,
+and its effect is that the variable will be placed in
+the direct page. "DIRECT" creates a global direct page variable.
+"EXTERN DIRECT" references an EXTERNAL-type direct page variable;
+and "STATIC DIRECT" creates a local direct page variable. These new
+classed may not be used to declare function arguments. "Direct"
+variables can be initialized but will, as with other variables not
+explicitly initialized, have the value zero at the start of program
+execution. 255 bytes are available in the direct page (the linker
+requires one byte). If all the direct variables occupy less than the
+full 255 bytes, the remaining global variables will occupy the
+balance and memory above if necesary. If too many bytes or storage
+are requested in the direct page, the linkage editor will report an
+error, and the programmer will have to reduce the use of DIRECT-type
+variables to fit the 256 bytes addressable by the 6809.</p>
+<p>It should be kept in mind that "direct" is unique to this
+compiler, and it may not be possible to transport programs written
+using "direct" to other environments without modification.</p>
+<h2 id="embedded-assembly-language">Embedded Assembly Language<a class="headerlink" href="#embedded-assembly-language" title="Permanent link">&para;</a></h2>
+<p>As versatile as C is, occasionally there are some things that
+can only be done (or done at maximum speed) in assembly language.
+The OS-9 C compiler permits user-supplied assebly-language
+statements to be directly embedded in C source programs.</p>
+<p>A line beginning with "#asm" switches the compiler into a mode
+which passes all subsequent lines directly to the assembly-language
+output, until a line beginning with "#endasm" is encountered.
+"#endasm" switches the mode back to normal. Care should be
+exercised when using this directive so that the correct code section
+is adhered to. Normal code from the compiler is in the PSECT (code)
+section. If your assembly code uses the VSECT (variable) section,
+be sure to put a ENDSECT directive at the end to leave the state
+correct for following compiler generated code.</p>
+<h2 id="control-character-escape-sequences">Control Character Escape Sequences<a class="headerlink" href="#control-character-escape-sequences" title="Permanent link">&para;</a></h2>
+<p>The escape sequences for non-printing characters in character
+constants and strings (see K &amp; R page 181) are extended as follows:
+<div class="highlight"><pre><span></span><code>        linefeed (LF):  \l (lower case &#39;ell&#39;)
+</code></pre></div>
+This is to distinguish LF (hex 0A) from \n which on OS-9 is the same
+as \r (hex 0D).
+<div class="highlight"><pre><span></span><code>        bit patterns:  \NNN    (octal constant)
+                       \dNNN   (decimal constant)
+                       \xNN    (hexadecimal constant)
+</code></pre></div>
+For example, the following all have a value of 255 (decimal):
+<div class="highlight"><pre><span></span><code>             \377          \xff              \d255
+</code></pre></div></p>
+<h2 id="implementation-dependent-characteristics">Implementation-dependent Characteristics<a class="headerlink" href="#implementation-dependent-characteristics" title="Permanent link">&para;</a></h2>
+<p>K &amp; R frequently refer to characteristics of the C language
+whose exact operations depend on the architacture and instruction
+set of the computer actually used. This section contains specific
+information regarding this version of C for the 6809 processor.</p>
+<h2 id="data-representation-and-storage-requirements">Data Representation and Storage Requirements<a class="headerlink" href="#data-representation-and-storage-requirements" title="Permanent link">&para;</a></h2>
+<p>Each variable type requires a specific amount of memory for
+storage. The sizes of the basic types in bytes are as follows:</p>
+<p>Data Type
+Size
+Internal Representation</p>
+<p>CHAR
+1
+two's complement binary</p>
+<p>INT
+2
+two's complement binary</p>
+<p>UNSIGNED
+2
+unsigned binary</p>
+<p>LONG
+4
+two's complement binary</p>
+<p>FLOAT
+4
+binary floating point (see below)</p>
+<p>DOUBLE
+8
+binary floating point (see below)</p>
+<p>This compiler follows the PDP-1 implementation and format in
+that CHARs are converted to INTs by sign extension, "SHORT" or
+"SHORT INT" means INT, "LONG INT" means LONG and "LONG FLOAT" means
+DOUBLE. The format for DOUBLE values is as follows:</p>
+<div class="highlight"><pre><span></span><code>(low byte)                                 (high byte)
++-+---------------------------------------+----------+
+! !     seven byte                        !          !
+! !      mantissa                         !          !
++-+---------------------------------------+----------+
+ ^ sign bit
+</code></pre></div>
+<p>The for of the mantissa is sign and magnitude with an implied
+"1" bit at the sign bit position. The exponent is biased by 128.
+The format of a FLOAT is identical, except that the mantissa is only
+three bytes long. Conversion from DOUBLE to FLOAT is carried out by
+truncating the least significant (right-most) four bytes of the
+mantissa. The reverse conversion is done by padding the least
+significant four mantissa bytes with zeros.</p>
+<h2 id="register-variables">Register Variables<a class="headerlink" href="#register-variables" title="Permanent link">&para;</a></h2>
+<p>One register variable may be declared in each function. The
+only types permitted for register variables are int, unsigned and
+pointer. Invalid register variable declarations are ignored; i.e.
+the storage class is made auto. For further details see K &amp; R page 81.</p>
+<p>A considerable saving in code size and speed can be made by
+judicious use of a register variable. The most efficient use is
+made of it for a pointer or a counter for a loop. However, if a
+register variable is used for a complex arithmetic expression, there
+is no saving. The "U" register is assigned to register variables.</p>
+<h2 id="access-to-command-line-parameters">Access To Command Line Parameters<a class="headerlink" href="#access-to-command-line-parameters" title="Permanent link">&para;</a></h2>
+<p>The standard C arguments "argc" and "argv" are available to
+"main" as described in K &amp; R page 110. The start-up routine for C
+programs ensures that the parameter string passed to it by the
+parent process is converted into null-terminated strings as expected
+by the program. In addition, it will run together as a single
+argument any strings enclosed between single or double quotes ("'" or '"').
+If either is part of the string required, then the other
+should be used as a delimiter.</p>
+<h2 id="system-calls-and-the-standard-library">System Calls and the Standard Library<a class="headerlink" href="#system-calls-and-the-standard-library" title="Permanent link">&para;</a></h2>
+<h2 id="operating-system-calls">Operating System Calls<a class="headerlink" href="#operating-system-calls" title="Permanent link">&para;</a></h2>
+<p>The system interface supports almost all the system calls of
+both OS-9 and UNIX. In order to facilitate the portability of
+programs from UNIX, some of the calls use UNIX names rather than
+OS-9 names for the same function. There are a few UNIX calls that
+do not have exactly equivalent OS-9 calls. In these cases, the
+library function simulates the function of the corresponding UNIX
+call. In cases where there are OS-9 calls that do not have UNIX
+equivalents, the OS-9 names are used. Details of the calls and a
+name cross-reference are provided in the "C System Calls" section of
+this manual.</p>
+<h2 id="the-standard-library">The Standard Library<a class="headerlink" href="#the-standard-library" title="Permanent link">&para;</a></h2>
+<p>The C compiler includes a very complete library of standard
+functions. It is essential for any program which uses functions
+from the standard library to have the statement:
+<div class="highlight"><pre><span></span><code>       &quot;#include 
+</code></pre></div>
+See the "C Standard Library" section of this manual for details on
+the standard library functions provided.</p>
+<p>IMPORTANT NOTE: If output via printf(), fprintf() or sprintf() of
+long integers is required, the program MUST call "pflinit()" at some
+point; this is necessary so that programs not involving LONGS do not
+have the extra LONGs output code appended. Similarly, if FLOATs or
+DOUBLEs are to be printed, "pffinit()" MUST be called. These functions
+do nothing; existence of calls to them in a program informs
+the linker that the relevant routines are also needed.</p>
+<h2 id="run-time-arithmetic-error-handling">Run-time Arithmetic Error Handling<a class="headerlink" href="#run-time-arithmetic-error-handling" title="Permanent link">&para;</a></h2>
+<p>K &amp; R leave the treatment of various arithmetic errors open,
+merely saying that it is machine dependent. This implementation
+deal with a limited number of error conditions in a special way; it
+should be assumed that the results of other possible errors are
+undefined.</p>
+<p>Three new system error numbers are defined in :
+<div class="highlight"><pre><span></span><code>#define  EFPOVR  40   /* floating point overflow of underflow */
+#define  EDIVERR 41   /* division by zero */
+#define  EINTERR 42   /* overflow on conversion of floating point
+                         to long integer */
+</code></pre></div></p>
+<p>If one of these conditions occur, the program will send a
+signal to itself with the value of one of these errors. If not
+caught or ignored, the will cause termination of program with
+an error return to the parent process. However, the program can
+catch the interrupt using "signal()" or "intercept()" (see C System
+Calls), and in this case the service routine has the error number as
+its argument.</p>
+<h2 id="achieving-maximum-program-performance">Achieving Maximum Program Performance<a class="headerlink" href="#achieving-maximum-program-performance" title="Permanent link">&para;</a></h2>
+<h2 id="programming-considerations">Programming Considerations<a class="headerlink" href="#programming-considerations" title="Permanent link">&para;</a></h2>
+<p>Because the 6809 is an 8/16 bit microprocessor, the compiler
+can generate efficient code for 8 and 16 bit objects (CHARs, INTs,
+etc.). However, code for 32 and 64 bit values (LONGs, FLOATs,
+DOUBLEs) can be at least four times longer and slower. Therefore
+don't use LONG, FLOAT, or DOUBLE where INT or UNSIGNED will do.</p>
+<p>The compiler can perform extensive evaluation of constant
+expressions provided they involve only constants of type CHAR, INT,
+and UNSIGNED. There is no constant expression evaluation at
+compile-time (except single constants and "casts" of them) where
+there are constants of type LONG, FLOAT, or DOUBLE, therefore,
+complex constant expressions involving these types are evaluated at
+run time by the compiled program. You should manually compute the
+value of constant expressions of these types if speed is essential.</p>
+<h2 id="the-optimizer-pass">The Optimizer Pass<a class="headerlink" href="#the-optimizer-pass" title="Permanent link">&para;</a></h2>
+<p>The optimizer pass automatically occurs after the compilation
+passes. It reads the assembler source code text and removes
+redundant code and searches for code sequences that can be replaced
+by shorter and faster equivalents. The optimizer will shorten object
+code by about 11% with a significant increase in program execution
+speed. The optimizer is recommended for production versions of
+debugged programs. Because this pass takes additional time, the "-O"
+compiler option can be used to inhibit it during error-checking-only
+compilations.</p>
+<h2 id="the-profiler">The Profiler<a class="headerlink" href="#the-profiler" title="Permanent link">&para;</a></h2>
+<p>The profiler is an optional method used to determine the
+frequency of execution of each function in a C program. It allows
+you to identify the most-frequently used functions where algorithmic
+or C source code programming improvements will yield the greatest
+gains.</p>
+<p>When the "-P" compiler option is selected, code is generated at
+the beginning of each function to call the profiler module (called
+"_prof"), which counts invocations of each function during program
+execution. When the program has terminated, the profiler
+automatically prints a list of all functions and the number of times
+each was called. The profiler slightly reduces program execution
+speed. See "prof.c" source for more information.</p>
+<h2 id="c-compiler-component-files-and-file-usage">C Compiler Component Files and File Usage<a class="headerlink" href="#c-compiler-component-files-and-file-usage" title="Permanent link">&para;</a></h2>
+<p>Compilation of a C program by cc requires that the following
+files be present in the current execution directory (CMDS).</p>
+<h2 id="os-9-level-i-systems">OS-9 Level I Systems<a class="headerlink" href="#os-9-level-i-systems" title="Permanent link">&para;</a></h2>
+<pre><code>    cc1
+    compiler executive program
+
+
+    c.prep
+    macro pre-processor
+
+
+    c.pass1
+    compiler pass 1
+
+
+    c.pass2
+    compiler pass 2
+
+
+    c.opt
+    assembly code optimizer
+
+
+    c.asm
+    relocating assembler
+
+
+    c.link
+    linkage editor
+</code></pre>
+<h2 id="os-9-level-ii-systems">OS-9 Level II Systems<a class="headerlink" href="#os-9-level-ii-systems" title="Permanent link">&para;</a></h2>
+<pre><code>    cc2
+    compiler executive program
+
+
+    c.prep
+    macro pre-processor
+
+
+    c.comp
+    compiler proper
+
+
+    c.opt
+    assembly code optimizer
+
+
+    c.asm
+    relocating assembler
+
+
+    c.link
+    linkage editor
+</code></pre>
+<p>In addition a file called "clib.l" contains the standard library,
+math functions, and systems library. The file "cstart.r" is
+the setup code for compiled programs. Both of these files must be
+located in a directory named "LIB" on the system's default mass
+storage device, which is specified in the OS-9 "INIT" module and is
+usually the disk drive the system is booted from.</p>
+<p>If, when specifying "#include" files for the pre-processor to
+read in, the programmer uses angle brackets, "", instead of
+parentheses, the file will be sought starting at the "DEFS"
+directory on whichever drive is the default system drive for the
+system running.</p>
+<h2 id="temporary-files">Temporary Files<a class="headerlink" href="#temporary-files" title="Permanent link">&para;</a></h2>
+<p>A number of temporary files are created in the current data
+directory during compilation, and it is important to ensure that
+enough space is available on the disk drive. As a rough guide, at
+least three times the number of blocks in the largest source file
+(and its included files) should be free.</p>
+<p>The identifiers "etext", "edata", and "end" are predefined in the
+linkage editor and may be used to establish the addresses of the end
+of executable text, initialized data, and uninitialized data
+respectively.</p>
+<h2 id="running-the-compiler">Running the Compiler<a class="headerlink" href="#running-the-compiler" title="Permanent link">&para;</a></h2>
+<p>The are two commands which invoke distinct versions of the
+compiler. "cc1" is for OS-9 Level I which uses a two pass compiler,
+and, "cc2" is for Level II which causes a single pass version. Both
+versions of the compiler works identically, the main difference is
+that cc1 has been divided into two passes to fit the smaller memory
+size of OS-9 Level I systems. In the following text, "cc" refers to
+either "cc1" or "cc2" as appropiate for your system. The syntax of
+the command line which calls the compiler is:</p>
+<p><code>cc</code>
+  <code>option-flags</code>
+  <code>file</code></p>
+<p>One file at a time can be compiled, or a number of files may be
+compiled together. The compiler manages the compilation up
+to four stages: pre-processor, compilation to assembler code,
+assembly to relocatable code, and linking to binary executable
+code (in OS-9 memory module format).</p>
+<p>The compiler accepts three types of source files, provided each
+name on the command line has the relevant postfix as shown below.
+Any of the above file types may be mixed on the command line.</p>
+<h2 id="file-name-suffix-conventions">File Name Suffix Conventions<a class="headerlink" href="#file-name-suffix-conventions" title="Permanent link">&para;</a></h2>
+<pre><code>Suffix
+Usage
+
+
+
+
+.c
+C source file
+
+
+.a
+assembly language source file
+
+
+.r
+relocatable module
+
+
+none
+executable binary (OS-9 memory module)
+</code></pre>
+<p>There are two modes of operation: multible source file and
+single source file. The compiler selects the mode by inspecting
+the command line. The usual mode is single source and is specified
+by having only one source file name on the command line. Of
+course, more than one source file may be compiled together by using
+the "#include" facility in the source code. In this mode, the
+compiler will use the name obtained by removing the postfix from the
+name supplied on the command line, and the output file (and the
+memory module produced) will have this name. For example:
+<div class="highlight"><pre><span></span><code>        cc prg.c
+</code></pre></div>
+will leave an executable file called "prg" in the current execution
+directory.</p>
+<p>The multiple source mode is specified by having more than one
+source file name on the command line. In this mode, the object code
+output file will have the name "output" in the current execution
+directory, unless a name is given using the "-f=" option (see
+below). Also, in multiple source mode, the relocatable modules
+generated as intermediate files will be left in the same directories
+as their corresponding source files with the postfixes changed to
+".r". For example:
+<div class="highlight"><pre><span></span><code>       cc prg1.c /d0/fred/prg2.c
+</code></pre></div>
+will leave an executable file called "output" in the current
+execution directory, one file called "prg1.r" in the current data
+directory, and "prg2.r" in "/d0/fred".</p>
+<h2 id="compiler-option-flags">Compiler Option Flags<a class="headerlink" href="#compiler-option-flags" title="Permanent link">&para;</a></h2>
+<p>The compiler recognizes several command-line option flags which
+modify the compilation process where needed. All flags are
+recognized before compilation commences so the flags may be placed
+anywhere on the command line. Flags may be ran together as in "-ro",
+except where a flag is followed by something else; see "-f=" and
+"-d" for examples.</p>
+<p>-A
+suppresses assembly, leaving the output as assembler code in a
+file whose name is postfixed ".a".</p>
+<p>-E=
+Set the edition number constant byte to the number given. This is
+an OS-9 convention for memory modules.</p>
+<p>-O
+inhibits the assembly code optimizer pass. The optimizer will
+shorten object code by about 11% with a comparable increase in speed
+and is recommended for production versions of de-bugged programs.</p>
+<p>-P
+invokes the profiler to generate function frequency
+statistics after program execution.</p>
+<p>-R
+suppresses linking library modules into an executable program.
+Outputs are left in files with postfixes ".r".</p>
+<p>-M=
+will instruct the linker to allocate 
+for data, stack, and parameter area. Memory size may be expressed
+in pages (an integer) or in kilobytes by appending "k" to an 
+integer. For more details of the use of this option, see the
+"Memory Management" section of this manual.</p>
+<p>-L=
+specifies a library to be searched by the linker
+before the Standard Library and system interface.</p>
+<p>-F=
+overrides the above output file naming. The output file
+will be left with  as its name. This flag does not make
+sense in multiple source mode, and either the -a or -r flag is also
+present. The module will be called the last name in .</p>
+<p>-C
+will output the source code as comments with the assembler code.</p>
+<p>-S
+stops the generation of stack-checking code. -S should only be
+used with great care when the appication is extremely time-critical
+and when the use of the stack by compiler generated code is fully
+understood.</p>
+<p>-D
+is equivalent to "#define " written in
+the source file. -D is useful where different versions of a program
+are maintained in one source file and differentiated by means of the
+"#ifdef" of "#ifndef" pre-processor directives. If the 
+is used as a macro for expansion by the pre-processor, "1"(one) will
+be the expanded "value" unless the form "-d=" is
+used in which case the expansion will be .</p>
+<h2 id="command-line-and-option-flag-examples">Command Line and Option Flag Examples<a class="headerlink" href="#command-line-and-option-flag-examples" title="Permanent link">&para;</a></h2>
+<pre><code>command line
+action
+output file(s)
+
+
+
+
+cc prg.c
+compile to an executable program
+prg
+
+
+
+cc prg.c -a
+compile to assembly language source code
+prg.a
+
+
+cc prg.c -r
+compile to relocatable module
+prg.r
+
+
+cc prg1.c prg2.c prg3.c
+compile to executable program
+prg1.r, prg2.r, prg3.r, output
+
+
+cc prg1.c prg2.a prg3.r
+compile prg1.c, assemble prg2.a and combine all into
+</code></pre>
+<p>and executable program
+    prg1.r, prg2.r</p>
+<pre><code>cc prg1.c prg2.c -a
+compile to assembly language source code
+prg1.a, prg2.a
+
+
+cc prg1.c prg2.c -f=prg
+compile to executable program
+prg
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

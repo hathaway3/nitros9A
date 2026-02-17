@@ -1,0 +1,1322 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/articles/ded/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Ded - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ded" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ded
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dEd
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Ded</h1>
+
+<!--
+    The author has not been contacted about adding this article to the
+    documentation set.
+-->
+
+<p>DougDeMartinis</p>
+<h2 id="ded">dEd<a class="headerlink" href="#ded" title="Permanent link">&para;</a></h2>
+<p>Disk Editor</p>
+<p>dEd  is a screen-oriented disk  editor  utility  written in 
+assembly  language. It was originally conceived as a floppy
+disk  editor, so the display is organized around individual 
+sectors. It performs most of the functions of Patch, from 
+Computerware, but is faster, more compact, and
+screen-oriented rather than line-oriented. Individual files 
+or the disk itself (hard, floppy, ram) can be examined and 
+changed, sectors  can  be  written   to an output file, and 
+executable  modules can be located, linked to and verified. 
+With   simple changes, it will run on any CoCo Level I OS-9 
+and possibly others (CoCo Level II OS-9).</p>
+<p>To use, type:
+<div class="highlight"><pre><span></span><code>dEd 
+</code></pre></div>
+where  is of the form:  filename or dirname
+or  /path/filename
+or  /D0@  (edits entire disk) </p>
+<p>dEd will read in and display the first 256 bytes in the file
+(disk). This  is Logical Sector Number (LSN) zero. You move 
+through  the   file sector (LSN) by sector using the up and 
+down arrow keys. The current LSN number is displayed in Hex 
+and  Decimal in the upper left corner of the screen. If the 
+disk itself was accessed (by appending '@' to it's name when
+dEd   was called), the LSN is the disk sector number. If an 
+individual file is being editted, however, the LSN displayed
+refers  to the file, not to the disk. All numbers requested 
+by  dEd must be in Hex format. All commands are accessed by 
+simply pressing the desired key.</p>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<p>Up/Down Arrows
+Display Next/Previous Sector (LSN)</p>
+<p>Each keypress moves the display to the next or previous 256 
+bytes. Auto-repeat allows skimming quickly through the file.
+To halt the key-repeat, type Control-W to pause the display,
+then hit any key. The LSN displayed represents the
+most-significant   byte of the offset of the bytes from the 
+start   of the file (module), so byte number $1457 would be 
+found in LSN $14 on row 50, column 7.</p>
+<p>A Command
+APPEND Current LSN to Output File</p>
+<p>This command writes the sector  currently  displayed to the
+file opened with the O command. Append is inactive unless an 
+Output  file  has  been  created. This   mode is useful for 
+recovering files with unreadable sectors in them, as all the
+sectors before and after the crashed sector may be accessed 
+and saved to a new file. Append also increments the display 
+to the next LSN automatically to speed this process. At the 
+end  of  a  file, generally  fewer   than 256 bytes will be 
+displayed, as  the  length  of  most   files is not an even 
+multiple of 256. The Append command will only write out the 
+bytes that are displayed, and the display will remain on the
+same  LSN. Pressing  'A' twice  on   the last LSN of a file 
+results  in  it  being  written   to the output file twice. </p>
+<p>C Command
+CLOSE Output File</p>
+<p>This  command closes the file opened with the O command and 
+removes  the  file  name  from   the display, making Append 
+inactive.</p>
+<p>D Command
+Diddle with the File Length</p>
+<p>This command displays the current file length, in Hex, then
+allows you to change it. This is potentially very dangerous
+(e.g. if you use it on loadable modules). If you just press
+  at the prompt, you will be returned to the command
+mode (this is useful for just checking the file length). If
+you  enter  a  valid  length (number of BYTES, not sectors,
+in  Hex),  the file will be expanded or contracted to  that
+length.  This is useful for stripping the Control-Z's ($1A)
+off  the end of files downloaded with the XModem  protocol.
+Remember, the LENGTH of a file is 1 greater than the number
+of the last byte in the file (remember, counting from 0!)</p>
+<p>E Command
+EDIT the displayed Sector</p>
+<p>This   is the heart of dEd. The cursor will appear over the 
+first  byte or character in the LSN. If it's over the BYTE, 
+you   can change the value by typing  2 new nibbles in Hex, 
+e.g. 6c. The  display   will be updated and the cursor will 
+move  to the next BYTE. If the cursor is over the CHARACTER 
+part   of the display, you can change the value by typing a 
+new ASCII character. Again, the display will be updated and 
+the  cursor  will   shift to the next character. You switch 
+between  the BYTE and CHAR modes at any time by hitting the 
+ key, as  noted  at   the bottom of the display. You 
+navigate  through   the sector to individual BYTEs or CHARs 
+using  the 4 Arrow keys. The Right and Left Arrows wrap the 
+cursor   around to the next or previous row on the display. 
+The   Up and Down Arrows wrap around from top to bottom and 
+vice-versa. Once  you   are done Editting, pressing<br />
+will  exit  the  Edit   mode, as noted at the bottom of the 
+display. As with Zap, the sector is NOT written back to the 
+disk unless the Write command is then used (unless in Expert
+mode). </p>
+<p>F Command
+FIND</p>
+<p>This searches the file for a
+given character or byte string
+You  will  be prompted with 'Find byte string $'.  Enter  a
+series  of  up  to 16 Hex bytes, without spaces  (you  MUST
+enter  leading zeroes for the numbers 00 - $0F) then  press
+.  The  search  begins  at  the  start  of  the  LSN
+currently  displayed.  If a string is located that  EXACTLY
+matches  the  string  you  input, the LSN in  which  it  is
+located will be displayed, with the first byte/character in
+the  string highlighted. By pressing the  key at the
+prompt,  you  can  toggle between the  BYTE  and  CHARACTER
+search  modes.  In the character mode, the prompt is  'Find
+char string: '. Enter up to 16 ASCII characters, then press
+.  In  this  mode, dEd will locate any  string  that
+matches  the  one you input, regardless of the  Upper/Lower
+case  status of either string. As well, characters with bit
+7  set  (e.g. file names in directories) are treated as  if
+bit  7  was clear. If no matching string is found, you  are
+returned  to  the command prompt. If you enter  an  invalid
+character or byte string, a beep sounds and the same prompt
+is  re-issued. If you just press  at either  prompt,
+you will be returned to the command mode.</p>
+<p>If you wish to abort a search in progress,  just press the
+ key.  This will simulate a "string not found"  and
+return you to the CMD: prompt.</p>
+<p>H (or '?') Command
+HELP</p>
+<p>This displays a Help screen. </p>
+<p>L Command
+LINK to a Module/LIST Modules</p>
+<p>If  you  are  editting  a  file  that   consists of various 
+executable  modules  merged   together (e.g. OS9Boot), this 
+command allows you to 'Link' to one of the modules. It will 
+be treated as if it is an individual file, i.e. the start of
+the  module will be displayed as LSN 0 and only THAT MODULE 
+will  be  accessible   for display and/or Editting. The LSN 
+displayed is referenced to the MODULE, not to the main file 
+or  the  disk. You  will  be   prompted with 'Link to which 
+Module? '. You may enter a valid name and press . If 
+that module can be located AND if it's header information is
+correct, it  will   be 'Linked'. The top row of the display 
+reflects this by displaying the module name and it's offset,
+in bytes, from the beginning of the main file. At the 'Link 
+to which Module? ' prompt, if you just hit , all the 
+valid   modules and their offsets from the beginning of the 
+main   file as well as their lengths, in bytes Hex, will be 
+Listed. Hitting   any key after this redisplays the current 
+LSN. The Link mode is useful for changing a given byte in a 
+module  using  the  offset  one  would   use for Debug. For 
+example, to   permanently change the printer baud rate, you 
+would call 'dEd /D0/OS9Boot'. Then hit 'L' for Link. At the 
+prompt 'Link to which Module? ', Type P and hit . If 
+P  is in your OS9Boot file, the top row of the display will 
+have MODULE: P and give the offset of it from the beginning 
+of  the  OS9Boot file. Enter the Edit mode by  hitting  'E'
+then  use  the arrows to move the cursor to byte number  27
+(row 20, column 7). Type in the new value for the baud rate
+then  hit   to exit Edit mode. Hit 'W' to write  the
+sector,  then  'V'  to verify the modules. If a  module  is
+linked,  the  'Find' command only searches for  strings  in
+that module.</p>
+<p>N Command
+Find Next occurrence of String</p>
+<p>This is used in conjunction with the 'Find' command. Once a
+Hex  byte  or ASCII character string has been located  with
+'F',  the  next occurrence may be located by pressing  'N'.
+This search starts where the 'Find' search left off, IF the
+LSN hasn't changed since the string was initially located. 
+If  the LSN has changed, the search starts at the beginning
+of the current LSN. If the search is successful, the string
+will  be  highlighted,  as with 'Find', otherwise  you  are
+returned to the command prompt, with a beep.</p>
+<p>O Command
+OPEN an Output File</p>
+<p>You  will be prompted with 'OUTFILE: '. Type in a file name
+or  path (that does not already exist) and press . A
+new  file  will  be  created  and  opened,  with  the  name
+displayed  on  the  second row of  the  screen.  Individual
+sectors  can  be  written  to this file  using  the  Append
+command. </p>
+<p>To abort the O Command, just press  or .</p>
+<p>P  Command
+Push an LSN onto the Sector Stack</p>
+<p>This  pushes  the  current LSN onto a  funtional  Stack  of
+sectors.   The 'R' command then can remove (pull) them from
+the  Stack  in the reverse order (Last In, First Out)  that
+they were pushed. Up to 16 LSN's can be saved on the Stack.
+This  is  very useful when trying to reconstruct a  deleted
+file  that  was  fragmented on the disk.  By  pushing  each
+sector  examined onto the Stack, you can retrace your steps
+backwards  without having to remember the sector number  of
+each sector along the way.</p>
+<p>Q Command
+QUIT dEd</p>
+<p>This exits dEd immediately. You should be sure to Write any
+Editted or Zapped sectors back to the disk before Quitting.</p>
+<p>R Command
+Remove an LSN from Sector Stack and Display</p>
+<p>This  removes (pulls), from the Sector Stack, the last  LSN
+that was pushed (with the 'P' command) and displays it.</p>
+<p>S Command
+SKIP to a given LSN</p>
+<p>You will be prompted with 'LSN=$ '. Type a sector number (in
+Hex) and press . That LSN will then be displayed, if 
+possible. If the LSN entered is greater than the last LSN in
+the file, nothing will happen.</p>
+<p>U Command
+Unlink a Module</p>
+<p>This  'unlinks' a module that has previously been  'linked'
+using the 'L' command. The first sector in the file (LSN 0)
+is  displayed.  Using this command when no module has  been
+linked has no effect.</p>
+<p>V Command
+VERIFY All Modules</p>
+<p>This command calculates and writes a new CRC value for EACH 
+module in a fale. It must be used after Editting executable 
+modules  or they will not be loadable. Verify is terminated 
+if  an error is located in the header of a module, but each 
+module is verified individually and the CRC is rewritten to 
+each before moving to the next module in a file, so modules 
+in front of one with an error will be verified.</p>
+<p>W Command
+WRITE the Sector displayed to the Disk</p>
+<p>WARNING!!!  This command can be very dangerous to the well-
+being of your disk  data.  It writes the  sector  displayed
+back to the disk (at the same location from whence it came, 
+but  not   necessarily with the same information, hence the 
+danger). After   Zapping or Editting a sector, you must use 
+this command to make the changes on the disk (unless you're 
+in  the Expert mode). Because you can effectively maim your 
+data  with this command, you will be prompted with 'Are you 
+sure   (Y/N)? '. If you hit any key other than 'Y' (or 'y') 
+the Write command will be aborted. Otherwise the sector will
+be  written, with  the  display  advising   you that dEd is 
+'Writing  Sector...'. On   a hard disk or RAM disk, this is 
+very quick.</p>
+<p>X Command
+EXPERT Mode</p>
+<p>This   command is potentially the most dangerous of all. It 
+should be used only by those who are very brave (fools?) or 
+those  who   never make mistakes. In this mode, any sectors 
+changed by Edit or Zap will be automatically written to the 
+disk. The Write command is not needed, and is inactivated in
+the Expert mode. Any errors made during Edit or Zap WILL be 
+transferred  to  the   disk, making this mode very good for 
+crashing  directories, etc. Having noted this, there is one 
+route  of  escape  from  errors  made   in this mode. After 
+Editting  or   Zapping a sector, the sector is not actually 
+written back to the disk until after Edit or Zap is exitted 
+and the next command is issued (i.e. the next Command Key is
+pressed). If you hit Shift-BREAK , before hitting any other
+Command Key,  the automatic Write will not occur.  You must
+type Shift-BREAK before any other command or the sector will
+be written to  the  disk. This is a one-time escape, so any 
+further errors made will require hitting the Shift-BREAK key
+again  at  the  appropriate   time to avoid writing the bad 
+sector  to   the disk. Unless you fully understand the OS-9 
+disk structure (or enjoy toying with the life of your data),
+this   mode should probably be avoided. It is entered after 
+responding   with a 'Y' or 'y' to the 'Are you sure (Y/N)?' 
+prompt, and  the   display advises you that you are in this 
+mode. The 'X' command is a toggle switch, so to exit Expert 
+mode, just hit 'X' again and the 'Expert Mode' message will 
+be erased.</p>
+<p>Z Command
+ZAP the displayed Sector</p>
+<p>You  will  be   prompted with 'Zap Byte: ' or 'Zap Char: '. 
+Enter  either  a   Hex byte (e.g. 6c) or an ASCII character 
+(e.g. $) and  press . That byte or character will be 
+written  to   the ENTIRE SECTOR. You can toggle between the 
+BYTE/CHAR  modes  by   hitting the  key. In the CHAR 
+mode, hitting ALT-Char then  will Zap the sector with
+that char with bit 7 set. Unless you're in the Expert mode, 
+only the buffer will be Zapped with the Zap command. To put 
+this  Zapped  sector  on   the disk, you must use the Write 
+command. If  you  decide  not   to Zap the sector, just hit 
+ without first entering a byte or character. You can 
+redisplay  a   sector that has been Zapped, but not Written 
+back  to  the   disk, by going to the next LSN using the Up 
+Arrow, then  returning  to   the original LSN with the Down 
+Arrow  (again, provided  you're  not   in the Expert mode). </p>
+<p>$ Command
+Fork a SHELL</p>
+<p>A  new  Shell  is  forked   to allow access to OS-9 without 
+terminating dEd.  To return to dEd, press Ctrl-BREAK  (ESC).</p>
+<p>Command
+Clean up screen display</p>
+<p>Pressing  at the CMD:  prompt will clear and re-write
+the screen which may have been trashed by an error.  Current
+editing to the displayed sector is not lost or written. This
+command only resets the screen display.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

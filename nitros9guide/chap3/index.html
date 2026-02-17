@@ -1,0 +1,1959 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/nitros9guide/chap3/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>The NitrOS-9 File System - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-nitros-9-file-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The NitrOS-9 File System
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-the-unified-inputoutput-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to the Unified Input/Output System
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pathlists-how-paths-are-named" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pathlists: How Paths Are Named
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#io-device-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I/O Device Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multifile-devices-and-directory-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multifile Devices And Directory Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-and-using-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating and Using Directories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deleting-directory-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deleting Directory Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-information-about-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Information About Directories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-and-changing-working-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using and Changing Working Directories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using and Changing Working Directories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-selection-of-working-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Selection of Working Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-current-working-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing Current Working Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anonymous-directory-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anonymous Directory Names
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-file-security-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The File Security System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The File Security System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examining-and-changing-file-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examining and Changing File Attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-and-writing-from-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading and Writing From Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reading and Writing From Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-usage-in-nitros-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Usage in NitrOS-9
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#random-access-data-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Random Access Data Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executable-program-module-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executable Program Module Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous-file-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous File Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physical-file-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical File Organization
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="the-nitros-9-file-system">The NitrOS-9 File System<a class="headerlink" href="#the-nitros-9-file-system" title="Permanent link">&para;</a></h1>
+<h2 id="introduction-to-the-unified-inputoutput-system">Introduction to the Unified Input/Output System<a class="headerlink" href="#introduction-to-the-unified-inputoutput-system" title="Permanent link">&para;</a></h2>
+<p>NitrOS-9 has a unified input/output system in which data transfers to
+ALL I/O devices are performed in almost exactly the same manner,
+regardless of the particular hardware devices involved. It may seem
+that the different operational characteristics of the I/O devices
+might make this difficult. After all, line printers and disk drives
+behave much differently. However, these differences can mostly be
+overcome by defining a set of standardized
+<em>logical functions</em> for
+all devices and by making all I/O devices conform to these
+conventions, using software routines to eliminate hardware
+dependencies wherever possible. This produces a much simpler and
+more versatile input/output system.</p>
+<p>NitrOS-9's unified I/O system is based upon logical entities called
+"I/O paths". Paths are analogous to "software I/O channels" which
+can be routed from a program to a mass-storage file, any other I/O
+device, or even another program. Another way to say the same thing
+is that paths are files, and all I/O devices behave as files.</p>
+<p>Data transferred through paths may be processed by NitrOS-9 to
+conform to the hardware requirements of the specific I/O device
+involved. Data transfers can be either bidirectional (read/write)
+or unidirectional (read only or write only), depending on the device
+and/or how the path was established.</p>
+<p>Data transferred through a path is considered to be a stream of
+8-bit binary bytes that have no specific type or value: what the
+data actually represents depends on how it is used by each program.
+This is important because it means that NitrOS-9 does not require data
+to have any special format or meaning.</p>
+<p>Some of the advantages of the unified I/O system are:</p>
+<ul>
+<li>Programs will operate correctly regardless of the particular I/O
+  devices selected and used when the program is actually executed.</li>
+<li>Programs are highly portable from one computer to another, even
+  when the computers have different kinds of I/O devices.</li>
+<li>I/O can be redirected to alternate files or devices when the
+  program is run, without having to alter the program.</li>
+<li>New or special device driver routines can easily be created and
+  installed by the user.</li>
+</ul>
+<h2 id="pathlists-how-paths-are-named">Pathlists: How Paths Are Named<a class="headerlink" href="#pathlists-how-paths-are-named" title="Permanent link">&para;</a></h2>
+<p>Whenever a path is established (or "opened"), NitrOS-9 must be given
+a description of the "routing" of the path. This description is
+given in the form of a character string called a "pathlist". It
+specifies a particular mass-storage file, directory file, or any
+other I/O device. NitrOS-9 "pathlists" are
+similar to "filenames" used
+by other operating systems.</p>
+<p>The name "pathlist" is used instead
+of "pathname" or "filename"
+because in many cases it is a list consisting of more than one name
+to specify a particular I/O device or file. In order to convey all
+the information required, a pathlist may include a device name, one
+or more directory file names and a data file name. Each name within
+a pathlist is separated by slash "/" characters.</p>
+<p>Names are used to describe three kinds of things:</p>
+<ul>
+<li>Names of Physical I/O Devices</li>
+<li>Names of Regular Files</li>
+<li>Names of Directory Files</li>
+</ul>
+<p>Names can have one to 29 characters, all of which are used for
+matching. They may be composed of any combination of the following characters:</p>
+<p>Here are examples of <em>legal</em> names:</p>
+<table>
+<thead>
+<tr>
+<th>raw.data.2</th>
+<th>projectreview.backup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reconciliation.report</td>
+<td>X042953</td>
+</tr>
+<tr>
+<td>RJJones</td>
+<td>22search.bin</td>
+</tr>
+</tbody>
+</table>
+<p>Here are examples of <em>illegal</em> names:</p>
+<table>
+<thead>
+<tr>
+<th>max*min</th>
+<th>(* is not a legal character)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.data</td>
+<td>(does not start with a letter)</td>
+</tr>
+<tr>
+<td>open orders</td>
+<td>(cannot contain a space)</td>
+</tr>
+<tr>
+<td>this.name.obviously.has.more.than.29.characters</td>
+<td>(too long)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="io-device-names">I/O Device Names<a class="headerlink" href="#io-device-names" title="Permanent link">&para;</a></h2>
+<p>Each physical input/output device supported by the system must
+have a unique name. The actual names used are defined when the
+system is set up and cannot be changed while the system is running.
+The device names used for the Color Computer are:</p>
+<table>
+<thead>
+<tr>
+<th>TERM</th>
+<th>Video display/keyboard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P</td>
+<td>Printer port</td>
+</tr>
+<tr>
+<td>D0</td>
+<td>Disk drive unit zero</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>Disk drive unit one</td>
+</tr>
+<tr>
+<td>PIPE</td>
+<td>Pipes</td>
+</tr>
+</tbody>
+</table>
+<p>Device names may only be used as the first name of a pathlist,
+and must be preceded by a slash "/" character to indicate that the
+name is that of an I/O device. If the device is not a disk or
+similar device the device name is the only name allowed. This is
+true for devices such as terminals, printers, etc. Some examples of
+of pathlists that refer to I/O devices are:</p>
+<p>I/O device names are actually the names of the "device descriptor
+modules" kept by NitrOS-9 in an internal data structure called the
+"module directory" (See the NitrOS-9 System Programmer's manual for more
+information about device driver and descriptor modules). This
+directory is automatically set up during NitrOS-9's system start up
+sequence, and updated as modules are added or deleted while the
+system is running.</p>
+<h2 id="multifile-devices-and-directory-files">Multifile Devices And Directory Files<a class="headerlink" href="#multifile-devices-and-directory-files" title="Permanent link">&para;</a></h2>
+<p>Multifile devices are mass storage devices (usually disk systems)
+that store data organized into separate logical entities called
+"files". Each file has a name which is entered in a directory file.
+Every multifile device has a master directory (called the "root
+directory") that includes the names of the files and sub-directories
+stored on the device. The root directory is created automatically
+when the disk is initialized by the <code>format</code> command.</p>
+<p>Pathlists that refer to multifile devices may have more than one
+name. For example, to refer to the file "mouse" whose name appears
+in the root directory of device "D1" (disk drive one) the following
+pathlist is used:</p>
+<p>/d1/mouse</p>
+<p>When NitrOS-9 is asked to create a path, it uses the names in the
+pathlist sequentially from left to right to search various
+directories to obtain the necessary routing information. These
+directories are organized as a tree-structured hierarchy. The
+highest-level directory is called the "device directory", which
+contains names and linkages to all the I/O devices on a given
+system. If any of the devices are of a multifile type they each
+have a root directory, which is the next-highest level.</p>
+<p>The diagram below is a simplified file system tree of a typical
+NitrOS-9 system disk. Note that device and directory names are capitalized
+and ordinary file names are not. This is a customary (but
+not mandatory) practice which allows you to easily identify directory
+files using the short form of the <code>dir</code> command.</p>
+<p>The device names in this example system are "TERM",
+"P", "D0" and
+"D1". The root directory of device
+"D0" includes two directory
+files, <code>DEFS</code> and <code>CMDS</code>, and one ordinary file "startup". Notice that
+device "D1" has in its root directory three ordinary files. In
+order to access the file "file2" on
+device "d1", a pathlist having
+two names must be used:
+<div class="highlight"><pre><span></span><code>list /d1/file2
+</code></pre></div></p>
+<p>To construct a pathlist to access the file "dir" on device
+"d0" it is necessary to include in the pathlist the name of the
+intermediate directory file <code>CMDS</code>. For example, to copy this file
+requires a pathlist having three names to describe the "from" file:
+<div class="highlight"><pre><span></span><code>copy /d0/cmds/dir temp
+</code></pre></div></p>
+<h2 id="creating-and-using-directories">Creating and Using Directories<a class="headerlink" href="#creating-and-using-directories" title="Permanent link">&para;</a></h2>
+<p>It is possible to create a virtually unlimited number of levels
+of directories on a mass storage device using the <code>makdir</code> command.
+Directories are a special type of file (see ). They can be
+processed by the same I/O functions used to access regular files
+which makes directory-related processing fairly simple.</p>
+<p>To demonstrate how directories work, assume that the disk in
+drive one ("d1") has been freshly formatted so that it has a root
+directory only. The <code>build</code> command can be used to create a text file
+on "d1". The <code>build</code> command will print out "?" as a prompt to
+indicate that it is waiting for a text line to be entered. It will
+place each line into the text file until an empty line with only a
+carriage return is entered, as shown below:</p>
+<div class="highlight"><pre><span></span><code>OS9: build /d1/file1
+? This is the first file that
+? we created.
+? [ENTER]
+</code></pre></div>
+<p>The <code>dir</code> command will now indicate the existence of the new file:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir /d1
+
+   Directory of /d1  15:45:29
+file1
+</code></pre></div>
+<p>The <code>list</code> command can be used to display the text stored in the
+file:</p>
+<div class="highlight"><pre><span></span><code>OS9: list /d1/file1
+
+This is the first file
+that we created.
+</code></pre></div>
+<p>The <code>build</code> command again is again used to create two more text
+files:</p>
+<div class="highlight"><pre><span></span><code>OS9: build /d1/file2
+? This is the second file
+? that we created.
+? [ENTER]
+
+OS9: build /d1/file3
+? This is another file.
+? [ENTER]
+</code></pre></div>
+<p>The <code>dir</code> command will now show three file names:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir /d1
+   Directory of /D1  15:52:29
+file1           file2           file3
+</code></pre></div>
+<p>To make a new directory in this directory, the <code>makdir</code> command is
+used. The new directory will be called <code>NEWDIR</code>. Notice that
+throughout this manual directory names are always capitalized. This
+is <em>not</em> a requirement of NitrOS-9 (see ) . Rather, it is a
+practice popular with many NitrOS-9 users because it allows easy identification
+of directory files at all times (assuming all other file names use
+lower-case letters).</p>
+<div class="highlight"><pre><span></span><code>OS9: makdir /D1/NEWDIR
+</code></pre></div>
+<p>The directory file <code>NEWDIR</code> is now a file listed in D1's root
+directory:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir /D1
+
+   Directory of /D1  16:04:31
+file1           file2           file3          NEWDIR
+</code></pre></div>
+<p>Now we will create a new file and put in the new directory, using
+the <code>copy</code> command to duplicate <code>file1</code>:</p>
+<div class="highlight"><pre><span></span><code>OS9: copy /d1/file1 /d1/newdir/file1.copy
+</code></pre></div>
+<p>Observe that the second pathlist now has three names: the name of
+the root directory ("D1"), the name of the next lower directory
+(<code>NEWDIR</code>), then the actual file name (<code>file1.copy</code>). Here's what
+the directories look like now:</p>
+<div class="highlight"><pre><span></span><code>D1 Root Directory
+    +---------+--------+--------+
+    !         !        !        !
+  NEWDIR    file1    file2    file3
+    !
+    !
+file1.copy
+</code></pre></div>
+<p>The <code>dir</code> command can now show the files in the new directory:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir /D1/NEWDIR
+
+   Directory of /D1/NEWDIR
+file1.copy
+</code></pre></div>
+<p>It is possible to use <code>makdir</code> to create additional new directories
+within <code>NEWDIR</code>, and so on, limited only by available disk
+space.</p>
+<h2 id="deleting-directory-files">Deleting Directory Files<a class="headerlink" href="#deleting-directory-files" title="Permanent link">&para;</a></h2>
+<p>The <code>del</code> command cannot be used to directly delete a directory
+file. If a directory file that still contained file names were to
+be deleted, NitrOS-9 would have no way to access the files or to return
+their storage to the unallocated storage pool. Therefore, the
+following sequence must be performed to delete a directory file:</p>
+<ol>
+<li>
+<p>All file names in the directory must be deleted.</p>
+</li>
+<li>
+<p>The <code>attr</code> command is used to turn off the files directory
+attrribute (-d option), making it an ordinary file (see ).</p>
+</li>
+<li>
+<p>The file may now be deleted using the <code>del</code> command.</p>
+</li>
+</ol>
+<p>A simpler alternative is to use the <code>deldir</code> command to automatically
+perform all these steps for you.</p>
+<h2 id="additional-information-about-directories">Additional Information About Directories<a class="headerlink" href="#additional-information-about-directories" title="Permanent link">&para;</a></h2>
+<p>The NitrOS-9 directory system is very useful because it allows each
+user to privately organize files as desired (by project, function,
+etc.), without affecting other files or other user's files. Another
+advantage of the hierarchical directory system is that files with
+identical names can be kept on the same device as long as the names
+are in different directories. For example, you can have a set of
+test files to check out a program using the same file names as the
+program's actual working files. You can then run the program with
+test data or actual data simply by switching directories.</p>
+<p>Here are some important characteristics relating to use of directory
+files:</p>
+<ul>
+<li>Directories have the same ownership and security attributes
+  and rules as regular files.</li>
+<li>The name of a given file appears in exactly one directory.</li>
+<li>Files can only be added to directories when they are created.</li>
+<li>A file and the directory in which its name is kept must reside on
+  the same device.</li>
+</ul>
+<h2 id="using-and-changing-working-directories">Using and Changing Working Directories<a class="headerlink" href="#using-and-changing-working-directories" title="Permanent link">&para;</a></h2>
+<p>Each program (process) has two "working directories" associated
+with it at all times: a "data directory" and an "execution
+directory". The working directory mechanism allows the name searching
+involved in pathlist processing to start at any level (subtree)
+of the file system hierarchy. Any directory that the user has
+permission to access (see ) can be made a working directory.</p>
+<p>The rules used to determine whether pathlists refer to the
+current working directory or not are simple:</p>
+<p>---&gt; When the first character of a pathlist IS a "/",
+processing of the pathlist starts at the device directory,
+e.g., the first name MUST be a device name.</p>
+<p>---&gt; When the first character of a pathlist IS NOT a "/",
+processing of the pathlist starts at the current working
+directory.</p>
+<p>Notice that pathlists starting with a "/"
+<em>must</em> be complete, in
+other words, they must have all names required to trace the pathlist
+from the device directory down through all intermediate directories
+(if any). For example:</p>
+<p>/d2/JOE/WORKINGFILES/testresults</p>
+<p>On the other hand, use of the current working directory allows
+all names in the file hierarchy tree to be implied instead of
+explicitly given. This not only makes pathlists shorter, but allows
+NitrOS-9 to locate files faster because (typically) fewer directories
+need be searched. For example, if the current working directory is
+<code>/D1/PETE/GAMES</code> and a pathlist is given such as:</p>
+<p>baseball</p>
+<p>the actual pathlist <em>implied</em> is:</p>
+<p>/D1/PETE/GAMES/baseball</p>
+<p>Pathlists using working directories can also specify additional
+lower-level directories. Referring to the example above, the
+pathlist:</p>
+<p>ACTION/racing</p>
+<p>implies the complete pathlist:</p>
+<p>/D1/PETE/GAMES/ACTION/racing</p>
+<h3 id="automatic-selection-of-working-directories">Automatic Selection of Working Directories<a class="headerlink" href="#automatic-selection-of-working-directories" title="Permanent link">&para;</a></h3>
+<p>Recall that two working directories are referred to as the
+"current execution directory" and the "current data directory". The
+reason two working directories are maintained is so that files
+containing
+<em>programs</em> can be organized in different directories than
+files containing <em>data</em>.
+NitrOS-9 automatically selects either working
+directory, depending on the usage of the pathlist:</p>
+<p>---&gt; NitrOS-9 will search the execution directory when it attempts to
+load files into memory assumed to be executable programs. This
+means that programs to be run as commands or loaded into
+memory must be in the current execution directory.</p>
+<p>---&gt; The data directory is used for all other file references (such
+as text files, etc.)</p>
+<p>Immediately after startup, NitrOS-9 will set the data directory to be
+(the root directory of) the system disk drive (usually "D0"), and
+the working directory to be a directory called <code>cmds</code> on the same
+drive (<code>/D0/cmds</code>). On timesharing systems, the <code>login</code> command
+selects the initial execution and data directories to the file names
+specified in each user's information record stored in the system
+password file(ref. ).</p>
+<p>Here is an example of a <code>shell</code> command statement using the default
+working directory notation, and its equivalent expansion:</p>
+<div class="highlight"><pre><span></span><code>copy file1 file2
+</code></pre></div>
+<p>If the current execution directory is <code>/D0/CMDS</code> and the current
+data directory is <code>/D0/JONES</code>, the same command, fully expanded to
+show complete pathlists implied is:</p>
+<div class="highlight"><pre><span></span><code>OS9: /D0/CMDS/copy /D0/JONES/filel /D0/JONES/file2
+</code></pre></div>
+<p>Notice that the first pathlist <code>copy</code> expands to the current working
+directory pathlist because it is assumed to be an executable program
+but the two other file names expand using the data directory because
+they are not assumed to be executable.</p>
+<h3 id="changing-current-working-directories">Changing Current Working Directories<a class="headerlink" href="#changing-current-working-directories" title="Permanent link">&para;</a></h3>
+<p>The built-in shell commands <code>chd</code> and <code>chx</code> can be used to
+independently change the current working data and execution
+directories, respectively. These command names must be followed by
+a pathlist that describes the new directory file. You must have
+permission to access the directory according to normal file security
+rules. Here are some examples:</p>
+<div class="highlight"><pre><span></span><code>OS9: chd /D1/MY.DATAFILES
+
+OS9: chx /D0/TESTPROGRAMS
+</code></pre></div>
+<p>When using the <code>chd</code> or <code>chx</code> commands, pathlists work the same as they
+do for regular files, except for the last name in the pathlist must
+be a directory name. If the pathlist begins with a "/" , NitrOS-9 will
+begin searching in the device directory for the new working
+directory, otherwise searching will begin with the present directory.
+ For example, the following sequence of commands set the
+working directory to the same file:</p>
+<div class="highlight"><pre><span></span><code>OS9: CHD /D1/SARAH
+OS9: CHD PROJECT1
+
+OS9: CHD /D1/SARAH/PROJECT1    (same effect as above)
+</code></pre></div>
+<h3 id="anonymous-directory-names">Anonymous Directory Names<a class="headerlink" href="#anonymous-directory-names" title="Permanent link">&para;</a></h3>
+<p>Sometimes is useful to be able to refer to the current directory
+or the next higher-level directory, but its name (full pathlist) may
+not be known. Because of this, special "name substitutes" are
+available. They are:</p>
+<p><code>.</code> refers to the present working directory</p>
+<p><code>..</code> refers to the directory that contains the name of the present
+directory (e.g., the next highest level directory)</p>
+<p><code>...</code> refers to directory two levels up, and so on</p>
+<p>These can be used in place of pathlists and/or the first name in a
+pathlist. Here are some examples:</p>
+<table>
+<thead>
+<tr>
+<th>OS9: dir .</th>
+<th>lists file names in the working data directory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OS9: dir ..</td>
+<td>lists names in the working data directory's parent directory.</td>
+</tr>
+<tr>
+<td>OS9: del ../temp</td>
+<td>deletes the file <code>temp</code> from the</td>
+</tr>
+<tr>
+<td>working data directory's parent directory.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The substitute names refer to either the execution or data
+directories, depending on the context in which they are used.
+For example, if <code>..</code> is used in a pathlist of a file which
+will be loaded and/or executed, it will represent the parent
+directory of the execution directory. Likewise, if <code>.</code> is used in a
+pathlist describing a program's input file, it will represent the
+current data directory.</p>
+<h2 id="the-file-security-system">The File Security System<a class="headerlink" href="#the-file-security-system" title="Permanent link">&para;</a></h2>
+<p>Every file (including directory files) has properties called
+<em>ownership</em>
+and <em>attributes</em> which determine who may access the file and
+how it many be used.</p>
+<p>NitrOS-9 automatically stores with each file the user number
+associated with the process that created it. This user is considered
+to be the "owner" of the file.</p>
+<p>Usage and security functions are based on "attributes", which
+define how and by whom the file can be accessed. There are a total
+of seven attributes, each of which can be turned "off" or
+"on"
+independently. The "d" attribute is used to indicate (when on) that
+the file is a directory file. The other six attributes control
+whether the file can be read, written to, or executed, by either the
+owner or by the "public" (all other users). Specifically, these six
+attributes are:</p>
+<p>WRITE PERMISSION FOR OWNER: If on, the owner may write to the file
+or delete it. This permission can be used to protect important
+files from accidental deletion or modification.</p>
+<p>READ PERMISSION FOR OWNER: If on, the owner is allowed to read
+from the file. This can be used to prevent "binary" files from
+being used as "text" files</p>
+<p>EXECUTE PERMISSION FOR OWNER: If on, the owner can load the file into memory
+and execute it. Note that the file <em>must</em> contain one or
+more valid NitrOS-9 format memory modules in order to actually load</p>
+<p>The following "public permissions" work the same way as
+the "owner permissions" above but are applied to processes having
+DIFFERENT user numbers than the file's owner.</p>
+<p>WRITE PERMISSION FOR PUBLIC: If on, any other user may write to or
+delete the file.</p>
+<p>READ PERMISSION FOR PUBLIC: If on, any other user may read (and
+possibly copy) the file.</p>
+<p>EXECUTE PERMISSION FOR PUBLIC: If on, any other user may execute
+the file.</p>
+<p>For example, if a particular file had all permissions on except
+"write permit to public" and "read permit to public", the owner
+would have unrestricted access to the file, but other users could
+execute it, but not read, copy, delete, or alter it.</p>
+<h3 id="examining-and-changing-file-attributes">Examining and Changing File Attributes<a class="headerlink" href="#examining-and-changing-file-attributes" title="Permanent link">&para;</a></h3>
+<p>The <code>dir</code> command may be used to examine the security permissions
+of the files in any particular directory when the "e" option is
+used. An example using the <code>dir e</code> command to show the detailed
+attributes of the files in the current working directory is:</p>
+<div class="highlight"><pre><span></span><code>Directory of .   2003/03/04 10:20
+
+Owner  Last Modified    Attributes Sector Bytecount Name
+----- ----------------- ---------- ------ --------- ----
+   1  2002/05/29 14:02   --e--e-r      47        42 file1
+   0  2002/10/12 02:15   ---wr-wr      48        43 file2
+   3  2002/04/29 23:35   -s----wr      51        22 file3
+   1  2003/01/06 16:19   d-ewrewr      6D       800 NEWDIR
+</code></pre></div>
+<p>This display is fairly self-explanatory. The "attributes" column
+shows which attributes are currently on by the presence or absence
+of associated characters in the following format:</p>
+<p>dsewrewr</p>
+<p>The character positions correspond to from left to right: directory;
+sharable; public execute; public write; public read; owner execute;
+owner write; owner read. The <code>attr</code> command is used to examine or
+change a file's attributes. Typing <code>attr</code> followed by a file name
+will result in the present attributes to be displayed, for example:</p>
+<div class="highlight"><pre><span></span><code>OS9: attr file2
+-s-wr-ewr
+</code></pre></div>
+<p>If the command is used with a list of one or more attribute abbreviations,
+the file's attributes will be changed accordingly (if
+legal). For example, the command:</p>
+<div class="highlight"><pre><span></span><code>OS9: attr file2 pw pr -e -pe
+</code></pre></div>
+<p>enables public write and public read permissions and removes execute
+permission for both the owner and the public.</p>
+<p>The "directory" attribute behaves somewhat differently than the
+read, write, and execute permissions. This is because it would be
+quite dangerous to be able to change directory files to normal files,
+and creation of a directory requires special initialization.
+Therefore, the <code>attr</code> command
+<em>cannot</em> be used to turn
+the directory (d) attribute on (only <code>makdir</code> can), and can be used
+to turn it off <em>only</em> if the directory is empty.</p>
+<h2 id="reading-and-writing-from-files">Reading and Writing From Files<a class="headerlink" href="#reading-and-writing-from-files" title="Permanent link">&para;</a></h2>
+<p>A single file type and format is used for all mass storage files.
+Files store an ordered sequence of 8-bit bytes. NitrOS-9 is not usually
+sensitive to the contents of files for most functions. A given file
+may store a machine language program, characters of text, or almost
+anything else. Data is written to and read from files exactly as
+given. The file can be any size from zero up to the maximum
+capacity of the storage device, and can be expanded or shortened as
+desired.</p>
+<p>When a file is created or opened a "file pointer" is established
+for it. Bytes within the file are addressed like memory, and the
+file pointer holds the "address" of the next byte in the file to be
+written to or read from. The NitrOS-9 "read" and "write" service
+functions always update the pointer as data transfers are performed.
+Therefore, successive read or write operations will perform sequential data transfers.</p>
+<p>Any part of a file can also be read or written in non-sequential
+order by using a function called "seek" to reposition the file
+pointer to any byte address in the file. This is used when random
+access of the data is desired.</p>
+<p>To expand a file, you can simply write past the previous end of
+the file. Reading up to the last byte of a file will cause the next
+"read" request to return an end-of-file status.</p>
+<h3 id="file-usage-in-nitros-9">File Usage in NitrOS-9<a class="headerlink" href="#file-usage-in-nitros-9" title="Permanent link">&para;</a></h3>
+<p>Even though there is physically only one type of file, the logical
+usage of files in NitrOS-9 covers a broad spectrum. Because all
+NitrOS-9 files have the same physical type, commands such as <code>copy</code>,
+<code>del</code>, etc., can be used with any file regardless of its logical
+usage. Similarly, a particular file can be treated as having a
+different logical usage at different times by different programs. The
+main usage of files covered in this section are:</p>
+<h3 id="text-files">Text Files<a class="headerlink" href="#text-files" title="Permanent link">&para;</a></h3>
+<p>These files contain variable-length sequences ("lines") of ASCII
+characters. Each line is terminated by a carriage return character.
+Text files are used for program source code, procedure files,
+messages, documentation, etc. The Text Editor operates on this file
+format.</p>
+<p>Text files are usually read sequentially, and are supported by
+almost all high-level languages (such as BASIC09 READ and WRITE
+statements). Even though is is possible to randomly access data at
+any location within a text file, it is rarely done in practice
+because each line is variable length and it is hard to locate the
+beginning of each line without actually reading the data to locate
+carriage return characters.</p>
+<p>The content of text files may be examined using the <code>list</code>
+command.</p>
+<h3 id="random-access-data-files">Random Access Data Files<a class="headerlink" href="#random-access-data-files" title="Permanent link">&para;</a></h3>
+<p>Random-access data files are created and used primarily from
+within high-level languages such as Basic09, Pascal, C, and Cobol.
+In Basic09 and Pascal, "GET", "PUT", and "SEEK" functions operate on
+random-access files.</p>
+<p>The file is organized as an ordered sequence of "records". Each
+record has exactly the same length, so given a record's numerical
+index, the record's beginning address within the file can be
+computed by multiplying the record number by the number of bytes
+used for each record. Thus, records can be directly accessed in any
+order.</p>
+<p>In most cases, the high-level language allows each record to be
+subdivided into "fields". Each field generally has a fixed length
+and usage for all records within the file. For example, the first
+field of a record may be defined as being 25 text characters, the
+next field may be two bytes long and used to hold 16-bit binary
+numbers, etc.</p>
+<p>It is important to understand that NitrOS-9 itself does not directly
+process or deal with records other than providing the basic file
+functions required by all high-level languages to create and use
+random-access files.</p>
+<h3 id="executable-program-module-files">Executable Program Module Files<a class="headerlink" href="#executable-program-module-files" title="Permanent link">&para;</a></h3>
+<p>These files are used to hold program modules generated by the
+assembler or <em>compiled</em> by high-level languages.
+Each file may
+contain <em>one or more</em> program modules.</p>
+<p>NitrOS-9 program modules resident in memory have a standard module
+format that, besides the object code, includes a "module header" and
+a CRC check value. Program module(s) stored in files contain exact
+binary copies of the programs as they will exist in memory, and not
+one byte more. NitrOS-9 does not require a "load record"
+system commonly used by other operating systems because NitrOS-9
+programs are position-independent code and therefore do not have to
+be loaded into specific memory addresses.</p>
+<p>In order for NitrOS-9 to load the program module(s) from a file, the
+file itself must have execute permission and each module
+must have a valid module header and CRC check value. If a program
+module has been altered in any way, either as a file or in memory,
+its CRC check value will be incorrect And NitrOS-9 will refuse to load
+the module. The <code>verify</code> command can be used to check the correctness
+of the check values, and update them to corrected values if
+necessary.</p>
+<p>On Level One systems, if a file has two or more modules, they are
+treated as independent entities after loading and reside at different memory regions.</p>
+<p>Like other files that contain "binary" data, attempts to "list"
+program files will result in the display of random characters on the
+terminal giving strange effects. The <code>dump</code> command can be used to
+safely examine the contents of this kind of file in hexadecimal and
+controlled ASCII format.</p>
+<h3 id="directory-files">Directory Files<a class="headerlink" href="#directory-files" title="Permanent link">&para;</a></h3>
+<p>Directory files play a key role in the NitrOS-9 file system.  They can only be created by the <code>makdir</code> command, and
+can be identified by the "d" attribute being set (see ). The
+file is organized into 32-byte records. Each record can be a
+directory entry. The first 29 bytes of the record is a string of
+characters which is the file name. The last character of the name
+has its sign bit (most significant bit) set. If the record is not
+in use the first character position will have the value zero. The
+last three bytes of the record is a 24-bit binary number which is
+the logical sector number where the file header record (see ) is
+located.</p>
+<p>The <code>makdir</code> command initializes all records in a new directory
+to be unused entries except for the first two entries. These
+entries have the names <code>.</code> and <code>..</code> along with the logical sector
+numbers of the directory and its parent directory, respectively (see ).</p>
+<p>Directories cannot be copied or listed - the <code>dir</code> command is
+used instead. Directories also cannot be deleted directly (see ).</p>
+<h3 id="miscellaneous-file-usage">Miscellaneous File Usage<a class="headerlink" href="#miscellaneous-file-usage" title="Permanent link">&para;</a></h3>
+<p>NitrOS-9's basic file functions are so versatile it is possible to
+devise an almost unlimited number of special-purpose file formats
+for particular applications, which do not fit into any of the three
+previously discussed categories.</p>
+<p>Examples of this category are COBOL Indexed Sequential (ISAM)
+files and some special word processor file formats which allow
+random access of text lines. As discussed in Sec.
+3.9.1, most NitrOS-9 utility commands work with any file format including
+these special types. In general, the <code>dump</code> command is the preferred
+method for examining the contents of unusually formatted files.</p>
+<h2 id="physical-file-organization">Physical File Organization<a class="headerlink" href="#physical-file-organization" title="Permanent link">&para;</a></h2>
+<p>NitrOS-9's file system implements a universal logical organization
+for all I/O devices that effectively eliminates most hardware-related
+considerations for most applications. This section gives
+basic information about the physical file structure used by NitrOS-9.
+For more information, see the NitrOS-9 System Programmer's Manual.</p>
+<p>Each NitrOS-9 file is comprised of one or more sectors  which are
+the physical storage units of the disk systems. Each sector holds
+exactly 256 data bytes, and disk is numbered sequentially starting
+with sector zero, track zero. This number is called a "logical
+sector number", or <em>LSN</em>.
+The mapping of logical sector numbers to
+physical track/sector numbers is done by the disk driver module.</p>
+<p>Sectors are the smallest allocatable physical unit on a disk
+system, however, to increase efficiency on some larger-capacity disk.
+systems, NitrOS-9 uses uniform-sized groups of sectors, called
+<em>clusters</em>,
+as the smallest allocatable unit. Cluster sizes are always an
+integral power of two (2, 4, 8, etc.). One sector of each disk is
+used as a <em>bitmap</em> (usually LSN 1),
+in which each data bit corresponds
+to one cluster on the disk. The bits are set and cleared to
+indicate which clusters are in use (or defective), and which are
+free for allocation to files.</p>
+<p>The Color Computer disk system uses the following format:</p>
+<ul>
+<li>double density recording on two sides</li>
+<li>40 tracks per disk</li>
+<li>18 sectors per track</li>
+<li>
+<p>one sector per cluster
+Each file has a directory entry (see ) which includes the
+file name and the logical sector number of the file's "file descriptor
+sector", which contains a complete description of the file
+including:</p>
+</li>
+<li>
+<p>attributes</p>
+</li>
+<li>owner</li>
+<li>date and time created</li>
+<li>size</li>
+<li>segment list (description of data sector blocks)
+Unless the file size is zero, the file will have one or more
+sectors/clusters used to store data. The data sectors are grouped
+into one or more contiguous blocks called "segments".</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2103 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/basic09/gfx2/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Gfx2 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gfx2-coco3-graphics-subroutine-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gfx2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gfx2-coco3-graphics-subroutine-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFX2: CoCo3 Graphics Subroutine Module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_47" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_48" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Gfx2</h1>
+
+<h2 id="gfx2-coco3-graphics-subroutine-module">GFX2: CoCo3 Graphics Subroutine Module<a class="headerlink" href="#gfx2-coco3-graphics-subroutine-module" title="Permanent link">&para;</a></h2>
+<p>arc
+Draw an arc.</p>
+<p>RUN GFX2 ( [path,] "ARC" [,mx, my], xrad, yrad, xcor1, ycor1,
+xcor2, ycor2)</p>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>mx, my</code>        X &amp; Y coordinates for the center of the arc.
+<code>xrad</code>          Radius of the arcs width.
+<code>yrad</code>          Radius of the arcs height.
+<code>xcor1, ycor1</code>  Beginning and ending coordinates for an imaginary
+<code>xcor2, ycor2</code>  line relative to the center of the arc (0, 0) that
+                   GFX2 uses for drawing the arc. Drawing starts at
+                   the point of the arc closest to xcor1, ycor1.</p>
+<p>bar
+Draws a filled in rectangle.</p>
+<p><code>RUN GFX2 ( [path,] "BAR" [,xcor1, ycor1], xcor2, ycor2)</code></p>
+<h2 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window to draw in.
+<code>xcor1, ycor1</code>  Beginning coordinates of the rectangle.
+<code>xcor2, ycor2</code>  Ending coordinates of the rectangle.</p>
+<p>bell
+Produce a beep through the terminal's speaker.</p>
+<p><code>RUN GFX2 ("BELL")</code></p>
+<h2 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h2>
+<p>None</p>
+<p>blnkoff
+Turn off blinking for characters being sent to a text window.</p>
+<p><code>RUN GFX2 ( [path,] "BLNKOFF")</code></p>
+<h2 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>blnkon
+Turn on blinking for characters being sent to a text window.</p>
+<p><code>RUN GFX2 ( [path,] "BLNKON")</code></p>
+<h2 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<pre><code>    Does not work on a graphics window.
+</code></pre>
+<p>boldsw
+Turn bold printing on or off for characters being printed.</p>
+<p><code>RUN GFX2 ( [path,] "BOLDSW", "switch")</code></p>
+<h2 id="parameters_5">Parameters<a class="headerlink" href="#parameters_5" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>switch</code>        "ON" to turn bold on. "OFF" to turn bold off.</p>
+<h2 id="notes_1">Notes<a class="headerlink" href="#notes_1" title="Permanent link">&para;</a></h2>
+<pre><code>    Only works on a graphics window.
+</code></pre>
+<p>border
+Set the border color palette.</p>
+<p><code>RUN GFX2 ( [path,] "BORDER", color)</code></p>
+<h2 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>color</code>         Palette number to use.</p>
+<p>box
+Draw a rectangle on a graphics window.</p>
+<p><code>RUN GFX2 ( [path,] "BOX" [,xcor1, ycor1], xcor2, ycor2)</code></p>
+<h2 id="parameters_7">Parameters<a class="headerlink" href="#parameters_7" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor1, ycor1</code>  Beginning coordinates for the box.
+<code>xcor2, ycor2</code>  Ending coordinates for the box.</p>
+<p>circle
+Draw a circle on a graphics window.</p>
+<p><code>RUN GFX2 ( [path,] "CIRCLE" [,xcor, ycor], radius)</code></p>
+<h2 id="parameters_8">Parameters<a class="headerlink" href="#parameters_8" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    Coordinates to use as the center point.
+<code>radius</code>        Radius of the circle.</p>
+<p>clear
+Clear the screen.</p>
+<p><code>RUN GFX2 ( [path,] "CLEAR")</code></p>
+<h2 id="parameters_9">Parameters<a class="headerlink" href="#parameters_9" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>color
+Set the window colors.</p>
+<p><code>RUN GFX2 ( [path,] "COLOR", foreground [,background] [,border] )</code></p>
+<h2 id="parameters_10">Parameters<a class="headerlink" href="#parameters_10" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>foreground</code>    Register number to use for the foreground color.
+<code>background</code>    Register number to use for the background color.
+<code>border</code>        Register number to use for the border color.</p>
+<p>crrtn
+Sends a carriage return to the window.</p>
+<p><code>RUN GFX2 ( [path,] "CRRTN")</code></p>
+<h2 id="parameters_11">Parameters<a class="headerlink" href="#parameters_11" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curdwn
+Moves the cursor down one text line.</p>
+<p><code>RUN GFX2 ( [path,] "CURDWN")</code></p>
+<h2 id="parameters_12">Parameters<a class="headerlink" href="#parameters_12" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curhome
+Move the text cursor to the top left corner of the window.</p>
+<p><code>RUN GFX2 ( [path,] "CURHOME")</code></p>
+<h2 id="parameters_13">Parameters<a class="headerlink" href="#parameters_13" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curlft
+Move the text cursor one character to the left.</p>
+<p><code>RUN GFX2 ( [path,] "CURLFT")</code></p>
+<h2 id="parameters_14">Parameters<a class="headerlink" href="#parameters_14" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curoff
+Make the cursor invisible.</p>
+<p><code>RUN GFX2 ( [path,] "CUROFF")</code></p>
+<h2 id="parameters_15">Parameters<a class="headerlink" href="#parameters_15" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curon
+Makes the text cursor visible.</p>
+<p><code>RUN GFX2 ( [path,] "CURON")</code></p>
+<h2 id="parameters_16">Parameters<a class="headerlink" href="#parameters_16" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>currgt
+Moves the text cursor one character to the right.</p>
+<p><code>RUN GFX2 ( [path,] "CURRGT")</code></p>
+<h2 id="parameters_17">Parameters<a class="headerlink" href="#parameters_17" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curup
+Move the text cursor up one line.</p>
+<p><code>RUN GFX2 ( [path,] "CURUP")</code></p>
+<h2 id="parameters_18">Parameters<a class="headerlink" href="#parameters_18" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>curxy
+Move the text cursor to X column and Y row.</p>
+<p><code>RUN GFX2 ( [path,] "CURXY", column, row)</code></p>
+<h2 id="parameters_19">Parameters<a class="headerlink" href="#parameters_19" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>column</code>        Horizontal position on the window.
+<code>row</code>           Vertical position on the window.</p>
+<h2 id="notes_2">Notes<a class="headerlink" href="#notes_2" title="Permanent link">&para;</a></h2>
+<p>column and row are limited to the text size of the current window.</p>
+<p>cwarea
+Changes/sets the working area on the window.</p>
+<p><code>RUN GFX2 ( [path,] "CWAREA", xcor, ycor, sizex, sizey)</code></p>
+<h2 id="parameters_20">Parameters<a class="headerlink" href="#parameters_20" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    Upper left corner of the new working area, relative to
+                   the original window. Coordinates are based on character
+                   positions - not graphics locations.
+<code>sizex</code>         Number of character positions wide for the new area.
+<code>sizey</code>         Number of rows down for the new area.</p>
+<p>defbuff
+Define a buffer for get/put operations.</p>
+<p><code>RUN GFX2 ("DEFBUFF", group, buffer, size)</code></p>
+<h2 id="parameters_21">Parameters<a class="headerlink" href="#parameters_21" title="Permanent link">&para;</a></h2>
+<p><code>group</code>         A reference number you select. Range 1-199.
+<code>buffer</code>        A number you assign to this buffer. Range 1-255.
+<code>size</code>          Size of this buffer. Range 1-8192 depending on how
+                   much memory is available in this group.</p>
+<p>defcol
+Set palette registers to the default values.</p>
+<p><code>RUN GFX2 ( [path,] "DEFCOL")</code></p>
+<h2 id="parameters_22">Parameters<a class="headerlink" href="#parameters_22" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>dellin
+Delete the line of text the cursor is on.</p>
+<p><code>RUN GFX2 ( [path,] "DELLIN")</code></p>
+<h2 id="parameters_23">Parameters<a class="headerlink" href="#parameters_23" title="Permanent link">&para;</a></h2>
+<p><code>path</code>            Route to the window you want to use.</p>
+<p>draw
+Draw a polyline figure based on information in an option list.</p>
+<p><code>RUN GFX2 ( [path,] "DRAW", option list)</code></p>
+<h2 id="parameters_24">Parameters<a class="headerlink" href="#parameters_24" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>option list</code>   A string containing the draw options/instructions.</p>
+<p>Options:
+Nnum               North (up) num units.
+Snum               South (down) num units.
+Enum               East (right) num units.
+Wnum               West (left) num units.
+NEnum              NorthEast (up &amp; right) num units.
+NWnum              NorthWest (up &amp; left) num units.
+SEnum              SouthEast (down &amp; right) num units.
+SWnum              SouthWest (down &amp; left) num units.
+Aval               Axis for north.  0=top 1=right 2=bottom 3=left
+Uxcor, ycor        Draw a line to x &amp; y coordinates relative to the
+                   current draw pointer position.
+Bxcor, ycor        Blank move to x &amp; y coordinates relative to the current
+                   draw pointer position.</p>
+<p>dwend
+Deallocates (ends) a device window.</p>
+<p><code>RUN GFX2 ( [path,] "DWEND")</code></p>
+<h2 id="parameters_25">Parameters<a class="headerlink" href="#parameters_25" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to end.</p>
+<p>dwprotsw
+Protect/unprotect a device window.</p>
+<p><code>RUN GFX2 ( [path,] "DWPROTSW", "switch")</code></p>
+<h2 id="parameters_26">Parameters<a class="headerlink" href="#parameters_26" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>switch</code>        "ON" to protect a window. "OFF" to unprotect.</p>
+<h2 id="notes_3">Notes<a class="headerlink" href="#notes_3" title="Permanent link">&para;</a></h2>
+<p>Unprotected windowscan be covered by another window.</p>
+<p>dwset
+Define a device window.</p>
+<p>RUN GFX2 ( [path,] "DWSET", format, xcor, ycor, width, length,
+                   foreground, background, border)</p>
+<h2 id="parameters_27">Parameters<a class="headerlink" href="#parameters_27" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to define.
+<code>format</code>        Code for the type of screen to use.
+<code>xcor, ycor</code>    Coordinates for the upper left corner of the window.
+<code>width</code>         Width of the window,  in characters.
+<code>length</code>        Length of the window,  in rows.
+<code>foreground,</code>   Palettes to use for foreground,  background,  and
+<code>background,</code>   border colors.
+<code>border</code></p>
+<p>ellipse
+Draws an ellipse.</p>
+<p><code>RUN GFX2 ( [path,] "ELLIPSE" [,xcor, ycor], xrad, yrad)</code></p>
+<h2 id="parameters_28">Parameters<a class="headerlink" href="#parameters_28" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    Coordinates for the center of the ellipse.
+<code>xrad, yrad</code>    Radii of the ellipse's length and height.</p>
+<p>ereoline
+Erase from the cursor to the end of the line.</p>
+<p><code>RUN GFX2 ( [path,] "EREOLINE")</code></p>
+<h2 id="parameters_29">Parameters<a class="headerlink" href="#parameters_29" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>ereowndw
+Erase from the line the cursor is on to the end of the window.</p>
+<p><code>RUN GFX2 ( [path,] "EREOWNDW")</code></p>
+<h2 id="parameters_30">Parameters<a class="headerlink" href="#parameters_30" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>erline
+Delete the line of text the cursor is on.</p>
+<p><code>RUN GFX2 ( [path,] "ERLINE")</code></p>
+<h2 id="parameters_31">Parameters<a class="headerlink" href="#parameters_31" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>fill
+Fill (paint) a window,  or a portion of it.</p>
+<p><code>RUN GFX2 ( [path,] "FILL" [,xcor, ycor])</code></p>
+<h2 id="parameters_32">Parameters<a class="headerlink" href="#parameters_32" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    X &amp; Y coordinates to start the fill at.</p>
+<h2 id="notes_4">Notes<a class="headerlink" href="#notes_4" title="Permanent link">&para;</a></h2>
+<p>Paints with the current foreground color. Only fills the area that's the
+same color as the point where it starts.</p>
+<p>font
+Defines which buffer is to be used for graphic text characters.</p>
+<p><code>RUN GFX2 ( [path,] "FONT", group, buffer)</code></p>
+<h2 id="parameters_33">Parameters<a class="headerlink" href="#parameters_33" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window to be tied to the selected buffer.
+<code>group</code>         Group number that contains the selected buffer.
+<code>buffer</code>        Buffer number to use.</p>
+<p>gcset
+Select which graphics cursor to use.</p>
+<p><code>RUN GFX2 ("GCSET", group, buffer)</code></p>
+<h2 id="parameters_34">Parameters<a class="headerlink" href="#parameters_34" title="Permanent link">&para;</a></h2>
+<p><code>group</code>         Group number that has the buffer you want to use.
+<code>buffer</code>        Buffer number of the cursor image to use.</p>
+<p>get
+Store a portion of the window in a GET/PUT buffer.</p>
+<p><code>RUN GFX2 ( [path,] "GET", group, buffer, xcor, ycor, xsize, ysize)</code></p>
+<h2 id="parameters_35">Parameters<a class="headerlink" href="#parameters_35" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>group</code>         Group number that has the buffer to use.
+<code>buffer</code>        Buffer number to store the data in.
+<code>xcor, ycor</code>    X &amp; Y coordinates of the upper left corner to save.
+<code>xsize</code>         Horizontal size of the area to save.
+<code>ysize</code>         Vertical size of the area to save.</p>
+<p>gpload
+Load a GET/PUT buffer with image data.</p>
+<p><code>RUN GFX2 ("GPLOAD", group, buffer, format, xdim, ydim, size)</code></p>
+<h2 id="parameters_36">Parameters<a class="headerlink" href="#parameters_36" title="Permanent link">&para;</a></h2>
+<p><code>group</code>         Group number to associate this buffer with.
+<code>buffer</code>        Buffer number for the buffer you create.
+<code>format</code>        Type code for the screen format.
+<code>xdim, ydim</code>    X &amp; Y dimensions of the stored block.
+<code>size</code>          Size of the buffer in bytes. 1 to 8 Kbytes.</p>
+<p>inslin
+Insert a blank line at the cursor position.</p>
+<p><code>RUN GFX2 ( [path,] "INSLIN")</code></p>
+<h2 id="parameters_37">Parameters<a class="headerlink" href="#parameters_37" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>killbuff
+Deallocate a GET/PUT buffer.</p>
+<p><code>RUN GFX2 ("KILLBUFF", group, buffer)</code></p>
+<h2 id="parameters_38">Parameters<a class="headerlink" href="#parameters_38" title="Permanent link">&para;</a></h2>
+<p><code>group</code>         Group number of the buffer to get rid of. 1 to 199.
+<code>buffer</code>        Buffer number to deallocate. 1 to 255.</p>
+<p>line
+Draw a line.</p>
+<p><code>RUN GFX2 ( [path,] "LINE" [,xcor1, ycor1], xcor2, ycor2)</code></p>
+<h2 id="parameters_39">Parameters<a class="headerlink" href="#parameters_39" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor1, ycor1</code>  X &amp; Y coordinates for the start of the line.
+<code>xcor2, ycor2</code>  X &amp; Y coordinates for the end of the line.</p>
+<p>logic
+Sets the logic type to be used on drawing functions.</p>
+<p><code>RUN GFX2 ("LOGIC", "function")</code></p>
+<h2 id="parameters_40">Parameters<a class="headerlink" href="#parameters_40" title="Permanent link">&para;</a></h2>
+<p><code>function</code>      "OFF"  -  no logic is used.
+                   "AND"  -  AND logic is used.
+                   "OR"   -  OR logic is used.
+                   "XOR"  -  XOR logic is used.</p>
+<p>owend
+Deallocate the specified overlay window.</p>
+<p><code>RUN GFX2 ([path,] "OWEND")</code></p>
+<h2 id="parameters_41">Parameters<a class="headerlink" href="#parameters_41" title="Permanent link">&para;</a></h2>
+<p><code>path</code>            Route to the window you want to end.</p>
+<h2 id="notes_5">Notes<a class="headerlink" href="#notes_5" title="Permanent link">&para;</a></h2>
+<p>The book doesn't give a specific example of this function.</p>
+<p>owset
+Create an overlay window.</p>
+<p>RUN GFX2 ( [path,] "OWSET", save switch, xpos, ypos, xsize, ysize,
+                   foreground, backgound)</p>
+<h2 id="parameters_42">Parameters<a class="headerlink" href="#parameters_42" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window to be overlaid.
+<code>save switch</code>   0 = Don't save overlaid area. 1 = Save overlaid area.
+<code>xpos, ypos</code>    X &amp; Y character positions for upper left corner.
+<code>xsize</code>         Width of overlay window in characters.
+<code>ysize</code>         Depth of overlay window in rows.
+<code>foreground,</code>   Palettes to use for overlay foreground &amp; background.
+<code>background</code></p>
+<p>palette
+Set the color of a palette register.</p>
+<p><code>RUN GFX2 ( [path,] "PALETTE", register, color)</code></p>
+<h2 id="parameters_43">Parameters<a class="headerlink" href="#parameters_43" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>register</code>      Palette register number to set.
+<code>color</code>         Value to set in register. 0 to 63.</p>
+<p>pattern
+Select the pattern buffer to use.</p>
+<p><code>RUN GFX2 ( [path,] "PATTERN", group, buffer)</code></p>
+<h2 id="parameters_44">Parameters<a class="headerlink" href="#parameters_44" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window to associate with the buffer.
+<code>group</code>         Group number that contains the buffer.
+<code>buffer</code>        Buffer number for the patterns.</p>
+<p>point
+Set a point to current foreground color.</p>
+<p><code>RUN GFX2 ( [path,] "POINT" [,xcor, ycor])</code></p>
+<h2 id="parameters_45">Parameters<a class="headerlink" href="#parameters_45" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    X &amp; Y coordinates of location to set.</p>
+<p>propsw
+Set/reset the proportional text switch.</p>
+<p><code>RUN GFX2 ( [path,] "PROPSW", "switch")</code></p>
+<h2 id="parameters_46">Parameters<a class="headerlink" href="#parameters_46" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>switch</code>        "ON" = proportional spacing. "OFF" = fixed spacing.</p>
+<p>putgc
+Place the graphics cursor anywhere on the screen.</p>
+<p><code>RUN GFX2 ( [path,] "PUTGC", xcor, ycor)</code></p>
+<h2 id="parameters_47">Parameters<a class="headerlink" href="#parameters_47" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the screen you want to use.
+<code>xcor, ycor</code>    Screen X &amp; Y coordinates for the cursor location.</p>
+<p>put
+Place a specified GET/PUT buffer on a window.</p>
+<p><code>RUN GFX2 ( [path,] "PUT", group, buffer, xcor, ycor)</code></p>
+<h2 id="parameters_48">Parameters<a class="headerlink" href="#parameters_48" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>group</code>         Group number containing the buffer you want to use.
+<code>buffer</code>        Buffer number to put on the window.
+<code>xcor, ycor</code>    X &amp; Y coordinates of the upper left corner.</p>
+<p>revoff
+Turns reverse video off for characters.</p>
+<p><code>RUN GFX2 ( [path,] "REVOFF")</code></p>
+<h2 id="parameters_49">Parameters<a class="headerlink" href="#parameters_49" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>revon
+Turns reverse video on for characters.</p>
+<p><code>RUN GFX2 ( [path,] "REVON")</code></p>
+<h2 id="parameters_50">Parameters<a class="headerlink" href="#parameters_50" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.</p>
+<p>scalesw
+Turns scaling ON or OFF for graphics windows.</p>
+<p><code>RUN GFX2 ( [path,] "SCALESW", "switch")</code></p>
+<h2 id="parameters_51">Parameters<a class="headerlink" href="#parameters_51" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>switch</code>        "ON" = coordinates act as if the window was 640 x 192.
+                   "OFF" = coordinates are relative to the window origin.</p>
+<h2 id="notes_6">Notes<a class="headerlink" href="#notes_6" title="Permanent link">&para;</a></h2>
+<p>Scaling does not affect text.</p>
+<p>select
+Select (change) which window is active for input/output.</p>
+<p><code>RUN GFX2 ( [path,] "SELECT")</code></p>
+<h2 id="parameters_52">Parameters<a class="headerlink" href="#parameters_52" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to select.</p>
+<p>setdptr
+Position the drawing pointer.</p>
+<p><code>RUN GFX2 ( [path,] "SETDPTR", xcor, ycor)</code></p>
+<h2 id="parameters_53">Parameters<a class="headerlink" href="#parameters_53" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window you want to use.
+<code>xcor, ycor</code>    X &amp; Y coordinates to move the draw pointer to.</p>
+<p>undlnoff
+Turns character underlining off.</p>
+<p><code>RUN GFX2 ( [path,] "UNDLNOFF")</code></p>
+<h2 id="parameters_54">Parameters<a class="headerlink" href="#parameters_54" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window where you want underlining off.</p>
+<p>undlnon
+Turns character underlining on.</p>
+<p><code>RUN GFX2 ( [path,] "UNDLNON")</code></p>
+<h2 id="parameters_55">Parameters<a class="headerlink" href="#parameters_55" title="Permanent link">&para;</a></h2>
+<p><code>path</code>           Route to the window where you want underlining on.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1439 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/chap2/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap2 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#characteristics-of-compiled-programs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#characteristics-of-compiled-programs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characteristics of Compiled Programs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-object-code-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Object Code Module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Header
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Offset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Size
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executable-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executable Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#string-literals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        String Literals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initializing-data-and-its-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initializing Data and its Size
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-c-program-memory-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical C Program Memory Map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compile-time-memory-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile Time Memory Allocation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Chap2</h1>
+
+<h2 id="characteristics-of-compiled-programs">Characteristics of Compiled Programs<a class="headerlink" href="#characteristics-of-compiled-programs" title="Permanent link">&para;</a></h2>
+<h2 id="the-object-code-module">The Object Code Module<a class="headerlink" href="#the-object-code-module" title="Permanent link">&para;</a></h2>
+<p>The compiler produces position-independent, reentrant 6809 code
+in a standard OS-9 memory module format. The format of an executable
+program module is shown below. Detailed descriptions of each
+section of the module are given on following pages.</p>
+<div class="highlight"><pre><span></span><code>Module                                                    Section
+Offset                                                  Size (bytes)
+
+                 +-------------------------------+
+$00              !                               !
+                 !         Module Header         !          8
+                 !                               !
+                 !-------------------------------!
+$09              !       Execution Offset        ! ---+     2
+                 !-------------------------------!    !
+$0B              !    Permanent Storage Size     !    !     2
+                 !-------------------------------!    !
+$0D              !         Module Name           !    !
+                 ! . . . . . . . . . . . . . . . !    !
+                 v                               v &lt;--+
+                 :        Executable code        :
+                 : . . . . . . . . . . . . . . . :
+                 :        String Literals        :
+                 ^                               ^
+                 !-------------------------------!
+                 !    Initializing Data Size     !          2
+                 !-------------------------------!
+                 v                               v
+                 :       Initializing Data       :
+                 ^                               ^
+                 !-------------------------------!
+                 !   Data-text Reference Count   !          2
+                 !-------------------------------!
+                 v                               v
+                 :  Data-text Reference Offsets  :
+                 ^                               ^
+                 !-------------------------------!
+                 !   Data-data Reference Count   !          2
+                 !-------------------------------!
+                 v                               v
+                 :  Data-data Reference Offsets  :
+                 ^                               ^
+                 !-------------------------------!
+                 !        CRC Check Value        !          3
+                 !-------------------------------!
+</code></pre></div>
+<h2 id="module-header">Module Header<a class="headerlink" href="#module-header" title="Permanent link">&para;</a></h2>
+<p>This is a standard module header with the type/language byte set to
+$11 (Program + 6809 Object Code), and the attribute/revision byte
+set to $81 (Reentrant + 1).</p>
+<h2 id="execution-offset">Execution Offset<a class="headerlink" href="#execution-offset" title="Permanent link">&para;</a></h2>
+<p>Used by OS-9 to locate where to start execution of the program.</p>
+<h2 id="storage-size">Storage Size<a class="headerlink" href="#storage-size" title="Permanent link">&para;</a></h2>
+<p>Storage size is the initial default allocation of memory for data,
+stack, and parameter area. For a full description of memory
+allowcation, see the section entitled
+"Memory Management" located
+elsewhere in this manual.</p>
+<h2 id="module-name">Module Name<a class="headerlink" href="#module-name" title="Permanent link">&para;</a></h2>
+<p>Module name is used by OS-9 to enter the module in the module
+directory. The module name is followed by the edition byte encoded
+in cstart. If this situation is not desired it may be overridden by
+the -E= option in cc.</p>
+<h2 id="information">Information<a class="headerlink" href="#information" title="Permanent link">&para;</a></h2>
+<p>Any strings preceded by the directive "info" in an assembly code
+file will be placed here. A major use of this facility is to place
+in the module the version number and/or a copyright notice. Note
+that the '#asm' pre-compiler instruction may be used in a C source
+file to enable the inclusion of this directive in the compiler-generated
+assembly code file.</p>
+<h2 id="executable-code">Executable Code<a class="headerlink" href="#executable-code" title="Permanent link">&para;</a></h2>
+<p>The machine code instructions of the program.</p>
+<h2 id="string-literals">String Literals<a class="headerlink" href="#string-literals" title="Permanent link">&para;</a></h2>
+<p>Quoted string in the C source are placed here. They are in the
+null-terminated form expected by the functions in the Standard
+Library. NOTE: the definition of the C language assumes that
+strings are in the DATA area and are therefore subject to alteration
+without making the program non-reentrant. However, in order to avoid
+the dublication of memory requirements which would be necesary if
+they were to be in the data area, they are placed in the TEXT
+(executable) section of the module. Putting the strings in the
+executable section implies that no attempt should be made by a C
+programmer to alter string literals. They should be copied out
+first. The exception that proves the rule is the initialization of
+an array of type char like this:
+<div class="highlight"><pre><span></span><code>               char message[] = &quot;Hello world\n&quot;;
+</code></pre></div>
+The string will be found in the array 'message' in the data area and
+can be altered.</p>
+<h2 id="initializing-data-and-its-size">Initializing Data and its Size<a class="headerlink" href="#initializing-data-and-its-size" title="Permanent link">&para;</a></h2>
+<p>If a C program contains initializers, the data for the initial
+values of the variables is placed in this section. The definition
+of C states that all uninitialized global and static variables have
+the value zero when the program starts running, so the startuo
+rougtine of each C program first copies the data from the module into
+the data area and then clears the rest of the data memory to nulls.</p>
+<h2 id="data-references">Data References<a class="headerlink" href="#data-references" title="Permanent link">&para;</a></h2>
+<p>No absolute addresses are known at compile time under OS-9, so where
+there are pointer values in the initializating data, they must be
+adjusted at run time so that they reflect the absolute values at
+that time. The startup routine uses the two data reference tables
+to locate the values that need alteration and adjusts them by the
+absolute values of the bases of the executable code and data
+respectively.</p>
+<p>For example, suppose there are the following statements in the
+program being compiled:
+<div class="highlight"><pre><span></span><code>        char *p = &quot;I&#39;m a string!&quot;;
+        char **q = &amp;p;
+</code></pre></div>
+These declarations tell the compiler that there is to be a char
+pointer variable, 'p', whose initial value is the address of the
+string and a pointer to a char pointer, 'q', whose initial value is
+the address of 'p'. The variables must be in the DATA section of
+memory at run time because they are potentially alterable, but
+absolute addresses are not known until run time, so the values that
+'p' and 'q' must have are not known at compile time. The string
+will be placed by the compiler in the TEXT section and will not be
+copied out to DATA memory by the startup routine. The initializing
+data section of the program module will contain entries for 'p' and
+'q'. They will have as values the offsets of the string from the
+base of the TEXT section and the offset of the location of 'p' from
+the base of the DATA section respectively.</p>
+<p>The startup routine will first copy all the entries in the initializing
+data section into their allotted places in the DATA section.
+Then it will scan the data-text reference table for the offsets of
+values that need to have the addresses of the base of the TEXT
+section added to them. Among these will be the "p" which, after
+updating, will point to the string which is in the TEXT section.
+Similarly, after a scan of the data-data references, "q" will point
+to (contain the absolute of) "p".</p>
+<h2 id="memory-management">Memory Management<a class="headerlink" href="#memory-management" title="Permanent link">&para;</a></h2>
+<p>The C compiler and its support programs have default conditions
+such that the average programmer need not be concerned with details
+of memory management. However, there are situations where advanced
+programmers may wish to tailor the storage allocation of a program
+for special situations. The following information explains in
+detail how a C program's data area is allocated and used.</p>
+<h2 id="typical-c-program-memory-map">Typical C Program Memory Map<a class="headerlink" href="#typical-c-program-memory-map" title="Permanent link">&para;</a></h2>
+<p>A storage area is allocated by OS-9 when the C program is executed.
+The layout of this memory is as follows:</p>
+<div class="highlight"><pre><span></span><code>                       high addresses
+                    |                  |  &lt;- SBRK() adds more
+                    |                  |     memory here
+                    |                  |
+                    !------------------!  &lt;- memend
+                    !    parameters    !
+                    !------------------!
+                    !                  !
+Current stack       |      stack       |  &lt;- sp register
+reservation   -&gt;    !..................!
+                    !        v         !
+                    !                  !  &lt;- standard I/O buffers
+                    !    free memory   !     allocated here
+Current top         !                  !
+of data       -&gt;    !........^.........!  &lt;- IBRK() changes this
+                    !                  !     memory bound upward
+                    ! requested memory !
+                    !------------------!  &lt;-- end
+                    !  uninitialized   !
+                    !      data        !
+                    !------------------!  &lt;-- edata
+                    !   initialized    !
+                    !      data        !
+                    !------------------!
+             ^      !    direct page   !
+           dpsiz    !     variables    !
+             v      +------------------+  &lt;-- y,dp registers
+                        low addresses
+</code></pre></div>
+<p>The overall size of this memory area is defined by the "storage
+size" value stored in the program's module header. This can be
+overridden to assign the program additional memory if the OS-9 Shell
+"#" command is used.</p>
+<p>The parameter area is where the parameter string from the
+calling process (typically the OS-9 Shell) is placed by the system.
+The initializing routine for C programs converts the parameters into
+null-terminated strings and makes pointers to them available to
+'main()' via 'argc' and 'argv'.</p>
+<p>The stack area is the currently reserved memory for exclusive
+use of the stack. As each C function is entered, a routine in the
+system interface is called to reserve enough stack space for the use
+of the function with an addition of 64 bytes. The 64 bytes are for
+the use of user-written assembly code functions and/or the system
+interface and/or arithmetic routines. A record is kept of the
+lowest address so far granted for the stack. If the area requested
+would not bring this lower then the C function is allowed to
+proceed. If the new lower limit would mean that the stack area
+would overlap the data area, the program stops with the message:
+<div class="highlight"><pre><span></span><code>                **** STACK OVERFLOW ****
+</code></pre></div>
+on the standard error output. Otherwise, the new lower limit is
+set, and the C function resumes as before.</p>
+<p>The direct page variables area is where variables reside
+that have been defined with the storage class 'direct' in the C
+source code or in the 'direct' segment in assembly code source.
+Notice that the size of this area is always at least one byte (to
+ensure that no pointer to a variable can have the value NULL or 0)
+and that it is not necessarily 256 bytes.</p>
+<p>The uninitialized data area is where the remainder of the
+uninitialized program variables reside. These two areas are, in
+fact, cleared to all zeros by the program entry routine. The
+initialized data area is where the initialized variables of the
+program reside. There are two globally defined values which may be
+referred to: 'edata' and 'end', which are the addresses of one byte
+higher than the initialized data and one byte higher than the
+uninitialized data respectively. Note that these are not variables;
+the values are accesses in C by using the '&amp;' operator as in:
+<div class="highlight"><pre><span></span><code>         high = &amp;end;
+         low = &amp;edata;
+</code></pre></div>
+and in assembler:
+<div class="highlight"><pre><span></span><code>         leax   end,y
+         stx    high,y
+</code></pre></div>
+The Y register points to the base of the data area and variables are
+addresses using Y-offset indexed instructions.</p>
+<p>When the program starts running, the remaining memory is
+assigned to the "free" area. A program may call "ibrk()" to
+request additional working memory (initialized to zeros) from the
+free memory area. Alternatively, more memory can be dynamically
+obtained using the "sbrk()" which requests additional memory from
+the operating system and returns its lower bound. If this fails
+because OS-9 refuses to grant more memory for any reason "sbrk()"
+will return -1.</p>
+<h2 id="compile-time-memory-allocation">Compile Time Memory Allocation<a class="headerlink" href="#compile-time-memory-allocation" title="Permanent link">&para;</a></h2>
+<p>If  not instructed otherwise, the linker will automatically
+allocate 1k bytes more than the total size of the program's
+variables and strings. This size will normally be adequate to cover
+the parameter area, stack requirements, and Standard Library file
+buffers. The allocation size may be altered when using the compiler
+by using the "-m" option on the command line. The memory
+requirements may be stated in pages, for example,
+<div class="highlight"><pre><span></span><code>       cc prg.c -m=2
+</code></pre></div>
+which allocates 512 bytes extra, or in kilobytes, for example:
+<div class="highlight"><pre><span></span><code>       cc prg.c -m=10k
+</code></pre></div>
+The linker will ignore the request if the size is less than 256 bytes.</p>
+<p>The following rules can serve as a rough guide to estimate how
+much memory to specify:</p>
+<ul>
+<li></li>
+</ul>
+<p>The parameter area should be large enough for any anticipated
+command line string.</p>
+<ul>
+<li></li>
+</ul>
+<p>The stack should not be less than 128 bytes and should take
+into account the depth of function calling chains and any
+recursion.</p>
+<ul>
+<li></li>
+</ul>
+<p>All function arguments and local variables occupy stack space
+and each function entered needs 4 bytes more for the return
+address and temporary storage of the calling function's register
+variable.</p>
+<ul>
+<li></li>
+</ul>
+<p>Free memory is requested by the Standard Library I/O
+functions for buffers at the rate of 256 bytes per accessed
+file. The does not apply to the lower level service request I/O
+functions such as "open()", "read()" or "write()" not to
+"stderr" which is always un-buffered, but it does apply to both
+"stdin" and "stdout" (see the Standard Library documentation).</p>
+<p>A good method for getting a feel for how much memory is
+needed by your program is to allow the linker to set the memory size
+to its usually conservative value. Then, if the program runs
+with a variety of input satisfactorily but memory is limited on the
+system, try reducing the allocation at the next compilation. If a
+stack overflow occurs or an "ibrk()" call returns -1, then try
+increasing the memory next time. You cannot damage the system by
+getting it wrong, but data may be lost if the program runs out of
+space at a crucial time. It pays to be in error on the generous
+side.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

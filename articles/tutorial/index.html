@@ -1,0 +1,2788 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/articles/tutorial/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Tutorial - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#an-os9-tutorial" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#an-os9-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        An OS9 Tutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cmp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cobbler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cobbler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dcheck
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        link
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        merge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os9gen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        os9gen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#printerr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        printerr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        procs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setpr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setpr
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sleep
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tsmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tsmon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /p
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#t1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /t1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#t2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /t2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /d0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /d1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /d2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /d3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#term" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /term
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lesson-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lesson 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Tutorial</h1>
+
+<p>BobMontowski</p>
+<h2 id="an-os9-tutorial">An OS9 Tutorial<a class="headerlink" href="#an-os9-tutorial" title="Permanent link">&para;</a></h2>
+<h2 id="lesson-1">Lesson 1<a class="headerlink" href="#lesson-1" title="Permanent link">&para;</a></h2>
+<p>This will be my first tutorial on using
+OS-9 and it will be for the beginners
+who bought OS-9 and are now ripping
+their hair out trying to figure out how
+to use it now that they have it...
+OS-9 is <em>not</em> a programming language.
+It is totally different from BASIC and
+if you wish to program in Basic then I
+suggest you buy Basic09 after you are a
+bit familiar with OS-9.
+For people who have Disk Basic 1.0 you
+will need to load the OS-9 BOOT disk
+and RUN"<em>". This will then tell you to
+put the OS-9 Master Disk in Drive 0 and
+push any key to continue.
+If you have Disk Basic 1.1 then all you
+need to do is put the OS-9 Master Disk
+in Drive 0 and type DOS...
+Now that OS-9 has started up and given
+you your Logo and license information it will
+ask you for the DATE and TIME.  This
+information is </em>very<em> important and should
+be given correctly each time you start
+up OS-9. Do </em>not* just hit enter, give
+a date and time.  This information is added to
+each file as it is saved to disk and
+will be used by the OS-9 in the future
+to keep track of current files.  The
+same information is also available to you to
+help you keep tabs on the dates and
+times of the files that you saved to
+disk.
+OS-9 runs on a 24 hour clock so when
+giving the time you must remember that
+times after 12 noon convert to the
+following:</p>
+<pre><code>1 pm-1300 hours
+2 pm-1400 hours
+3 pm-1500 hours
+    .
+    .
+    .
+10 pm-2200 hours
+11 pm-2300 hours
+midnite-0000 hours
+</code></pre>
+<p>To enter Dec 25, 1985...3:30 pm you
+would type
+<div class="highlight"><pre><span></span><code>           YY/MM/DD HH:MM:SS
+           85/12/25 15:30:00
+</code></pre></div></p>
+<p>After a date and time have been given
+to OS-9 you may check this time anytime
+you want from OS-9 by typing DATE T at
+OS9: prompt.  If you just say DATE that
+is all you will get. You must say
+DATE T to get the date and the time...
+OS-9 has only a few commands already in
+memory.  All the rest of the commands
+that you can use from OS-9 are on your
+Master Disk.  Each time you give a
+command at the OS9: prompt the computer
+will check to see if the command is in
+memory and then it will go to the disk
+in drive 0 and check the /D0/CMDS 
+directory to see if the command is in
+there.  You must remember to type the
+command in correctly (SPELLING) or it
+won't be found when the computer goes
+to the /D0/CMDS directory looking for it.
+OS-9 can be a bit slow as it has to go
+to the /D0/CMDS directory each time you
+type a command at the OS-9 prompt but
+you can speed this up a bit by loading
+some of the commands that you will use
+the most in OS-9. So you could type:
+<div class="highlight"><pre><span></span><code>OS9:load dir list del attr copy
+</code></pre></div>
+You will now have the commands <code>dir</code>,
+<code>list</code>, <code>del</code>,
+<code>attr</code>, <code>copy</code> all in memory and
+they are ready for quick access. The
+drawback is that they are taking up
+memory that you might need later. The
+only way around this right now is to
+either set your drives to run at a new
+faster step rate (another tutorial) or
+to get a Hard Disk Drive for use with
+your OS-9.  Radio Shack had OS-9 coded
+to run the disk drives at 30 MS. track
+to track and to format the disk as 35
+tracks.  Both of these can be changed
+with a little knowledge of OS-9 or by
+buying some commercial software that
+will make the changes in OS-9 for you.
+Another way to speed up OS-9 is to add
+a 256K Ram Disk to your CoCo.  With the
+256K Ram board installed and the right
+software added to OS-9 the extra memory
+will act like a <em>very</em> fast 40 track
+disk drive.</p>
+<p>OS-9 always has 2 directories that it
+keeps track of. One is the DATA and the
+other is the EXECUTION directory.  When
+you type a command OS-9 will check the
+current EXECUTION directory which is
+/D0/CMDS at startup for the command you
+just typed in.  When you go to do a
+list, dir, del, rename, etc... OS-9 is
+going to do to the current DATA
+directory and look for your file there.
+The current DATA directory at startup
+is /D0.
+So if you just type DIR, OS-9 will go
+and assume you meant DIR /D0. If you
+wish to get a directory of say the
+DEFS directory you must give OS-9 the
+whole pathlist (NAME) to the directory.
+In this case you would type:
+DIR /D0/DEFS and OS-9 will know which
+directory you are talking about.
+So how do you know what is a command?
+Or what is a data file? Or what is a
+directory?  You can get this information by
+typing:
+DIR E /D0
+and OS-9 will give you a directory
+of everything that is in the /D0
+directory with exact information on each entry
+in that directory.  You will get the
+date and time the entry was put on the
+disk and the user number (0 which means
+you), the entry's name, the attributes
+of the entry and the size of the entry
+in hexadecimal.
+It is the attributes of an entry that
+we will want to check. They list across
+like this:
+<div class="highlight"><pre><span></span><code>     DSPPPERW
+       EWR
+     --------
+</code></pre></div>
+That is 8 slots that can have a letter
+in it.  If the <code>dir e</code> command shows this
+on a line
+<div class="highlight"><pre><span></span><code>     D--RW-RW
+</code></pre></div>
+It would mean that it is a directory
+and that you and any timesharing users
+you had on your system could read and
+write to that directory...
+If the entry gives this back:
+<div class="highlight"><pre><span></span><code>     --E--ERW
+</code></pre></div>
+It would mean that it is a command that
+can be used by you and your timesharing
+users and that you have the right to
+say copy that file, rename that file or
+delete that file.  The timesharing user
+would only be able to execute the file.</p>
+<p>If you don't want to do a <code>dir e</code> on a
+whole disk than you can get the information
+you need on a single entry by typing:
+<div class="highlight"><pre><span></span><code>ATTR /D0/startup
+</code></pre></div>
+this will printout the attributes in
+the same manner as the <code>dir e</code> command
+did, but you now have the option of
+changing the attributes of a file on
+the disk.
+We'll use the /D0/startup file for an
+example. say the ATTR /D0/startup
+prints this
+<div class="highlight"><pre><span></span><code>    ------rw
+</code></pre></div>
+This means that the file can be read
+and written to.  But say you don't want
+to accidently delete or rename the file
+in the future?  You can type:
+<div class="highlight"><pre><span></span><code>ATTR /D0/startup -w
+</code></pre></div>
+and the write ability to that file will
+be taken away.  If you tried to delete
+that file now you would get an error
+message.  You can use this <code>attr</code> command
+to change the attributes on all your
+important files so that they will not
+be deleted by accident in the future.
+This is kind of like having a write
+protect tab on your disk like in Disk
+Basic.  But you can protect single files
+on the disk.  Or even lock out a DATA
+directory from having files written or
+deleted from it.</p>
+<p>When I told you that OS-9 will check
+to see if a command is in memory and
+then check for it in the EXECUTION
+directory I left out a final thing that
+it does.  It will go to the DATA 
+directory and check to see if there is
+a DATA file there with the same name as
+what you typed in at the OS-9 prompt.
+You can check this out yourself. LIST
+the file startup like this:
+<div class="highlight"><pre><span></span><code>list /D0/startup
+</code></pre></div>
+You will see this:
+<div class="highlight"><pre><span></span><code>setime &lt;term
+</code></pre></div>
+it looks like a command right?  Well it
+is what OS-9 calls a procedure file.
+OS-9 will take the command you type in
+and first check to see if it is in 
+memory, if that fails it will go to the
+EXECUTION directory and see if the
+command is there, if that fails it will
+go to the DATA directory and see if
+there is a procedure file there with
+the name you typed in.  If there is it
+will read one line at a time from that
+file and treat it like you were typing
+in the lines from the keyboard.  If
+you want to try this, just type startup
+at any OS-9 prompt and the system will
+ask you again for the DATE and TIME to
+use on the system.
+You can build a procedure file of your
+own that does a little more than the
+startup file does. <em>Do this</em> at the OS-9
+prompt:
+<div class="highlight"><pre><span></span><code>OS9:build /d0/myfile
+</code></pre></div>
+you will then see a (?)
+at each (?) type these lines
+<div class="highlight"><pre><span></span><code>? dir /d0
+? dir /d0/cmds
+? mfree
+? free
+? (enter)
+</code></pre></div>
+You will now have a data file on /D0
+called myfile.  If you were to type
+myfile at an OS-9 prompt you will then
+see a DIR of /D0 and then a DIR of
+/D0/CMDS and then you will get a mfree
+(memory free), and finally you will get
+a free (free disk space) all listed to
+your screen one at a time.  OS-9 did
+all the commands in the data file as if
+you just typed them in at the keyboard.
+Not bad huh?</p>
+<p>Now the next important thing to worry
+about with OS-9 is how does it keep
+tabs on free space in memory and on the
+disks?  Memory in the computer is
+split up in blocks of 256 bytes.  If 
+you do a <code>mfree</code> you will get back about
+159 to 162 blocks of memory.  If you
+know that 4 blocks of 256 bytes makes
+one K (kilobyte) then you know you have
+about 40K free in memory for your
+programs and commands.  This same idea
+is carried over to the disk drive.  All
+writes to the disk are done in blocks
+of 256 bytes or 1 sector.  A newly
+formatted disk will have about 630
+sectors on it.  But 10 of these sectors
+are taken away for use as directory
+pointers.  As OS-9 only writes out to 
+the disk in blocks of 256 bytes you will
+be able to get more information on an OS-9
+disk than a Radio Shack DOS disk which
+stores data to the disk in blocks of
+9 sectors (9*256=2304 bytes).  Write 1
+character to an OS-9 disk and you lose 1
+sector.  Write 1 character to a RS DOS disk
+and you lose 9 sectors!!!</p>
+<p>Now do a dir /D0/CMDS and you will see
+quite a long list of commands that are
+available to you.  Don't worry about all
+those titles because as you learn OS-9
+you will become familiar with all of
+them and probably not use all of them.
+The nice thing about OS-9 that was so
+different from RS Disk Basic was that
+it is so easy to add <em>more</em> commands to
+OS-9 than it was to add commands to the
+RS DOS.  If you know 6809 machine
+language you might even write some
+commands that you will find useful and
+might want to sell or trade with other
+OS-9 users.  If you aren't all that
+familiar with machine language then you
+can buy some new commands for OS-9 from
+companies like Frank Hogg or from
+Computerware or D.P. Johnson.  These
+are commands that are so easy to
+install on your OS-9 disk!  All you
+need to do is copy them to your
+EXECUTION directory which is usually
+the /D0/CMDS directory.  They are then
+available for your use.  No worry on
+your part as to will they work with
+your OS-9!  Some of these programs
+are actual commands that you call from
+OS-9 and other programs are what are
+called <em>filters</em> that you pipe data through
+under OS-9.</p>
+<p>And now one final thing to cover on
+OS-9 before I end this lesson.  Is
+there a difference between upper and lower
+case when you type in commands?  The
+answer is no... no... no...
+If you type in DIR /D0 or dir /d0 they
+will both act correctly... if you type
+LIST /D0/STARTUP or list /d0/startup
+they will both work correctly.  OS-9
+doesn't care about the case of the
+commands you type in.  But here is a
+standard that you might wish to keep to
+so that what is on your disk are a bit
+easier to understand.  It is felt that
+if you keep all directory names in
+capital letters and all data/command
+files in lower case you will have a
+better idea of what is on your disk
+when you use the <code>dir</code> command.  I find
+this a useful tip and try to follow it
+strictly when I work with OS-9.</p>
+<p>The next lesson in the tutorial series
+will be on nested directories and on
+pipe and filters and how they are most
+useful under OS-9.</p>
+<h2 id="lesson-2">Lesson 2<a class="headerlink" href="#lesson-2" title="Permanent link">&para;</a></h2>
+<p>OK, glad to see that you are back for
+lesson #2.  I'll cover the way the OS-9
+has multiple directories and how each
+directory can have directories within
+that.  What is this good for and how can
+you use this on your OS-9 system? Well,
+first it makes it very easy to put your
+files on your disks in a manner that
+will make it easy for you to find those
+files again in the future...
+Let's take a blank disk and format it.
+If you have one drive do this:
+<div class="highlight"><pre><span></span><code>OS9:load format dir makdir build free
+</code></pre></div>
+take your Master Disk out of drive 0
+and put in a blank disk. Now at the OS9
+prompt you type format /d0.  You will
+be asked if you really want to format
+the disk in drive 0?  Type Y for yes.
+When the format is done you will be
+asked for a name to put on the disk.
+Each disk you format under OS-9 will
+have a NAME on the disk.  For the time
+being we'll call this disk JUNK DISK.
+OS-9 will check the disk to be sure all
+the sectors are good and if not OS-9
+will lock out the bad sectors from the
+directory.  This means that you could
+use a scratched disk that you were not
+able to format under RS DOS... But you
+should beware of doing this if you
+intend to put anything <em>really</em>
+important on this disk.
+Now that the format is done at
+the OS-9 prompt. Type:
+<div class="highlight"><pre><span></span><code>OS9:free /d0.
+</code></pre></div>
+This will check the disk you just did
+the format on in drive 0 and it will
+tell you the name of the disk... how many
+total sectors there are on the disk and
+how many of those sectors are available
+for you to store data in.  OS-9 is set
+up for a 35 track system with 18 sectors
+per track. This gives you 630 sectors
+total on the disk and OS-9 will take 10
+of those sectors for its Directory
+information.  If you do not see 620
+sectors free for use than the disk had
+some bad sectors on it and you might
+not want to put anything important on
+this disk.  But for now we will just
+experiment with the disk.
+at the OS9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:makdir /d0/LETTERS
+OS9:makdir /d0/BILLS
+OS9:makdir /d0/LETTERS/FROM.JOE
+OS9:makdir /d0/LETTERS/FROM.SUE
+OS9:makdir /d0/LETTERS/FROM.TOM
+OS9:makdir /d0/BILLS/PHONE
+OS9:makdir /d0/BILLS/GAS
+OS9:makdir /d0/BILLS/FOOD
+OS9:chd /d0
+OS9:dir /d0
+</code></pre></div>
+....You will see that the <code>dir</code> returns
+LETTERS    BILLS
+as what is on the disk in drive 0
+But you made 6 directories... so where
+are the other ones?  Try this:
+<div class="highlight"><pre><span></span><code>OS9:dir /d0/BILLS
+PHONE     GAS     FOOD
+</code></pre></div>
+is what you will get.  See how you can
+cluster important stuff in directories
+so that it has a logical flow and you
+can work your way down through the levels
+of the directories to get the information you
+want????
+Try this:
+<div class="highlight"><pre><span></span><code>OS9:dir /d0/LETTERS
+FROM.JOE   FROM.SUE   FROM.TOM
+</code></pre></div>
+is what you get... in a real life
+situation... say the business world you
+could then do this:
+<div class="highlight"><pre><span></span><code>OS9:dir   /d0/LETTERS/FROM.TOM
+</code></pre></div>
+and you would see the letters you stored
+from someone called TOM... A very neat,
+logical way to store and retrieve data
+from your disk.  When you get into
+owning double sided disks for storage
+or even a Hard Disk drive for storage
+you will see how this makes it easier
+to get to your information.  Imagine
+having a Hard Disk under RS DOS?  A Dir
+of that drive might return a directory
+listing some 100-500 lines long... It
+would be a real pain to read all those
+titles and try to find the file you
+wanted to del or copy or rename...</p>
+<p>If you have a two drive OS-9 system
+then you can go through this exercize too
+by just putting the disk you wish to
+format in drive /d1 and changing all
+the makedir and dir statements I gave
+so they say /d1 instead of /d0.</p>
+<p>Now in the prior example I showed you
+the command chd... what is this?  Well
+OS-9 has two commands built into it and
+you can call them to tell OS-9 that you
+are changing your DATA directory or your
+EXECUTION directory.  Now this is very
+important to remember!!!  If you take
+the Master Disk out of drive /d0 and
+put in a new Master Disk that say has
+more commands in its /D0/CMDS directory
+you <em>must</em> tell OS-9 that you did
+this... you do this by:
+<div class="highlight"><pre><span></span><code>OS9:chx /d0/cmds
+OS9:chd /d0
+</code></pre></div>
+OS-9 will then check this disk so it
+will know where the DATA directory is
+on the disk and where the EXECUTION
+directory is on the disk.  It will <em>not</em>
+always be in the same spot on each disk.
+You might be used to RS DOS where the
+directory was <em>always</em> on track 17,
+but this is not true under OS-9.  OS-9
+must always know where these two 
+directories are before it will do a
+read/write for that disk.
+Another benefit of the chd and chx
+command are to save you some typing.
+So if you are not a quick or accurate
+typist these commands are a real boon
+to you.  Take the example above where
+we had directories within directories.
+If you wished to copy files or delete
+files or build files in the
+/d0/letters/from.joe directory you would
+think you would have to type that long
+line each time.  You could for your own
+piece of mind but there is a shortcut
+to all that typing... do this:
+<div class="highlight"><pre><span></span><code>OS9:chd /d0/letters/from.joe
+</code></pre></div>
+If you do a dir now you will see that
+there are <em>no</em> files in the directory
+you are in...
+You could build a file in this new
+DATA directory by typing
+<div class="highlight"><pre><span></span><code>OS9:build /d0/letters/from.joe/june.1st
+</code></pre></div>
+or you could just say:
+<div class="highlight"><pre><span></span><code>OS9:build june.1st
+</code></pre></div>
+as you used the chd command earlier OS-9
+knows to add that whole string of characters
+in front of june.1st to make the whole
+pathlist to where you wish to build a
+file.  You see that there is less chance
+of a typing error in this shorthand
+method rather than typing out that long
+string of characters each time....</p>
+<p>When you go to makdir or build something
+on the disk you have to keep in mind
+that OS-9 expects titles of directories
+and files to obey certain rules.  The
+names of these files/directories <em>must</em>
+begin with a letter(upper/lower case)
+and may have no spaces in the title.
+If you wanted to build a file called:
+a letter from my buddy
+You would need to type it in as:
+a.letter.from.my.buddy
+for OS-9 to accept it... you could have
+even typed it in as:
+aletterfrommybuddy
+But this is a bit harder to read...
+Another character you can use to separate
+words for easier reading is the left
+arrow sign... this can be made by typing
+the clear key/minus sign together...
+depending on the type screen you are
+reading OS-9 on you will see a left
+arrow or an underline.  They are both
+the same ascii character.  But the character. rom
+on the CoCo was setup for the left
+arrow sign.  This clear key/minus key
+is a bit hard to remember and harder
+yet to type so I use the period(.) to
+separate my words in my titles and
+directories.
+File names and directories can be up to
+29 characters long... You can have numbers
+mixed into this but the first characters of
+each file/directory <em>must</em> be a letter!
+so these names are perfectly legal:
+<div class="highlight"><pre><span></span><code>   number11111111    jan281985
+   q1234567890       a2gggg8888cccc9999
+</code></pre></div>
+NO SPECIAL CHARACTERS MAY BE USED IN A FILE
+NAME OR A DIRECTORY NAME!!!  This means
+no !@#$%^&amp;*+="'- are allowed in any
+title.  Some of these characters are used by
+OS-9 to perform other useful functions
+that will be covered in a future lesson.</p>
+<p>OS-9 has the ability to take information
+and pass it through a pipe into a filter to
+change the information in some manner before
+showing it on your screen or your
+printer.  The command for a pipe is the
+exclamation point(!).  A filter can be
+thought of as a program that will take
+data in and do something with it before
+passing some data out.  The ONLY filter
+that you have with your original OS-9
+is the filter called TEE.  If you were
+to do this:
+<div class="highlight"><pre><span></span><code>OS9:list startup ! tee /d0/f1 /d0/f2
+</code></pre></div>
+it would list the data in the file
+called startup through the pipe (!) into
+the filter TEE... this program would then
+send the data out to two files that
+are called /d0/f1 /d0/f2 and you would
+have two perfect copies of the file
+startup called f1 and f2... You could
+have done this same thing by typing:
+<div class="highlight"><pre><span></span><code>OS9:copy /d0/startup /d0/f1
+OS9:copy /d0/startup /d0/f2
+</code></pre></div>
+TEE will take any data that is piped 
+into it and send it to the list of
+devices or files that are printed after
+the tee command and separated by spaces.
+so a line like this:
+<div class="highlight"><pre><span></span><code>OS9:dir /d0 ! TEE /d0/stuff /p /d0/s2
+</code></pre></div>
+will send a directory of /d0 to your
+screen, a file called /d0/stuff, to the
+printer, and to a file called /d0/s2.
+This is a way to get some data to a lot
+of different places all at about the
+same time.  There are other filters you
+can buy that will do the following:
+<div class="highlight"><pre><span></span><code>OS9:list startup ! upper
+</code></pre></div>
+this will take any data in a file
+called startup and send it through the
+filter called upper... upper will take
+ALL lower case letters and change them
+to upper case before passing that information
+on...
+<div class="highlight"><pre><span></span><code>OS9:list startup ! wc
+</code></pre></div>
+This command will list the file startup
+through the pipe into the filter wc which
+will count the # of lines, characters, and
+words in the file which <code>wc</code> will then
+print out to your screen. Imagine
+doing that by hand?
+There are a <em>lot of filters</em> that you can
+buy. Check the Official OS-9 Tour
+Guide out for a list of the filters you
+can buy and who sells them.</p>
+<p>A piece of advice now. If you think you
+are going to get into OS-9 you should
+consider getting a 2nd disk drive if
+you now only have 1 drive. OS-9 can be
+run on a single drive CoCo but it is a
+real PAIN IN THE BUTT!!!  On a 2 drive
+system you can keep all your commands on
+drive /d0 and all your data on drive /d1
+and should speed along just fine and not
+worry about space being tight on your
+drives when you go to build files in
+the future.</p>
+<p>Until you become familiar with OS-9 and
+the way it gives error #'s instead of
+letter codes for the errors you make
+then do this:
+<div class="highlight"><pre><span></span><code>OS9:printerr
+</code></pre></div>
+this will then print the error # of any
+error you have and give you a short
+english(???) sentence of what was wrong.
+As you use OS-9 more you will find that
+you will likely get 4-6 error codes that
+tend to repeat a lot.  Most errors on
+OS-9 are caused by typing errors when
+entering directory names or file names.</p>
+<p>I hope I don't appear to be jumping
+about two much with these lessons but
+I am trying to tackle the problems of
+OS-9 in the same manner that I ran into
+them and am sure other new users are
+finding them.  So I give this final bit
+of advice... OS-9 comes with 3 books.
+a red(purple) one, a blue one and a
+yellow(orange)one.  Don't even look at
+the blue book yet.  It has machine language information in
+it that you <em>may never</em> use unless you
+get into machine language programming under OS-9.
+The red book will tell you all the
+commands available under OS-9 and a bit
+on how they work.  READ THIS BOOK OVER
+AND OVER AT LEAST 4 TIMES!!!  The yellow
+book has information on the text editor that
+comes with OS-9.  This is covered in
+the 1st half of the book... READ THIS
+VERRRRRY CLOSELY... IT GETS COMPLICATED
+but there  are a lot of examples...
+The 2nd half of the yellow manual also
+has some machine language information in it for doing
+assembly of machine language programs... If you are
+not going to get into machine language ever then you
+don't need to read this info.  Even
+though you have these 3 fine manuals, run
+to the nearest RS store and buy the
+Official OS-9 Tour Guide. It has more
+information than these 3 manuals and it is 
+written in a lot friendlier manner than
+these 3 manuals. It also gives better
+examples on how to use the commands
+available to you under OS-9 and give
+a history of OS-9 and why it is such a
+fine Operating System to run on your
+CoCo.</p>
+<p>Next lesson?  I will tell you the
+commands that you might never use and
+how to delete them to make more space
+on your Master Disk.</p>
+<h2 id="lesson-3">Lesson 3<a class="headerlink" href="#lesson-3" title="Permanent link">&para;</a></h2>
+<p>Below is a list of the commands that you
+may seldom use and therefore may delete
+from your EXECUTION directory which is
+/D0/CMDS...
+ NONE OF THESE COMMANDS SHOULD BE
+DELETED FROM YOUR ORIGINAL DISK... NEVER
+DELETE FILES/DIRECTORIES/COMMANDS FROM
+YOUR ORIGINAL OS-9 MASTER DISK. ALWAYS
+MAKE THESE DELETIONS/CHANGES TO A BACKUP
+OF YOUR MASTER DISK</p>
+<p>To make a backup of your OS-9 Master
+disk do this:
+For a single drive system you must at
+the OS-9 prompt type this:
+<div class="highlight"><pre><span></span><code>OS9:load format free
+</code></pre></div>
+Take your OS-9 Master disk out of your
+drive /d0... put a blank disk in drive
+/d0... now at the OS-9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:format /d0
+</code></pre></div>
+When OS-9 asks if your really want to
+format the disk in drive /d0 respond
+Y for yes or R for ready... When the
+format is done OS-9 will ask you for a
+name to put on the disk.  You may give
+any name up to 32 characters.  The name at
+this point does not matter as when we
+backup the original Master disk to this
+disk... it will retain the name of the
+original Master disk.  So you can just
+call the disk NEW.
+When the format is done and the verify
+pass is done the OS-9 prompt will return
+At this point you want to type:
+<div class="highlight"><pre><span></span><code>OS9:free /d0
+</code></pre></div>
+If the free does not say...630 sectors
+total on the disk... and 620 available
+for use... Do not use this disk to do a
+backup onto... it will not work!!!
+Take the newly formatted disk out of 
+drive /d0 and put your original Master
+disk back in drive /d0.  At the OS-9
+prompt you will type:
+<div class="highlight"><pre><span></span><code>OS9:unlink format free
+</code></pre></div>
+This will take the two commands out of
+memory and give you more memory to work
+with when you go to do your backup.
+At the OS-9 prompt you will type:
+<div class="highlight"><pre><span></span><code>OS9:load backup
+</code></pre></div>
+Take your original Master disk out of
+drive /d0 and put your newly formatted
+disk in drive /d0...
+at the OS-9 prompt you type:
+<div class="highlight"><pre><span></span><code>OS9:backup s /d0 #32k
+</code></pre></div>
+OS-9 will ask you if you are ready to
+backup from /d0 to /d0... You type Y for
+yes.  OS-9 will now say ready the
+destination disk... you already have it
+in the drive.  Hit any key to continue
+... OS-9 will list the name that was on
+the disk and ask if it ok to write over
+this disk... type Y for yes... OS-9 will
+then say ready SOURCE disk hit a key...
+Put your OS-9 Master disk back in drive
+/d0 and hit any key... When OS-9 says to
+ready the DESTINATION disk... Take your
+Master disk out of drive /d0 and put the
+newly formatted disk in drive /d0... hit
+any key to continue... OS-9 will repeat
+this prompting till the whole original
+disk is copied exactly over to the new
+disk...</p>
+<p>If the disk that you did
+the format on did not give you the whole
+630 sectors on the disk and 620 free for
+use  when you did the
+free /d0 on it... you may not backup to
+that disk... backup is a mirror copy of
+the original disk to the new disk... if
+there was a bad sector on he new disk
+the backup will not work... if there was
+a bad sector on the original disk the
+backup will not work... BOTH DISK MUST BE
+FREE OF ERRORS AND HAVE THE SAME NUMBER
+OF SECTORS ON THE DISK... A DISK WITH 80
+TRACKS CAN'T BE BACKED UP TO A DISK WITH
+40 TRACKS... A DOUBLE SIDED DISK CAN'T BE
+BACKED UP TO A SINGLE SIDED DISK... A
+HARD DISK CAN'T BE BACKED UP TO A FLOPPY
+DISK... OS-9 WILL CHECK TO SEE WHAT SIZE
+THE DISK IS THAT YOU ARE BACKING UP FROM
+AND TO... IT WILL ABORT THE BACKUP IF
+THEY ARE NOT THE SAME TYPE/SIZE...</p>
+<p>WHEN THE BACKUP IS DONE DO THIS:
+Put your original Master disk away. You
+can leave the new Master disk in drive
+/d0... but you must let OS-9 know that
+there is a new disk in the drive...
+so at the OS-9 prompt you will type:
+<div class="highlight"><pre><span></span><code>OS9:chd /d0
+OS9:chx /d0/cmds
+</code></pre></div>
+OS-9 is now ready to continue... and we
+can now delete some seldom used commands
+and gain some disk space back for our
+own files...
+To delete these commands you will type:
+<div class="highlight"><pre><span></span><code>OS9:del /d0/cmds/command.name
+</code></pre></div>
+Where command name is the names of each
+command you are deleting...</p>
+<p>binex
+              exbin
+- </p>
+<p>These two commands are
+for turning a binary file into a text
+file and vice/versa. I have never used
+these two commands to date. While they
+might be useful, I am not sure who
+they are useful to?</p>
+<h2 id="cmp">cmp<a class="headerlink" href="#cmp" title="Permanent link">&para;</a></h2>
+<p>This is for comparing two text
+files together and listing where (with
+an offset) the differences are. I find
+it easier/quicker/more reliable to just
+list the two files to my screen and look
+for the differences...</p>
+<h2 id="cobbler">cobbler<a class="headerlink" href="#cobbler" title="Permanent link">&para;</a></h2>
+<p>This is only used for making a
+new os9boot file on your master disk.
+You won't need to use this command till
+later lessons to make a new boot disk.
+So you can delete it from the /D0/CMDS
+directory for now.</p>
+<h2 id="dcheck">dcheck<a class="headerlink" href="#dcheck" title="Permanent link">&para;</a></h2>
+<p>This command does a total
+search of the disk it is called to check
+and will report if any files on the disk
+have been destroyed in some manner. You
+will only need to use this command on
+a disk that is used a lot and is almost
+full. If you ever try to use a command
+or file and get an error, try the ATTR
+command on the file/command to see if
+you have permission to use the file or
+command. If the ATTR says you do and 
+you still can't get to the file/command
+then I would use the dcheck on the disk
+to see if the disk was damaged in some
+manner.  Dcheck is very powerful but it
+will usually be the case that when you
+need to use it is when the sh*t has
+already hit the fan and some of the
+files on your disk have been damaged in
+some manner.  For this reason you may
+want to feel safe and keep this command
+in your /D0/CMDS directory.</p>
+<h2 id="display">display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h2>
+<p>If you don't have a printer
+hooked up to your OS-9 system than you
+probably won't need the display command.
+It is meant for sending some series of
+hex codes to a device... if you do this:
+<div class="highlight"><pre><span></span><code>OS9:display 0c
+</code></pre></div>
+the screen will clear... this is sending
+a control-l to the screen... if you did
+this:
+<div class="highlight"><pre><span></span><code>OS9:display 0c &gt;/p 
+</code></pre></div>
+it will send a control-L to your printer
+which in most cases will do a form feed
+on your printer.  If you have a decent
+printer you may use the display command
+with the (&gt;) redirect sign to send hex
+codes to your printer for setting it for
+double strike, emphasized, underline,
+and any other special features your
+printer might support. As far as being
+able to send all the codes from 0 to 255
+to your screen?  I haven't found much
+use for this. I have only used the
+display Oc to clear the screen so far.</p>
+<h2 id="kill">kill<a class="headerlink" href="#kill" title="Permanent link">&para;</a></h2>
+<p>This command is only used to kill
+off some multi-process command that you
+may have started up to run in the
+background... if you did this:
+<div class="highlight"><pre><span></span><code>OS9:dir e /d0/cmds &gt;/p&amp;
+</code></pre></div>
+OS-9 will do a dir e of your EXECUTION
+directory and send it to the printer.
+The OS-9 prompt will return and the list
+will continue in the background. If you
+did a procs e command at this point you
+will see that there is a process 3 or 4
+or 5 running in the background and it is
+called list.  To stop the list from
+continuing..you would have to type:
+<div class="highlight"><pre><span></span><code>OS9:kill 3
+</code></pre></div>
+or
+<div class="highlight"><pre><span></span><code>OS9:kill 4
+</code></pre></div>
+or whatever the process # is that you
+wish to stop... You won't be doing a lot
+of multi-processing while you learn
+OS-9 so you should not need this command
+in your /D0/CMDS right now...</p>
+<h2 id="link">link<a class="headerlink" href="#link" title="Permanent link">&para;</a></h2>
+<p>This one is hard to explain right
+now... let's just say that when you do
+a load command... the computer does a
+link for you... so this command should
+not be really necessary for now. If you
+do a mdir e and see that a commands link
+count is say 3 or 4... then you would
+have to unlink the command 3 or 4 times
+to get it <em>out</em> of memory!!!</p>
+<h2 id="login">login<a class="headerlink" href="#login" title="Permanent link">&para;</a></h2>
+<p>This is only needed if you are
+going to hook up your OS-9 system so 
+that outside people can link into your
+CoCo and use the computer at the same
+time you are using it... When you delete
+this command you may also delete the 2
+files in the /d0/sys directory called
+/d0/sys/motd and /d0/sys/password...</p>
+<h2 id="merge">merge<a class="headerlink" href="#merge" title="Permanent link">&para;</a></h2>
+<p>This is used for putting two
+data files into a single data file with
+a new name... this can also be done with
+the list command like this:
+<div class="highlight"><pre><span></span><code>OS9:list data1 data2 &gt;/data3
+</code></pre></div>
+so the merge command is not needed right
+now...</p>
+<h2 id="os9gen">os9gen<a class="headerlink" href="#os9gen" title="Permanent link">&para;</a></h2>
+<p>This command is used for making
+a new boot disk... the new boot disk
+might have more/less commands that it
+will load into memory when it starts up.
+For the time being you won't need this
+command until the next lesson where I
+will try to teach you how to make a new
+and better boot disk...</p>
+<h2 id="printerr">printerr<a class="headerlink" href="#printerr" title="Permanent link">&para;</a></h2>
+<p>When you are first learning
+OS-9 you will find this command most
+useful... when you start to learn the
+error numbers by heart you will be able
+to delete this command.  You can also
+delete the /d0/sys/errmsg file also.</p>
+<h2 id="procs">procs<a class="headerlink" href="#procs" title="Permanent link">&para;</a></h2>
+<p>You will only need this command
+if you do multi-processing... it will
+show you what is running in the computer
+and who is running it and how much of a
+priority it has... for now you will not
+use this command often.</p>
+<h2 id="setpr">setpr<a class="headerlink" href="#setpr" title="Permanent link">&para;</a></h2>
+<p>This is for resetting the
+priority of a multi-process that you
+have running in the background... you
+won't need this command until you get
+into multi-process running.</p>
+<h2 id="sleep">sleep<a class="headerlink" href="#sleep" title="Permanent link">&para;</a></h2>
+<p>This is for making a process
+stop doing what it was doing for a set
+period of time... I have never used this
+command... if used wrong it will seem
+like you locked up your computer as it
+counts down its sleep time.</p>
+<h2 id="tsmon">tsmon<a class="headerlink" href="#tsmon" title="Permanent link">&para;</a></h2>
+<p>This command is used to make
+OS-9 scan the built in rs232 port for
+a carrier ready signal... it is used to
+set the computer up for another caller
+usually calling over a phone line... it
+is the basics of setting your OS-9
+system up as a bbs.</p>
+<p>Read over the commands in your red OS-9
+book and decide for yourself how often
+you might use the commands listed above.
+If you think you will not need the
+commands often then delete them on your
+backup master disk. This will give you
+more space to store your own files on
+that disk, and if you are working with
+as single drive system then this is
+<em>very</em> important...
+You may also delete the asm command from
+your /d0/cmds directory if you <em>never</em>
+intend to do any machine language work... If you do
+delete the /d0/cmds/asm command then you
+can also get rid of the data files in
+the defs directory that the asm
+command works with. Do this by typing:
+<div class="highlight"><pre><span></span><code>OS9:deldir /d0/defs
+</code></pre></div>
+OS-9 will than say deleting a directory
+and offer you a list, delete or quit
+option... if you choose to list... it will
+show you what is in the directory that
+you wish to delete... if you choose to
+delete the directory... you will not be
+prompted again unless there is another
+directory found in the directory...
+This command will take a bit of time to
+get rid of the directory /d0/defs...
+but it will clear up a LOTTTTTTT of
+space for your own use....</p>
+<p>OK, I saved you a bit of disk space now
+let me save you a bit of a headache!!!
+Radio Shack now has two versions of the
+OS-9 operating system.  These are the
+1.00.00 and the 1.01.00 versions.  The
+1.01.00 has some new stuff added to it
+but it is basicly the same as 1.00.00
+It is not exactly the same... close but
+not exact.  For this reason if you see
+any articles in say Rainbow mag that say
+you can change your OS-9 to have 6 ms.
+step rates on your drives or 40 tracks
+on your disk... you should be <em>very</em>
+careful that the instructions refer to
+your version of OS-9. Some of the early
+articles in Rainbow refer to making
+changes to OS-9 1.00.00... The most
+recent articles in Rainbow will usually
+say that these patches are for 1.00.00
+or 1.01.00... With Radio Shack getting
+ready to come out with OS-9 2.00.00 it
+is very important you know what OS-9
+you have when you read any articles that
+say how to change your OS-9 to add some
+new features to it.</p>
+<p>If you have the original OS-9 1.00.00
+then you can get the OS-9 upgrade from
+Radio Shack to 1.01.00 for about $15.
+The upgrade to OS-9 2.00.00 will cost
+about $25.  These upgrades are only
+available to original owners of OS-9
+1.00.00 or 1.01.00.</p>
+<p>Let's talk about the devices that are
+available for you to use under OS-9.</p>
+<h2 id="p">/p<a class="headerlink" href="#p" title="Permanent link">&para;</a></h2>
+<p>this is for your serial printer</p>
+<h2 id="t1">/t1<a class="headerlink" href="#t1" title="Permanent link">&para;</a></h2>
+<p>this is for the built in RS232 port</p>
+<h2 id="t2">/t2<a class="headerlink" href="#t2" title="Permanent link">&para;</a></h2>
+<p>this is for the RS232 cartridge</p>
+<h2 id="d0">/d0<a class="headerlink" href="#d0" title="Permanent link">&para;</a></h2>
+<p>this is drive 0</p>
+<h2 id="d1">/d1<a class="headerlink" href="#d1" title="Permanent link">&para;</a></h2>
+<p>this is drive 1</p>
+<h2 id="d2">/d2<a class="headerlink" href="#d2" title="Permanent link">&para;</a></h2>
+<p>this is drive 2</p>
+<h2 id="d3">/d3<a class="headerlink" href="#d3" title="Permanent link">&para;</a></h2>
+<p>this is drive 3</p>
+<h2 id="term">/term<a class="headerlink" href="#term" title="Permanent link">&para;</a></h2>
+<p>this is for your keyboard and video screen</p>
+<p>On my system I have a /H0 and /R0 which
+tell the OS-9 that I have a hard disk
+drive and a ram disk drive.  If you
+are good at machine language you can write your own
+code to add your own hardware onto your
+OS-9 system.  I understand that OS-9
+2.00.00 has a device called /ssp and it
+is for the Radio Shack Speech Sound Pak
+and will let you send a text file through
+it and it will speak the file out.
+So you could do this:
+<div class="highlight"><pre><span></span><code>OS9:dir /d0 &gt;/ssp
+</code></pre></div>
+and you would hear your directory. This
+could be very useful for anyone with
+impaired sight.
+While I have been talking about how you
+can add devices to your OS-9 system I
+also need to say that you can delete
+devices from your system also.  This
+will free up ram for other programs you
+might wish to run.  In OS-9 2.00.00 you
+can usually get rid of /d2, /d3 and the
+/t2 drivers. Most people don't have
+the drive 2 and 3 and don't have the
+Radio Shack RS232 pak so why keep these
+modules in memory wasting space?
+So you can delete them and save some space
+that is badly need in the 64K CoCo.
+How do you do this?  We'll cover that
+in our next lesson; Making a new boot
+disk.</p>
+<h2 id="lesson-4">Lesson 4<a class="headerlink" href="#lesson-4" title="Permanent link">&para;</a></h2>
+<p>Today we are going to make a new OS-9
+boot disk. we can do this several
+different ways. First type this:
+<div class="highlight"><pre><span></span><code>OS9:mdir
+</code></pre></div>
+this will show you all the programs and
+descriptors that are in memory... you
+should see something like this:
+<div class="highlight"><pre><span></span><code>OS9     OS9P2     INIT
+BOOT    CCDISK    D0
+D1      D2        D3
+CCIO    TERM      IOMAN
+RBF     SCF       SYSGO
+CLOCK   SHELL     RS232
+T1      PRINTER   P
+PIPEMAN PIPER     PIPE
+</code></pre></div>
+These are all modules that are loaded
+into memory from the OS9boot file and
+you can change the OS9boot file so that
+it will load in more or less of these
+modules at boot time.  For now we will
+just make a new boot disk that will load
+in all of the above modules exactly the
+same way.  We can do this one of two
+ways... First let's format a new disk
+and we'll put our new OS9boot on it. At
+the OS-9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:load format free
+</code></pre></div>
+take your OS-9 master disk out of drive
+/d0, and install a blank disk in /d0
+now at the OS-9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:format /d0
+</code></pre></div>
+when OS-9 asks if you are ready... type
+R for ready or Y for yes.  When OS-9
+asks you for a name to put on the disk
+give it the name NEW BOOT DISK.  When
+the format is done at the OS-9 prompt
+type:
+<div class="highlight"><pre><span></span><code>OS9:free /d0
+</code></pre></div>
+and you should get 630 sectors on the
+disk with 620 available for use.  This
+lets you know that the format was good
+with no bad sectors that needed to be
+locked out.  Take the new disk out of
+drive /d0 and put your OS-9 master disk
+back in.  Now type:
+<div class="highlight"><pre><span></span><code>OS9:load cobbler makdir save os9gen build echo
+</code></pre></div>
+You should now have the commands <code>format</code>,
+<code>free</code>, <code>cobbler</code>,
+<code>makdir</code>, <code>build</code>, <code>os9gen</code>,
+<code>save</code> and <code>echo</code> in your memory...
+Take your master disk out of drive /d0
+and put the new disk in.  Now at the
+OS-9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:cobbler /d0
+</code></pre></div>
+This will put the file OS9boot on the
+disk in drive /d0 and it will contain
+all the modules that were loaded into
+memory from the <em>last</em> boot.  To get all
+the other files/commands/directories
+over onto this new boot disk you need
+to be very patient because you will
+have to go through a lot of typing,
+copying and swapping.
+Essentially what you have to do is:
+Use the <code>makdir</code> command to make all the
+directories on this new disk that were
+on the old Master disk. So you will
+have to do this:
+<div class="highlight"><pre><span></span><code>OS9:makdir /d0/sys
+OS9:makdir /d0/cmds
+OS9:makdir /d0/defs
+</code></pre></div>
+Then you will need to use the <code>copy</code>
+command to move all the files/commands
+over from the old Master disk to this
+NEW Master disk.  We are talking about
+a <em>lot</em> of disk swapping here and you
+just might not be up to going through
+all this work.  Read on... there are 2
+easier ways to do this and I will let
+you decide which you like better.</p>
+<p>While <code>cobbler</code> will help us to make a new
+boot disk there is no flexibility to it
+and you are stuck with a mirror image
+of the modules from the last boot you
+did.  To give us total control of what
+goes in the <code>OS9boot</code> file we will need
+to use the <code>OS9gen</code> command.
+Leave the new boot disk in drive /d0 and
+format it again... then do the free on
+it to be sure the total sectors and free
+sectors works out to 630 and 620. We
+will now type:
+<div class="highlight"><pre><span></span><code>OS9:makdir /d0/modules
+OS9:save /d0/modules/ccdisk ccdisk
+OS9:save /d0/modules/d0 d0
+OS9:save /d0/modules/d1 d1
+</code></pre></div>
+if you only have a 2 drive system
+you can leave out the next two lines</p>
+<div class="highlight"><pre><span></span><code>OS9:save /d0/modules/d2 /d2
+OS9:save /d0/modules/d3 /d3
+
+OS9:save /d0/modules/ccio ccio
+OS9:save /d0/modules/term term
+OS9:save /d0/modules/ioman ioman
+OS9:save /d0/modules/rbf rbf
+OS9:save /d0/modules/scf scf
+OS9:save /d0/modules/sysgo sysgo
+OS9:save /d0/modules/clock clock
+OS9:save /d0/modules/shell shell
+</code></pre></div>
+<p>if you never intend to let an
+outside user link with your CoCo
+by an outside phone line then
+leave out the next 2 lines</p>
+<div class="highlight"><pre><span></span><code>OS9:save /d0/modules/rs232 rs232
+OS9:save /d0/modules/t1 t1
+</code></pre></div>
+<p>if you don't have a printer you may
+leave out the next two lines</p>
+<div class="highlight"><pre><span></span><code>OS9:save /d0/modules/printer printer
+OS9:save /d0/modules/p p
+
+OS9:save /d0/modules/pipeman pipeman
+OS9:save /d0/modules/piper piper
+OS9:save /d0/modules/pipe pipe
+</code></pre></div>
+<p>if you don't have the Radio Shack
+RS232 pak than you can leave out the
+next two lines</p>
+<div class="highlight"><pre><span></span><code>OS9:save /d0/modules/acia acia
+OS9:save /d0/modules/t2 t2
+</code></pre></div>
+<p>We have moved an image of the modules
+that are in memory over to the disk in
+drive /d0.  If you did not have a
+printer or did not have drives /d2 and
+/d3 then you did not save the listed
+modules over to the disk.  If you did
+not intend to have an outside user then
+you did not save rs232, t1, acia, and
+t2 over to the disk.</p>
+<p>We are now going to build a data file
+that is going to tell OS9gen what
+modules it is to put into the OS9boot
+file that we are going to put on this
+disk.  It is very important that the
+spellings you used in the <code>save</code> command
+are the same as the modules are spelled
+in memory... The new OS9boot we are
+going to make might not work if you
+spell any of the saved modules names
+wrong!
+OK, now at the OS-9 prompt you type:
+<div class="highlight"><pre><span></span><code>OS9:build /d0/bootlist
+</code></pre></div>
+You will then see a (?) for the prompt.
+at each (?) prompt type in the following
+lines... <em>without the (?) marks!!!</em>
+<div class="highlight"><pre><span></span><code>? ccdisk
+? d0
+? d1
+</code></pre></div>
+if you did not save <em>d2</em> and <em>d3</em> in the
+save operation leave the next two lines
+out!!!</p>
+<div class="highlight"><pre><span></span><code>? d2
+? d3
+? ccio
+? term
+? ioman
+? rbf
+? scf
+? sysgo
+? clock
+? shell
+</code></pre></div>
+<p>if you did not save <em>rs232</em> and <em>t1</em> in
+the save operation leave the next two
+lines out!!!</p>
+<div class="highlight"><pre><span></span><code>? rs232
+? t1
+</code></pre></div>
+<p>if you don't have a printer and left
+<em>printer</em> and <em>p</em> out of the save operation
+then leave the next two lines out!!!</p>
+<div class="highlight"><pre><span></span><code>? printer
+? p
+? pipeman
+? piper
+? pipe
+</code></pre></div>
+<p>if you did not save <em>acia</em> and <em>t2</em>
+in the save operation leave the next
+two lines out!!!</p>
+<p><div class="highlight"><pre><span></span><code>? acia
+? t2
+? (enter)
+</code></pre></div>
+We now have everything we need on the
+disk in drive /d0 to make <code>os9gen</code> put an
+<code>os9boot</code> file on that disk...
+At the OS-9 prompt type:
+<div class="highlight"><pre><span></span><code>OS9:chd /d0/modules
+OS9:os9gen /d0 &lt;/d0/bootlist
+</code></pre></div>
+You will then have a working <code>os9boot</code>
+file on the disk in drive /d0.  Now if
+you left out the <em>d2</em>, <em>d3</em>, <em>printer</em>, <em>p</em>,
+<em>rs232</em>, <em>t1</em>, <em>acia</em> and <em>t2</em> modules when you 
+did your <code>save</code> and when you built your 
+bootlist... those modules will not be in 
+memory when you use this disk to do 
+your next boot... But don't
+boot with this disk yet. It has no
+command directory on it. You will need
+to copy all the data files and commands
+off your master disk to this disk by
+the same method explained in the start
+of this tutorial where I talk about the
+<code>cobbler</code> command.</p>
+<p>Now I also said earlier that there was
+2 other ways to make this boot disk and
+you have to decide if they suit your
+taste. The first way is to make the
+new <code>OS9boot</code> file with either <code>cobbler</code>
+or <code>os9gen</code> in the same way that I have
+already explained.  Now that the boot
+file is on that disk... Don't copy the
+whole Master disk over to this new disk!
+Instead only do this:
+<div class="highlight"><pre><span></span><code>OS9:makdir /d0/cmds
+</code></pre></div>
+Copy the commands <code>setime</code>,
+<code>dir</code>,
+<code>free</code> and <code>echo</code>
+over to the /d0/cmds directory on this
+new disk from /d0/cmds on the old disk.
+Use the <code>build</code> command to build a new
+startup file on this disk...
+<div class="highlight"><pre><span></span><code>OS9:build /d0/startup
+</code></pre></div>
+and enter these lines in the file:
+<div class="highlight"><pre><span></span><code>? setime &lt;/term
+? echo take the disk out of drive 0
+? echo and put your working disk in
+? echo drive 0... This is ONLY A BOOT
+? echo DISK!!!
+? (enter)
+</code></pre></div></p>
+<p>So now when you wish to BOOT OS9 you can use
+this disk.  After OS-9 boots ok you
+will take this disk out of /d0 and put
+in your Master disk.  Then type:
+<div class="highlight"><pre><span></span><code>OS9:chd /d0
+OS9:chx /d0/cmds
+</code></pre></div>
+and you will be up and running. This
+will be your working disk and the other
+disk will be used each time you wish to
+BOOT OS-9.</p>
+<p>Another way to make a new BOOT disk is
+to do this: Backup the old master disk
+to a newly formatted disk.  Leave this
+new disk in /d0.  Now type:
+<div class="highlight"><pre><span></span><code>OS9:chd /d0
+OS9:chx /d0/cmds
+</code></pre></div>
+This will let OS-9 know that you have changed disks.
+Use the <code>makdir</code> command to make a new
+directory called /d0/modules...
+Follow all the <code>save</code> commands listed
+earlier in this tutorial.  Use the
+<code>build</code> command to build a file called
+<code>/d0/bootlist</code>. Type in all the lines as
+listed earlier in this tutorial.
+When this is all done, you will use
+the <code>del</code> command to:</p>
+<p><div class="highlight"><pre><span></span><code>OS9:del /d0/os9boot
+</code></pre></div>
+at this point you will:</p>
+<p><div class="highlight"><pre><span></span><code>OS9:chd /d0/modules
+OS9:os9gen /d0 &lt;/d0/bootlist
+</code></pre></div>
+and your new BOOT file will go on this
+disk with more/less modules as you told
+it to put in the BOOT file.
+<em>Both</em> of these methods will give you a
+new BOOT disk but they both have their
+drawbacks.  The first method gives you
+a boot disk but with little else on it
+in the way of commands.  The 2nd way
+will give you a boot disk that has all
+your commands on it and all your
+working files.  But the 2nd way to make
+a new BOOT disk will not work 100% of
+the time.  When you go to <code>cobbler</code> or
+<code>os9gen</code> a new os9boot file on a new disk
+it will write that file out to track 34
+of that disk.  It <em>must</em> have an
+unbroken number of sectors on track 34
+to put this bootfile.  If you go to
+<code>cobbler</code> or <code>os9gen</code> on a disk that is
+pretty full the <code>cobbler</code> or <code>os9gen</code> might
+fail.  <em>if</em> you use <code>os9gen</code> to make a new
+os9boot file and it has <em>less</em> modules in
+it then before the 2nd method will work just
+fine.  <em>But</em> if the new os9boot file will
+have <em>more</em> modules in it then this 2nd
+method will not work 100% of the time.</p>
+<p>It is for this reason that I
+suggest you <code>os9gen</code> on a disk that only
+had the /d0/bootlist file on it and
+the /d0/modules directory on it.  You
+can then copy over to this new disk
+the few commands you think you will
+need and after you boot with this disk
+take it out of /d0 and put in the disk
+you intend to work with. A disk that
+has <em>all</em> the commands you know you
+will need!!!</p>
+<p>You might also want to add some commands
+to the os9boot file so that they will
+be in memory at bootup time.  Some very
+useful commands to have in memory all the
+time are <code>dir</code>, <code>build</code>,
+<code>del</code>, <code>mfree</code> and
+<code>free</code>.
+The only disadvantage of having these
+modules in the os9boot file is that once
+you boot and these modules are in memory
+all the unlink-ing in the world will <em>not</em>
+get them out of memory.  So you have to
+decide if you want them in memory that
+bad.  It should not cause too much of a
+memory problem if you have left out the
+<em>d2</em>, <em>d3</em>, <em>rs232</em>,
+<em>t1</em>, <em>acia</em>,
+<em>t2</em>, <em>printer</em>, and
+<em>p</em> modules.</p>
+<p>One of the advantages to making a
+tailored os9boot file is that it gets
+rid of modules that you were never going
+to use and cleans up some RAM for you to
+use also.  Not a lot of RAM but enough
+to make all this worthwile.  The most
+important thing to remember though when
+using the <code>os9gen</code> command is that you
+must move the modules from memory out
+to a directory where you will
+put all the modules you wish in the new
+os9boot file. Then you must build a
+data file with the names of all the
+modules you saved; change your data
+directory to the directory that has all
+the modules in it; then invoke the
+<code>os9gen</code> command telling it where to put
+the os9boot file and where it is to
+get the list of the modules  it is to
+put in the os9boot file.</p>
+<p>You may have noticed way back in the
+beginning that there were some modules
+in memory that were called:</p>
+<p>os9    os9p2   init   boot</p>
+<p>and we did not save them out to the
+/d0/modules directory and we did not put
+them in our bootlist.  You don't need
+to. OS-9 knows to put those 4 modules
+in each new os9boot file it makes. It is
+something you <em>should not try to do.</em></p>
+<p>Right about this time you may be saying
+to yourself that it sure is a pain to
+go about making a new boot disk?  Well
+on a single disk drive system it <em>is</em>.
+There is no getting around this.  If you
+had two disk drives you could have
+formatted the disk in drive /d1.  Then
+used the <code>cobbler</code> or <code>os9gen</code> command to
+put os9boot on that disk.  You could
+have then used the <code>dsave</code> command to
+move all the directories/files from
+/d0 over to /d1 and you would have
+saved a lot of time and typing.  So I
+now repeat that OS-9 will run on a 1
+drive system but it sure runs a lot
+better on a 2 drive system!</p>
+<p>You probably read this whole tutorial
+and said to yourself that you are
+<em>never</em> going to use cobbler or os9gen
+to make a new boot disk. Sounds like
+too much work.  Well after reading this
+all over I tend to agree with you.  I
+had OS-9 for about 1 year before I got
+around to using os9gen to make a
+tailored os9boot file.  Why did I use
+it?  I saw some fine articles in
+Rainbow magazine telling how to make my
+disk drives run at 6ms. under OS-9 and
+how to make OS-9 use the full 40 tracks
+that my drives were capable of.  It was
+then I decided how great a command
+<code>os9gen</code> was and learned how to use it.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1697 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/basic09/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Basic09 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#interfacing-to-basic09" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Basic09
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#interfacing-to-basic09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interfacing to Basic09
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-simple-integer-aritmetic-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1 - Simple Integer Aritmetic Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-more-complex-integer-aritmetic-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2 - More Complex Integer Aritmetic Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-simple-string-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3 - Simple String Manipulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-4-quicksort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4 - Quicksort
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-5-floating-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5 - Floating Point
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-6-matrix-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6 - Matrix Elements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Basic09</h1>
+
+<h2 id="interfacing-to-basic09">Interfacing to Basic09<a class="headerlink" href="#interfacing-to-basic09" title="Permanent link">&para;</a></h2>
+<p>The object code generated by the Microware C Compiler can be made
+callable from the BASIC09 "RUN" statement. Certain portions of a
+BASIC09 program written in C can have a drmatic effect on execution
+speed. To effectively utilize this feature, one must be familiar
+with both C and BASIC09 internal data representation and procedure
+calling protocol.</p>
+<p>C type "int" and BASIC09 type "INTEGER" are identical; both are two
+byte two's complement integers. C type "char" and BASIC09 type
+"BYTE" and "BOOLEAN" are also identical. Keep in mind that C will
+sign-extend characters for comparisons yielding the range -128 to
+127.</p>
+<p>BASIC09 strings are terminated by 0xff (255). C strings are
+terminated by 0x00 (0). If the BASIC09 string is of maximum length,
+the terminator is not present. Therefore, string length as well as
+terminator checks must be performed on BASIC09 strings when
+processing them with C functions.</p>
+<p>The floating point format used by C and BASIC09 are not directly
+compatible. Since both use a binary floating point format it is
+possible to convert BASIC09 reals to C doubles and vice-versa.</p>
+<p>Multi-dimensional arrays are stored by BASIC09 in a different manner
+than C. Multi-dimensional arrays are stored by BASIC09 in a column-wise
+manner; C stores them row-wise. Consider the following example:</p>
+<div class="highlight"><pre><span></span><code>BASIC09 matrix:  DIM array(5,3):INTEGER
+The elements in consecutive memory locations (read left to
+right, line by line) are stored as:
+(1,1),(2,1),(3,1),(4,1),(5,1)
+(1,2),(2,2),(3,2),(4,2),(5,2)
+(1,3),(2,3),(3,3),(4,3),(5,3)
+
+C matrix:  int array[5][3];
+(1,1),(1,2),(1,3)
+(2,1),(2,2),(2,3)
+(3,1),(3,2),(3,3)
+(4,1),(4,2),(4,3)
+(5,1),(5,2),(5,3)
+</code></pre></div>
+<p>Therefore to access BASIC09 matrix elements in C, the subscripts
+must be transposed. To access element array(4,2) in BASIC09 use
+array[2][4] in C.</p>
+<p>The details on interfacing BASIC09 to C are best described by
+example. The remainder of this appendix is a mini tutorial
+demonstrating the process starting with simple examples and working
+up to more complex ones.</p>
+<h2 id="example-1-simple-integer-aritmetic-case">Example 1 - Simple Integer Aritmetic Case<a class="headerlink" href="#example-1-simple-integer-aritmetic-case" title="Permanent link">&para;</a></h2>
+<p>This first example illustrates a simple case. Write a C function to
+add an integer value to three integer variables.
+<div class="highlight"><pre><span></span><code>build bt1.c
+? addints(cnt,value,s1,arg1,s2,arg2,s2,arg3,s4)
+? int *value,*arg1,*arg2,*arg3;
+? {
+?     *arg1 += *value;
+?     *arg2 += *value;
+?     *arg3 += *value;
+? }
+?
+</code></pre></div></p>
+<p>That's the C function. The name of the function is "addints". The
+name is information for C and c.link; BASIC09 will not know anything
+about the name. Page 9-13 of the BASIC09 Reference manual describes
+how BASIC09 passes parameters to machine language modules. Since
+BASIC09 and C pass parameters in a similar fashion, it is easy to
+access BASIC09 values. The first parameter on the BASIC09 stack is
+a two-byte count of the number of following parameter pairs. Each
+pair consists of an address and size of value. For most C
+functions, the parameter count and pair size is not used. The
+address, however, is the useful piece of information. The address
+is declared in the C function to always be a "pointer to..." type.
+BASIC09 always passes addresses to procedures, even for constant
+values. The arguments cnt, s1, s2, s3 and s4 are just place holders
+to indicate the presence of the parameter count and argument sizes
+on the stack. These can be used to check validity of the passed
+arguments if desired.</p>
+<p>The line "int <em>value,</em>arg1,<em>arg2,</em>arg3" declares the parameters (in
+this case all "pointers to int"), so the compiler will generate the
+correct code to access the BASIC09 values. The remaining lines
+increment each arg by the passed value. Notice that a simple
+arithmetic operation is performed here (addition), so C will not
+have to call a library function to do the operation.</p>
+<p>To compile this function, the following C compiler command line is
+used:</p>
+<p>cc2 bt1.c -rs</p>
+<p>Cc2 uses the Level-Two compiler. Replace cc2 with cc1 if you are
+using the Level-One compiler. The -r option causes the compiler to
+leave bt1.r as output, ready to be linked. The -s option suppresses
+the call to the stack-checking function. Since we will be making a
+module for BASIC09, cstart.r will not be used. Therefore, no
+initialized data, static data, or stack checking is allowed. More
+on this later.</p>
+<p>The bt1.r file must now be converted to a loadable module that
+BASIC09 can link to by using a special linking technique as follows:</p>
+<p>c.link bt1.r -b=addints -o=addints</p>
+<p>This command tells the linker to read bt1.r as input. The option
+"-b=addints" tells the linker to make the output file a module that
+BASIC09 can link to and that the function "addints" is to be the
+entrypoint in the module. You may give many input files to c.link
+in this mode. It resolves references in the normal fashion. The
+name given to the "-b=" option indicates which of the functions is
+to be entered directly by the BASIC09 RUN command. The option
+"-o=addints" says what the name of the output file is to be, in this
+case "addints". This name should be the name used in the BASIC09
+RUN command to call the C procedure. The name given in "-o="
+option is the name of the procedure to RUN. The "-b=" option is
+merely information to the linker so it can fill in the correct
+module entrypoint offset.</p>
+<p>Enter the following BASIC09 program:
+<div class="highlight"><pre><span></span><code>PROCEDURE btest
+DIM i,j,k:INTEGER
+i=1
+j=132
+k=-1033
+RUN addints(4,i,j,k)
+PRINT i,j,k
+END
+</code></pre></div>
+When this procedure is RUN, it should print:
+<div class="highlight"><pre><span></span><code>5       136     -1029
+</code></pre></div>
+indicating that our C function worked!</p>
+<h2 id="example-2-more-complex-integer-aritmetic-case">Example 2 - More Complex Integer Aritmetic Case<a class="headerlink" href="#example-2-more-complex-integer-aritmetic-case" title="Permanent link">&para;</a></h2>
+<p>The next example shows how static memeory can be used. Take the
+C function from the previous example and modify it to add the number
+of times it has been entered to the increment:</p>
+<div class="highlight"><pre><span></span><code>buld bt2.c
+? static int entcnt;
+?
+? addints(cnt,cmem,cmemsiz,value,s1,arg1,s2,arg2,s2,arg3,s4)
+? char *cmem;
+? int *value,*arg1,*arg2,*arg3;
+? {
+? #asm
+?  ldy 6,s base of static area
+? #endasm
+?     int j = *value + entcnt++;
+?
+?     *arg1 += j;
+?     *arg2 += j;
+?     *arg3 += j;
+? }
+?
+</code></pre></div>
+<p>This example differs from the first in a number of ways. The line
+"static in entcnt" defines an integer value name entcnt global to
+bt2.c. The parameter cmem and the line "char <em>cmen" indicate a
+character array. The array will be used in the C function for
+global/static storage. C accesses non-auto and non-register
+variables indexed off the Y register. cstart.r normally takes care
+of setting this up. Since cstart.r will not be used for this
+BASIC09-callable function, we have to take measures to make sure the
+Y register points to a valid and sufficiently large area of memory.
+The line "ldy 6,s" is assembly language code embedded in C source
+that loads the Y register with the first parameter passed by
+BASIC09. If the first parameter in the BASIC09 RUN statement is an
+array, and the "ldy 6,s" is placed </em>immediately* after the
+"{" opening the function body, the offset will always be "6,s". Note the line
+beginning "int j = ...". This line uses an initializer which, in
+this case, is allowed because j is of class "auto".
+No classes but "auto" and "register" can be initialized in BASIC09-callable C
+functions.</p>
+<p>To compile this function, the following C compiler command line is
+used:
+<div class="highlight"><pre><span></span><code>cc2 bt2.c -rs
+</code></pre></div>
+Again, the -r option leaves bt2.r as output and the -s option
+suppresses stack checking.</p>
+<p>Normally, the linker considers it to be an error if the "-b=" option
+appears and the final linked module requires a data memory
+allocation. In our case here, we require a data memory allocation
+and we will provide the code to make sure everything is set up
+correctly. The "-t" linker option causes the linker to print the
+total data memory requirement so we can allow for it rather than
+complaining about it. Our linker command line is:
+<div class="highlight"><pre><span></span><code>c.link bt2.r -o=addints -b=addints -r
+</code></pre></div></p>
+<p>The linker will respond with "BASIC09 static data size is 2 bytes".
+We must make sure cmem points to at least 2 bytes of memory. The
+memory should be zeroed to conform to C specifications.</p>
+<p>Enter the following BASIC09 program:</p>
+<div class="highlight"><pre><span></span><code>PROCEDURE btest
+DIM i,j,k,n;INTEGER
+DIM cmem(10):INTEGER
+FOR i=1 TO 10
+     cmem(i)=0
+NEXT i
+FOR n=1 TO 5
+     i=1
+     j=132
+     k=-1033
+     RUN addints(cmem,4,i,j,k)
+     PRINT i,j,k
+NEXT n
+END
+</code></pre></div>
+<p>This program is similar to the previous example. Our area for data
+memory is a 10-integer array (20 bytes) which is way more than the 2
+bytes for this example. It is better to err on the generous side.
+Cmem is an integer array for convenience in initializing it to zero
+(per C data memory specifications). When the program is run, it
+calls addints 5 times with the same data values. Because addints
+add the number of times it was called to the value, the i,j,k
+values should be 4+number of times called. When run, the program prints:
+<div class="highlight"><pre><span></span><code>     5       136     -1029
+     6       137     -1028
+     7       138     -1027
+     8       139     -1026
+     9       140     -1025
+</code></pre></div>
+Works again!</p>
+<h2 id="example-3-simple-string-manipulation">Example 3 - Simple String Manipulation<a class="headerlink" href="#example-3-simple-string-manipulation" title="Permanent link">&para;</a></h2>
+<p>This example shows how to access BASIC09 strings through C
+functions. For this example, write the C version of SUBSTR.</p>
+<div class="highlight"><pre><span></span><code>build bt3.c
+? /* Find substring from BASIC09 string:
+?         RUN findstr(A$,B$,findpos)
+?    returns in fndpos the position in A$ that B$ was found or
+?    0 if not found.  A$ and B$ must be strings, fndpos must be
+?    INTEGER.
+? */
+? findstr(cnt,string,strcnt,srchstr,srchcnt,result);
+? char *string,*srchstr;
+? int strcnt, srchcnt, *result;
+? {
+?     *result = finder(string,strcnt,srchstr,srchcnt);
+? }
+?
+? static finder(str,strlen,pat,patlen)
+? char *str,*pat;
+? int strlen,patlen;
+? {
+?     int i;
+?     for(i=1;strlen-- &gt; 0 &amp;&amp; *str!=0xff; ++i)
+?         if(smatch(str++,pat,patlen))
+?             return i;
+? }
+?
+? static smatch(str,pat,patlen)
+? register char *str,*pat;
+? int patlen;
+? {
+?     while(patlen-- &gt; 0 &amp;&amp; *pat != 0xff)
+?         if(*str++ != *pat++)
+?             return 0;
+?     return 1;
+? }
+?
+</code></pre></div>
+<p>Compile this program:
+<div class="highlight"><pre><span></span><code>    cc2 bt3.c -rs
+</code></pre></div>
+And link it:
+<div class="highlight"><pre><span></span><code>    c.link bt3.r -o=findstr -b=findstr
+</code></pre></div>
+The BASIC09 test program is:
+<div class="highlight"><pre><span></span><code>PROCEDURE btest
+DIM a,b:STRING[20]
+DIM matchpos:INTEGER
+LOOP
+INPUT &quot;String &quot;,a
+INPUT &quot;Match  &quot;,b
+RUN findstr(a,b,matchpos)
+PRINT &quot;Matched at position &quot;,matchpos
+ENDLOOP
+</code></pre></div>
+When this program is run, it should print the position where the
+matched string was found in the source string.</p>
+<h2 id="example-4-quicksort">Example 4 - Quicksort<a class="headerlink" href="#example-4-quicksort" title="Permanent link">&para;</a></h2>
+<p>The next example programs demonstrate how one might implement a
+quicksort written in C to sort some BASIC09 data.</p>
+<p>C integer quicksort program:</p>
+<div class="highlight"><pre><span></span><code>#define swap(a,b) { int t; t=a; a=b; b=t; }
+
+/* qsort to be called by BASIC09:
+     dim d(100):INTEGER  any size INTEGER array
+     run cqsort(d,100)   calling qsort.
+*/
+
+qsort(argcnt,iarray,iasize,icount,icsiz)
+int  argcnt,     /* BASIC09 argument count */
+     iarrary[],  /* Pointer to BASIC09 integer array */
+     iasize,     /* and it&#39;s size */
+     *icount,    /* Pointer to BASIC09 (sort count) */
+     icsiz;      /* Size of integer */
+{
+     sort(iarray,0,*icount);  /* initial qsort partition */
+}
+
+/* standard quicksort algorithm from Horowitz-Sahni */
+static sort(a,m,n)
+register int *a,m,n;
+{
+     register i,j,x;
+
+     if(m &lt; n) {
+          i = m;
+      j = n + 1;
+      x = a[m];
+      for(;;) {
+           do i += 1; while(a[i] &lt; x);  /* left partition */
+           do j -= 1; while(a[j] &gt; x);  /* right partition */
+           if(i &lt; j)
+                swap(a[i],a[j])          /* swap */
+            else break;
+      }
+      swap(a[m],a[j]);
+      sort(a,m,j-1);                     /* sort left */
+      sort(a,j+1,n);                     /* sort right */
+     }
+}
+</code></pre></div>
+<p>The BASIC09 program is:</p>
+<div class="highlight"><pre><span></span><code>PROCEDURE sorter
+DIM i,n,d(1000):INTEGER
+n=1000
+i=RND(-(PI))
+FOR i=1 to n
+d(i):=INT(RND(1000))
+NEXT i
+PRINT &quot;Before:&quot;
+RUN prin(1,n,d)
+RUN qsortb(d,n)
+PRINT &quot;After:&quot;
+RUN prin(1,n,d)
+END
+
+PROCEDURE prin
+PARAM n,m,d(1000):INTEGER
+DIM i:INTEGER
+FOR i=n TO m
+PRINT d(i); &quot; &quot;;
+NEXT i
+PRINT
+END
+</code></pre></div>
+<p>C string quicksort program:</p>
+<div class="highlight"><pre><span></span><code>/* qsort to be called by BASIC09:
+     dim cmemory:STRING[10] This should be at least as large as
+                            the linker says the data size should
+                            be.
+     dim d(100):INTERGER    Any size INTEGER array.
+
+     run cqsort(cmemory,d,100) calling qsort. Note that the pro-
+                            cedure name run in the linked OS-9
+                            subroutine module. The module name
+                            need not be the name of the C func-
+                            tion.
+*/
+
+int maxstr;    /* string maximum length */
+
+static strbcmp(str1,str2)            /* basic09 string compare */
+register char *str1,*str2;
+{
+     int maxlen;
+
+     for (maxlen = maxstr; *str1 == *str2 ;++str1)
+          if (maxlen-- &gt;0 || *str2++ == 0xff)
+               return 0;
+     return (*str1 - *str2);
+}
+
+cssort(argcnt,stor,storsiz,iaarray,iasize,elemlen,elsiz,
+             icount,icsiz)
+int argcnt;          /* BASIC09 argument count */
+char *stor;         /* Pointer to string (C data storage) */
+char iarray[];      /* Pointer to BASIC09 integer array */
+int  iasize,          /* and it&#39;s size */
+     *elemlen,        /* Pointer integer value (string length) */
+     elsiz,           /* Size of integer */
+     *icount,         /* Pointer to integer (sort count) */
+     icsiz;           /* Size of integer */
+{
+/* The following assembly code loads Y with the first
+   arg provided by BASIC09.  This code MUST be the first code
+   in the function after the declarations.  This code assumes the
+   address of the data area is the first parameter in the BASIC09
+   RUN command. */
+#asm
+ ldy 6,s get addr for C storage
+#endasm
+
+/* Use the C library qsort function to do the sort. Our
+   own BASIC09 string compare function will compare the strings.
+*/
+
+     qsort(iarray,*icount,maxstr=*elemlen,strbcmp);
+}
+
+/* define stuff cstart.r normally defines */
+#asm
+_stkcheck:
+ rts dummy stack check function
+
+ vsect
+errno: rmb 2 C function system error number
+_flacc: rmb 8 C library float/long accumulator
+ endsect
+#endasm
+</code></pre></div>
+<p>The BASIC09 calling programs:  (words file contains strings to sort)</p>
+<div class="highlight"><pre><span></span><code>PROCEDURE ssorter
+DIM a(200):STRING[20]
+DIM cmemory:STRING[20]
+DIM i,n:INTEGER
+DIM path:INTEGER
+OPEN #path,&quot;words&quot;:READ
+
+n=100
+FOR i=1 to n
+INPUT #path,a(i)
+NEXT i
+CLOSE #path
+RUN prin(a,n)
+RUN cssort(cmemory,a,20,n)
+RUN prin(a,n)
+END
+
+PROCEDURE prin
+PARAM a(100):STRING[20]; n:INTEGER
+DIM i:INTEGER
+FOR i=1 TO n
+PRINT i; &quot; &quot;; a(i)
+NEXT i
+PRINT i
+END
+</code></pre></div>
+<h2 id="example-5-floating-point">Example 5 - Floating Point<a class="headerlink" href="#example-5-floating-point" title="Permanent link">&para;</a></h2>
+<p>The next example shows how to access BASIC09 reals from C functions:</p>
+<div class="highlight"><pre><span></span><code>flmult(cnt,cmemory,cmemsiz,realarg,realsize)
+int cnt;            /* number of arguments */
+char *cmemory;      /* pointer to some memory for C use */
+double *realarg;    /* pointer to real */
+{
+#asm
+ ldy 6,s get static memory address
+#endasm
+
+     double number;
+
+     getbreal(&amp;number,realarg);      /* get the BASIC09 real */
+     number *= 2.;                   /* number times two*/
+     putbreal(realarg,&amp;number);      /* give back to BASIC09 */
+
+}
+
+/* getreal(creal,breal)
+     get a 5-byte real from BASIC09 format to C format */
+
+getbreal(creal,breal)
+double *creal,*breal;
+{
+     register char *cr,*br;   /* setup some char pointers */
+
+     cr = creal;
+     br = breal;
+#asm
+*  At this point U reg contains address of C double
+*                  0,s contains address of BASIC09 real
+ ldx 0,s get address of B real
+
+ clra clear the C double
+ clrb
+ std 0,u
+ std 2,u
+ std 4,u
+ stb 6,u
+ ldd 0,x
+ beq g3 BASIC09 real is zero
+
+ ldd 1,x get hi B mantissa
+ and a #$7f clear place for sign
+ std 0,u put hi C matissa
+ ldd 3,x get lo B mantissa
+ andb #$fe mask off sign
+ std 2,u put lo C mantissa
+ lda 4,x get B sign byte
+ lsra shift out sign
+ bcc g1
+ lda 0,u get C sign byte
+ ora #$80 tun on sign
+ sta 0,u put C sign byte
+g1 lda 0,x get B exponent
+ suba #128 excess 128
+ sta 7,u put C exponent
+g3 clra clear carry
+#endasm
+
+}
+
+/* putbreal(breal,creal)
+     put C format double into a 5-byte real from BASIC09 */
+
+putbreal(breal,creal)
+double *breal,*creal;
+{
+     register char *cr,*br;   /* setup some pointers */
+
+     cr = creal;
+     br = breal;
+#asm
+*  At this point U reg contains address of C double
+*                  0,s contains address of BASIC09 real
+ ldx 0,s get address of B real
+
+ lda 7,u get C exponent
+ bne p0 not zero?
+ clra clear the BASIC09
+ clrb real
+ std 0,x
+ std 2,x
+ std 4,x
+ bra p3 and exit
+
+p0 ldd 0,u get hi C mantissa
+ ora #$80 this bit always on for normalized real
+ std 1,x put hi B mantissa
+ ldd 2,u get lo C mantissa
+ std 3,x put lo B mantissa
+ incb round mantissa
+ bne p1
+ inc 3,x
+ bne p1
+ inc 2,x
+ bne p1
+ inc 1,x
+p1 andb #$fe turn off sign
+ stb 4,x put B sign byte
+ lda 0,u get C sign byte
+ lsla shift out sign
+ bcc p2 bra if positive
+ orb #$01 turn on sign
+ stb 4,x put B sign byte
+p2 lda 7,u get C exponent
+ adda #128 less 128
+ sta 0,x put B exponent
+p3 clra clear carry
+#endasm
+}
+
+
+/* replace cstart.r definitions for BASIC09 */
+#asm
+_stkcheck:
+_stkchec:
+ rts
+
+ vsect
+_flacc: rmb 8
+errno: rmb 2
+ endsect
+#endasm
+</code></pre></div>
+<p>BASIC09 calling program:</p>
+<div class="highlight"><pre><span></span><code>PROCEDURE btest
+DIM a:REAL
+DIM i:INTEGER
+DIM cmemory:STRING[32]
+a=1.
+FOR i=1 TO 10
+  RUN flmult(cmemory,a)
+  PRINT a
+NEXT i
+END
+</code></pre></div>
+<h2 id="example-6-matrix-elements">Example 6 - Matrix Elements<a class="headerlink" href="#example-6-matrix-elements" title="Permanent link">&para;</a></h2>
+<p>The last program is an example of accessing BASIC09 matrix elements.
+The C program:</p>
+<div class="highlight"><pre><span></span><code>matmult(cnt,cmemory,cmemsiz,matxaddr,matxsize,scalar,scalsize)
+char *cmemory;       /* pointer to some memory for C use */
+int matxaddr[5][3];  /* pointer a double dim integer array */
+int *scalar;         /* pointer to integer */
+{
+#asm
+ ldy 6,s get static memory address
+#endasm
+
+     int i,j;
+
+     for(i=0; i&lt;5; ++i)
+          for(j=1; j&lt;3; ++j)
+               matxaddr[j][i]  *=  *scalar;  /* multiply by value */
+}
+#asm
+_stkcheck:
+_stkchec:
+ rts
+
+ vsect
+_flacc: rmb 8
+errno: rmb 2
+ endsect
+#endasm
+</code></pre></div>
+<p>BASIC09 calling program:</p>
+<div class="highlight"><pre><span></span><code>PROCEDURE btest
+DIM im(5,3):INTEGER
+DIM i,j:INTEGER
+DIM cmem:STRING[32]
+FOR i=1 TO 5
+    FOR j=1 TO 3
+        READ im(i,j)
+    NEXT j
+NEXT i
+DATA 11,13,7,3,4,0,5,7,2,8,15,0,0,14,4
+FOR i=1 TO 5
+    PRINT im(i,1),im(i,2),im(i,3)
+NEXT i
+PRINT
+RUN matmult(cmem,im,64)
+FOR i=1 TO 5
+    PRINT im(i,1),im(i,2),im(i,3)
+NEXT i
+END
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

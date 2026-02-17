@@ -1,0 +1,1639 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/nitros9guide/display/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>VDG Display System Functions - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vdg-display-system-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              VDG Display System Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-video-display-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Video Display Generator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alpha-mode-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alpha Mode Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graphics-mode-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graphics Mode Display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-status-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Status Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="vdg-display-system-functions">VDG Display System Functions<a class="headerlink" href="#vdg-display-system-functions" title="Permanent link">&para;</a></h1>
+<h2 id="the-video-display-generator">The Video Display Generator<a class="headerlink" href="#the-video-display-generator" title="Permanent link">&para;</a></h2>
+<p>NitrOS-9 allows the VDG display to be used in
+alphanumeric, semigraphic, and graphics modes. There are many
+built-in functions to control the display, which are activated by
+used of various ASCII control character. Thus, these functions are
+available for use by software written in any language using standard
+output statements (such as "PRINT" in BASIC). The Color Computer's Basic09
+language has a Graphics Interface Module that can automatically
+generate these codes using Basic09 RUN statements.</p>
+<p>The display system has two display modes: Alphanumeric
+("Alpha") mode and Graphics mode. The Alphanumeric mode also
+includes "semigraphic" box-graphics. The Color Computer's display
+system uses a separate - memory area for each display mode so
+operations on the Alpha display do not affect the Graphics display,
+and visa-versa. Either display can be selected under software
+control.</p>
+<p>8-bit characters sent to the display system are interpreted
+according to their numerical value, as shown in the chart below.</p>
+<table>
+<thead>
+<tr>
+<th>Character Range (Hex)</th>
+<th>Mode/Used For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00 - 0E</td>
+<td>Alpha Mode - cursor and screen control</td>
+</tr>
+<tr>
+<td>0F - 1B</td>
+<td>Graphics Mode - drawing and screen control</td>
+</tr>
+<tr>
+<td>1C - 20</td>
+<td>Not used</td>
+</tr>
+<tr>
+<td>20 - SF</td>
+<td>Alpha Mode - upper case characters</td>
+</tr>
+<tr>
+<td>60 - 7F</td>
+<td>Alpha Mode - lower case characters</td>
+</tr>
+<tr>
+<td>80 - FF</td>
+<td>Alpha Mode - Semigraphic patterns</td>
+</tr>
+</tbody>
+</table>
+<p>The graphics and alphanumeric functions are handled by the OS-9
+device driver module called "CCIO".</p>
+<h2 id="alpha-mode-display">Alpha Mode Display<a class="headerlink" href="#alpha-mode-display" title="Permanent link">&para;</a></h2>
+<p>This is the "standard" operational mode. It is used to display
+alphanumeric characters and semigraphic box graphics, and simulates
+the operation of a typical computer terminal with functions for
+scrolling, cursor positioning, clear screen, line delete, etc.</p>
+<p>Each 8-bit character is assumed to be an ASCII character and is
+displayed if its high order bit (sign bit) is cleared. Lower case
+letters are displayed in reverse video. If the high order bit of
+the character is set it is assumed to be a "Semigraphic 6" graphics
+box. See the Color Computer manual for an explanation of semigraphics
+functions.</p>
+<table>
+<thead>
+<tr>
+<th>Control Code</th>
+<th>Name/Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>HOME - return cursor to upper left hand corner of screen</td>
+</tr>
+<tr>
+<td>02</td>
+<td>CURSOR XY - move cursor to character X of line Y. The</td>
+</tr>
+<tr>
+<td>binary value minus 32 of the two characters following</td>
+<td></td>
+</tr>
+<tr>
+<td>the control character are used as the X and Y</td>
+<td></td>
+</tr>
+<tr>
+<td>coordinates. For example, to position the cursor at character 5 of line 10,</td>
+<td></td>
+</tr>
+<tr>
+<td>you must give X=37 and Y42</td>
+<td></td>
+</tr>
+<tr>
+<td>03</td>
+<td>ERASE LINE - erases all characters on the cursor's line.</td>
+</tr>
+<tr>
+<td>06</td>
+<td>CURSOR RIGHT - move cursor right one character position</td>
+</tr>
+<tr>
+<td>08</td>
+<td>CURSOR LEFT - move cursor left one character position</td>
+</tr>
+<tr>
+<td>09</td>
+<td>CURSOR UP - move cursor up one line</td>
+</tr>
+<tr>
+<td>10</td>
+<td>CURSOR DOWN (linefeed) move cursor down one line</td>
+</tr>
+<tr>
+<td>12</td>
+<td>CLEAR SCREEN - erase entire screen and home cursor</td>
+</tr>
+<tr>
+<td>13</td>
+<td>RETURN - return cursor to leftmost character of line</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DISPLAY ALPHA - switch screen from graphic mode to alpha</td>
+</tr>
+<tr>
+<td>numeric mode</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="graphics-mode-display">Graphics Mode Display<a class="headerlink" href="#graphics-mode-display" title="Permanent link">&para;</a></h2>
+<p>This mode is used to display high-resolution 2- or 4-color
+graphics, and it includes commands to: set color; plot and erase
+individual points; draw and erase lines; position the graphics
+cursor; and draw circles.</p>
+<p>The DISPLAY GRAPHICS command must be executed before any other
+graphics mode command is used. It causes the graphics screen to be
+displayed and sets a current display format and color. The Li.u.t
+time the DISPLAY GRAPHICS command is given, a 6144 byte display
+memory is allocated by OS-9, so there must be at least this much
+continuous free memory available (the OS-9 "MFREE" command can be
+used to check free memory). This memory is retained until the END
+GRAPHICS command is given, even if the program that initiated
+Graphics mode finishes, so it important that the END GRAPHICS
+command be used to give up the display memory when Graphics mode is
+no longer needed.</p>
+<p>Graphics mode supports two basic formats: Two-Color which has
+256 horizontal by 192 vertical points (G6R mode); and Four Color
+which has 128 horizontal by 192 vertical points (G6C mode). Two
+color sets are available in either mode. Regardless of the
+resolution of the format selected, all Graphics mode commands use a
+256 by 192 point coordinate system. The X and Y coordinates are
+always positive numbers which assume that point 0,0 is the lower
+lefthand corner of the screen.</p>
+<p>An invisible Graphics Cursor is used by many command to reduce
+the amount of output required to generate graphics. This cursor can
+be explicitly set to any point using the SET GRAPHICS CURSOR
+command. Also, all other commands that include X,Y coordinates
+(such as SET POINT) move the graphics cursor to the specified
+position.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>256 x 192 two-color graphics</td>
+</tr>
+<tr>
+<td>01</td>
+<td>128 x 192 four-color graphics</td>
+</tr>
+</tbody>
+</table>
+<p>| Two Color Format | Four Color Format |
+| --- | --- | --- | --- | --- | --- |
+| Char | Background | Foreground | Background | Foreground |
+| Color Set 1 | 00 | Black | Black | Green | Green |
+| 01 | Black | Green | Green | Yellow |
+| 02 | Green | Blue |
+| 03 | Green | Red |
+| Color Set 2 | 04 | Black | Black | Buff | Buff |
+| 05 | Black | Buff | Buff | Cyan |
+| 06 | Buff | Magenta |
+| 07 | Buff | Orange |
+| Color Set 3<em> | 08 | Black | Black |
+| 09 | Black | Dark Green |
+| 10 | Black | Med. Green |
+| 11 | Black | Light Green |
+| Color Set 4</em> | 12 | Black | Black |
+| 13 | Black | Green |
+| 14 | Black | Red |
+| 15 | Black | Buff |</p>
+<ul>
+<li>Color sets 3 and 4 not available on PAL video system (European)
+models. These color sets work only with NTSC (U.S., Canada, Japan)
+models.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Control Code</th>
+<th>Name/Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td>DISPLAY GRAPHICS - switches screen to graphics mode.</td>
+</tr>
+<tr>
+<td>This command must be given before any other</td>
+<td></td>
+</tr>
+<tr>
+<td>graphics commands are used. The first time this command</td>
+<td></td>
+</tr>
+<tr>
+<td>is given, a 6K byte display buffer is assigned. If 6K of</td>
+<td></td>
+</tr>
+<tr>
+<td>contiguous memory is not available an error is returned.</td>
+<td></td>
+</tr>
+<tr>
+<td>This command is followed by two characters which specify</td>
+<td></td>
+</tr>
+<tr>
+<td>the graphics mode and current color/color set, respectively.</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>PRESET SCREEN - presets entire screen to color code</td>
+</tr>
+<tr>
+<td>passed in next character.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>SET COLOR - selects foreground color (and color set)</td>
+</tr>
+<tr>
+<td>passed in next character, but does not change graphics</td>
+<td></td>
+</tr>
+<tr>
+<td>mode.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>QUIT GRAPHICS - disables graphics mode and returns the</td>
+</tr>
+<tr>
+<td>6K byte graphics memory area to OS-9 for other use, and</td>
+<td></td>
+</tr>
+<tr>
+<td>switches to alpha mode.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>ERASE GRAPHICS - erases all points to background color</td>
+</tr>
+<tr>
+<td>and homes graphics cursor to the desired position.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>HOME GRAPHICS CURSOR - moves graphics cursor to coordinates</td>
+</tr>
+<tr>
+<td>0,0 (lower left hand corner).</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>SET GRAPHICS CURSOR - moves graphics cursor to given</td>
+</tr>
+<tr>
+<td>coordinates X,Y. The binary value of the two characters that immediately</td>
+<td></td>
+</tr>
+<tr>
+<td>follow are used as the X and Y values, respectively.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>DRAW LINE - draws a line of the current foreground</td>
+</tr>
+<tr>
+<td>color from the current graphics cursor position to the</td>
+<td></td>
+</tr>
+<tr>
+<td>given X,Y coordinates. The binary value of the two</td>
+<td></td>
+</tr>
+<tr>
+<td>characters that immediately follow are used as the X</td>
+<td></td>
+</tr>
+<tr>
+<td>and Y values, respectively. The graphics cursor is</td>
+<td></td>
+</tr>
+<tr>
+<td>moved to the end point of the line.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>ERASE LINE - same as DRAW LINE except the line is</td>
+</tr>
+<tr>
+<td>"drawn" in the current background color, thus erasing</td>
+<td></td>
+</tr>
+<tr>
+<td>the line.</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>SET POINT - sets the pixel-at point X,Y to the current</td>
+</tr>
+<tr>
+<td>foreground color. The binary value of the two</td>
+<td></td>
+</tr>
+<tr>
+<td>characters that immediately follow are used as the x</td>
+<td></td>
+</tr>
+<tr>
+<td>and Y values, respectively. The graphics cursor is</td>
+<td></td>
+</tr>
+<tr>
+<td>moved to the point Set.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>ERASE POINT - same as DRAW POINT except the point is</td>
+</tr>
+<tr>
+<td>"drawn" in the current background color, thus erasing</td>
+<td></td>
+</tr>
+<tr>
+<td>the point.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>DRAW CIRCLE - draws a circle of the current foreground</td>
+</tr>
+<tr>
+<td>color with its center at the current graphics cursor</td>
+<td></td>
+</tr>
+<tr>
+<td>position using a radius R which is obtained using the</td>
+<td></td>
+</tr>
+<tr>
+<td>binary value of the next character. The graphics</td>
+<td></td>
+</tr>
+<tr>
+<td>cursor position is not affected by this command.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-status-commands">Get Status Commands<a class="headerlink" href="#get-status-commands" title="Permanent link">&para;</a></h2>
+<p>The Color Computer I/O driver includes OS-9 Get Status
+commands that return the display status and joystick values,
+respectively. These are accessable via the Basic09 Graphics
+Interface Module, or by the assembly language  system calls listed
+below:</p>
+<p>GET DISPLAY STATUS:</p>
+<table>
+<thead>
+<tr>
+<th>Calling Format</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passed</td>
+<td>nothing</td>
+</tr>
+<tr>
+<td>Returns</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>GET JOYSTICK VALUES:</p>
+<table>
+<thead>
+<tr>
+<th>Calling Format</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passed</td>
+<td>X = 0 for right joystick; 1 for left joystick</td>
+</tr>
+<tr>
+<td>Returns</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>1st Byte</th>
+<th>2nd Byte</th>
+<th>3rd Byte</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td></td>
+<td></td>
+<td>Null</td>
+</tr>
+<tr>
+<td>01</td>
+<td></td>
+<td></td>
+<td>Home Alpha Cursor</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Column+32</td>
+<td>Row+32</td>
+<td>Position Alpha Cursor</td>
+</tr>
+<tr>
+<td>03</td>
+<td></td>
+<td></td>
+<td>Erase Line</td>
+</tr>
+<tr>
+<td>06</td>
+<td></td>
+<td></td>
+<td>Cursor Right</td>
+</tr>
+<tr>
+<td>08</td>
+<td></td>
+<td></td>
+<td>Cursor Left</td>
+</tr>
+<tr>
+<td>09</td>
+<td></td>
+<td></td>
+<td>Cursor Up</td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td></td>
+<td>Cursor Down</td>
+</tr>
+<tr>
+<td>12</td>
+<td></td>
+<td></td>
+<td>Clear Screen</td>
+</tr>
+<tr>
+<td>13</td>
+<td></td>
+<td></td>
+<td>Carriage Return</td>
+</tr>
+<tr>
+<td>14</td>
+<td></td>
+<td></td>
+<td>Select Alpha Mode</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Mode</td>
+<td>Color Code</td>
+<td>Select Graphics Mode</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Color Code</td>
+<td></td>
+<td>Preset Screen</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Color Code</td>
+<td></td>
+<td>Select Color</td>
+</tr>
+<tr>
+<td>18</td>
+<td></td>
+<td>Quit Graphics Mode</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td></td>
+<td>Erase Screen</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td></td>
+<td>Home Graphics Cursor</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>X Coord</td>
+<td>Y Coord</td>
+<td>Move Graphics Cursor</td>
+</tr>
+<tr>
+<td>22</td>
+<td>X Coord</td>
+<td>Y Coord</td>
+<td>Draw Line to X/Y</td>
+</tr>
+<tr>
+<td>23</td>
+<td>X Coord</td>
+<td>Y Coord</td>
+<td>Erase Line to X/Y</td>
+</tr>
+<tr>
+<td>24</td>
+<td>X Coord</td>
+<td>Y Coord</td>
+<td>Set Point at X/Y</td>
+</tr>
+<tr>
+<td>25</td>
+<td>X Coord</td>
+<td>Y Coord</td>
+<td>Clear Point at X/Y</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Radius</td>
+<td></td>
+<td>Draw Circle</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

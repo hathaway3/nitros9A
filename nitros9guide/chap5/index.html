@@ -1,0 +1,1442 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/nitros9guide/chap5/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap5 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#multiprogramming-and-memory-management" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap5
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#multiprogramming-and-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiprogramming and Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processor-time-allocation-and-timeslicing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processor Time Allocation and Timeslicing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process States
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creation-of-new-processes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creation of New Processes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-memory-management-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Memory Management Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loading-program-modules-into-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading Program Modules Into Memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loading-multiple-programs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading Multiple Programs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-fragmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Fragmentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Chap5</h1>
+
+<h2 id="multiprogramming-and-memory-management">Multiprogramming and Memory Management<a class="headerlink" href="#multiprogramming-and-memory-management" title="Permanent link">&para;</a></h2>
+<p>One of NitrOS-9's most extraordinary abilities is multiprogramming,
+which is sometimes called timesharing or multitasking. Simply
+states, NitrOS-9 lets you computer run more than one program at the same
+time. This can be a tremendous advantage in many situations. For
+example, you can be editing one program while another is being
+printed. Or you can use your Color Computer to control household
+automation and still be able to use it for routine work and
+entertainment.</p>
+<p>NitrOS-9 uses this capability all the time for internal functions.
+The simple way for you to do so is by putting a "&amp;" character at the
+end of a command line which causes the shell to run your command as
+a "background task".</p>
+<p>The information presented in this chapter is intended to give you
+an insight into how NitrOS-9 performs this amazing feat. You certainly
+don't have to know every detail of how multiprogramming works in
+order to use NitrOS-9, but a basic working knowledge can help you
+discover many new ways to use your Color Computer.</p>
+<p>In order to allow several programs to run simultaneously and
+without interference, NitrOS-9 must perform many coordination and
+resource allocation functions. The major system resources managed
+by NitrOS-9 are:</p>
+<p>CPU Time
+Memory
+The input/output system</p>
+<p>In order for the computer to have reasonable performance, these
+resources must be managed in the most efficient manner possible.
+Therefore, NitrOS-9 uses many techniques and strategies to optimize
+system throughput and capacity.</p>
+<h2 id="processor-time-allocation-and-timeslicing">Processor Time Allocation and Timeslicing<a class="headerlink" href="#processor-time-allocation-and-timeslicing" title="Permanent link">&para;</a></h2>
+<p>CPU time is a resource that must be allocated wisely to maximize
+the computer's throughput. It is characteristic of many programs to
+spend much unproductive time waiting for various events, such as an
+input/output operation. A good example is an interactive program
+which communicates with a person at a terminal on a line-by line
+basis. Every time the program has to wait for a line of characters
+to be typed or displayed, it (typically) cannot do any useful
+processing and would waste CPU time. An efficient multiprogramming
+operating system such as NitrOS-9 automatically assigns CPU time to only
+those programs that can effectively use the, time.</p>
+<p>NitrOS-9 uses a technique called <em>timeslicing</em> which allows processes
+to share CPU time with all other active processes. Timeslicing is
+implemented using both hardware and software functions. The
+system's CPU is interrupted by a real time clock many (60 in the
+Color Computer) times each second. This basic time interval is
+called a "tick", hence, the interval between ticks is a time slice.
+This technique is called timeslicing because each second of CPU time
+is sliced up to be shared among several processes. This happens so
+rapidly that to a human observer all processes appear to execute
+continuously, unless the computer becomes overloaded with processing. If this
+happens, a noticeable delay in response to terminal
+input may occur, or "batch" programs may take much longer to run
+than they ordinarily do. At any occurrence of a tick, NitrOS-9 can suspend
+execution of one program and begin execution of another. The
+starting and stopping of programs is done in a manner that does not
+affect the program's execution. How frequently a process is given
+time slices depends upon its assigned priority relative to the
+assigned priority of other active processes.</p>
+<p>The percentage of CPU time assigned to any particular process
+cannot be exactly computed because there are dynamic variables such
+as time the process spends waiting for I/O devices. It can be
+roughly approximated by dividing the process's priority by the sum
+of the priority numbers of all processes:</p>
+<div class="highlight"><pre><span></span><code>                     Process Priority
+Process CPU Share = -------------------
+                     Sum of All Active
+                    Process&#39; Priorities
+</code></pre></div>
+<h2 id="process-states">Process States<a class="headerlink" href="#process-states" title="Permanent link">&para;</a></h2>
+<p>The CPU time allocation system automatically assigns programs one
+of three "states" that describe their current status. Process
+states are also important for coordinating process execution. A
+process may be in one and only one state at any instant, although
+state changes may be frequent. The states are:</p>
+<p><em>ACTIVE:</em>
+processes which can currently perform useful processing.
+These are the only processes assigned CPU time.</p>
+<p><em>WAITING:</em>
+processes which have been suspended until another process
+terminates. This state is used to coordinate execution of
+sequential programs. The shell, for example, will be in the waiting
+state during the time a command program it has initiated is running.</p>
+<p><em>SLEEPING:</em>
+processes suspended by self-request for a specified time
+interval or until receipt of a "signal". Signals are internal
+messages used to coordinate concurrent processes. This is the
+typical state of programs which are waiting for input/output
+operations.</p>
+<p>Sleeping and waiting processes are not given CPU time until they
+change to the active state.</p>
+<h2 id="creation-of-new-processes">Creation of New Processes<a class="headerlink" href="#creation-of-new-processes" title="Permanent link">&para;</a></h2>
+<p>The sequence of operations required to create a new process and
+initially allocate its resources (especially memory) are
+automatically performed by NitrOS-9's "fork" function. If for any
+reason any part of the sequence cannot be performed the fork is
+aborted and the prospective parent is passed an appropriate error
+code. The most frequent reason for failure is unavailablity of
+required resources (especially memory) or when the program specified
+to be run cannot be found. A process can create many new processes,
+subject only to the limitation of the amount of unassigned memory
+available.</p>
+<p>When a process creates a new process, the creator is called the
+"parent process", and the newly created process is called the "child
+process". The new child can itself become a parent by creating yet
+another process. If a parent process creates more than one child
+process, the children are called "siblings" with respect to each
+other. If the parent/child relationship of all processes in the
+system is examined, a hierarchical lineage becomes evident. In
+fact, this hierarchy is a tree structure that resembles a family
+tree. The "family" concept makes it easy to describe relationships
+between processes, and so it is used extensively in descriptions of
+NitrOS-9's multiprogramming operations.</p>
+<p>When the parent issues a fork request to NitrOS-9, it must specify
+the following required information:</p>
+<ul>
+<li></li>
+</ul>
+<p>A PRIMARY MODULE, which is the name of the program to be
+executed by the new process. The program can already be present
+in memory, or NitrOS-9 may load it from a mass storage file having
+the same name.</p>
+<ul>
+<li></li>
+</ul>
+<p>PARAMETERS, which is data specified by the parent to be
+passed to and used by the new process. This data is copied to
+part of the child process' memory area. Parameters are
+frequently used to pass file names, initialization values, etc.
+The shell, passes command line parameters this way.</p>
+<p>The new process also "inherits" copies of certain of its parent's
+properties. These are:</p>
+<ul>
+<li></li>
+</ul>
+<p>A USER NUMBER which is used by the file security system and
+is used to identify all processes belonging to a specific user
+(this is not the same as the "process ID", which identifies a
+specific process) . This number is usually obtained from the
+system password file when a user logs on. The system manager
+always is user number zero.</p>
+<ul>
+<li></li>
+</ul>
+<p>STANDARD INPUT AND OUTPUT PATHS: the three paths (input,
+output, and error/status) used for routine input and output.
+Note that most paths (files) may be shared simultaneously by
+two or more processes. The two current working
+directories are also inherited.</p>
+<ul>
+<li></li>
+</ul>
+<p>PROCESS PRIORITY which determines what proportion of CPU
+time the process receives with respect to others.</p>
+<p>As part of the fork operation, NitrOS-9 automatically assigns:</p>
+<ul>
+<li></li>
+</ul>
+<p>A PROCESS ID: a number from 1 to 255, which is used to
+identify specific processes. Each process has a unique process
+ID number.</p>
+<ul>
+<li></li>
+</ul>
+<p>MEMORY: enough memory required for the new process to run.
+Level Two systems give each process a unique "address space".
+In Level One systems, all processes share the single address
+space. A "data area", used for the program's parameters,
+variables, and stack is allocated for the process' exclusive
+use. A second memory area may also be required to load the
+program (primary module) if it is not resident in memory.</p>
+<p>To summarize, the following items are given to or associated with
+new processes:</p>
+<ul>
+<li></li>
+</ul>
+<p>Primary Module (program module to be run)</p>
+<ul>
+<li></li>
+</ul>
+<p>Parameter(s) passed from parent to child</p>
+<ul>
+<li></li>
+</ul>
+<p>User Number</p>
+<ul>
+<li></li>
+</ul>
+<p>Standard I/O paths and working directories</p>
+<ul>
+<li></li>
+</ul>
+<p>Process Priority</p>
+<ul>
+<li></li>
+</ul>
+<p>Process ID</p>
+<ul>
+<li></li>
+</ul>
+<p>Memory</p>
+<h2 id="basic-memory-management-functions">Basic Memory Management Functions<a class="headerlink" href="#basic-memory-management-functions" title="Permanent link">&para;</a></h2>
+<p>An important NitrOS-9 function is memory management. NitrOS-9 automatically allocates
+all system memory to itself and to processes, and
+also keeps track of the logical <em>contents</em>
+of memory (meaning which
+program modules are resident in memory at any given time). The
+result is that you seldom have to be bothered with the actual memory
+addresses of programs or data.</p>
+<p>Within the address space, memory is assigned from higher
+addresses  downward  for  program  modules, and from lower addresses
+upward for data areas, as shown below:</p>
+<div class="highlight"><pre><span></span><code>                +---------------------------+  highest address
+                !       program modules     !
+                !         (RAM or ROM)      !
+                !                           !
+                ! - - - - - - - - - - - - - !
+                !                           !
+                !        unused space       !
+                !       (RAM or empty)      !
+                !                           !
+                ! - - - - - - - - - - - - - !
+                !                           !
+                !         data areas        !
+                !           (RAM)           !
+                !                           !
+                +---------------------------+  lowest address (0)
+</code></pre></div>
+<h2 id="loading-program-modules-into-memory">Loading Program Modules Into Memory<a class="headerlink" href="#loading-program-modules-into-memory" title="Permanent link">&para;</a></h2>
+<p>When performing a fork operation, NitrOS-9's first step is to attempt
+to locate the requested program module by searching the "module
+directory", which has the address of every module present in memory.
+The 6809 instruction set supports a type of program called
+"reentrant code" which means the exact same "copy" of a program can
+be shared by two or more different processes simultaneously without
+affecting each other, provided that each "incarnation" of the
+program has am independent memory area for its variables.</p>
+<p>Almost all NitrOS-9 family software is reentrant and can make most
+efficient use of memory. For example, Basic09 requires 22K bytes of
+memory to load into. If a request to run Basic09 is made, but
+another user (process) had previously caused it to be loaded into
+memory, both processes will share the same copy, instead of causing
+another copy to be loaded (which would use an additional 22K of
+memory). NitrOS-9 automatically keeps track of how many processes are
+using each program module and deletes the module (freeing its memory
+for other uses) when all processes using the module have terminated.</p>
+<p>If the requested program module is not already in memory, the
+name is used as a pathlist (file name) and an attempt is made to
+load the program from mass storage.</p>
+<p>Every program module has a "module header" that describes the
+program and its memory requirements. NitrOS-9 uses this to determine
+how much memory for variable storage should be allocated to the
+process (it can be given more memory by specifying an optional
+parameter on the shell command line). The module header also
+includes other important descriptive information about the program,
+and is an essential part of NitrOS-9 operation at the machine language
+level. A detailed description of memory modules and module headers
+can be found in the "NitrOS-9 System Programmer's Manual".</p>
+<p>Programs can also be explicitly loaded into memory using the
+<code>load</code> command. As with fork, the program will actually be loaded
+only if it is not already in memory. If the module is not in
+memory, NitrOS-9 will copy a candidate memory module from the file into
+memory, verify the CRC, and then, if the module is not already in
+the module directory, add the module to the directory. This process
+is repeated until all the modules in the file are loaded, the 64K
+memory limit is exceeded, or until a module with an invalid format
+is encountered. NitrOS-9 always links to the first module read from the
+file.</p>
+<p>If the program module <em>is</em> already in memory,
+the load will proceed
+as described above, loading the module from the specified file,
+verifying the CRC, and when attempting to add the valid module to
+the module directory, noticing that the module is already known, the
+load merely increments the known module's link count (the number of
+processes using the module.) The load command can be used to "lock
+a program into memory. This can be useful if the same program is to
+be used frequently because the program will be kept in memory
+continuously, instead of being loaded repeatedly.</p>
+<p>The opposite of <code>load</code> is the <code>unlink</code> command, which decreases a
+program module's link count by one. Recall that when this count becomes zero
+(indicating the module in no longer used by any process),
+the module is deleted, e.g., its memory is deallocated and its name
+is removed from the module directory. The <code>unlink</code> command is
+generally used in conjunction with the <code>load</code> command (programs
+loaded by fork are automatically unlinked when the program
+terminates).</p>
+<p>Here is an example of the use of
+<code>load</code> and <code>unlink</code> to lock a
+program in memory. Suppose the <code>copy</code> command will be used five
+times. Normally, the copy command would be loaded each time the
+<code>copy</code> command is called. If the <code>load</code> command is used first,
+<code>copy</code> will be locked into memory first, for example:</p>
+<div class="highlight"><pre><span></span><code>OS9: load copy
+OS9: copy file1 file1a
+OS9: copy file2 file2a
+OS9: copy file3 file3a
+OS9: unlink copy
+</code></pre></div>
+<p>It is important to use the <code>unlink</code> command after the program is no
+longer needed, or the program will continue to occupy memory which
+otherwise could be used for other purposes. Be very careful
+<em>not</em> to
+completely unlink modules in use by any process! This will cause the
+memory used by the module to be deallocated and its contents
+destroyed. This will certainly cause all programs using the
+unlinked module to crash.</p>
+<h2 id="loading-multiple-programs">Loading Multiple Programs<a class="headerlink" href="#loading-multiple-programs" title="Permanent link">&para;</a></h2>
+<p>Another important aspect of program loading is the ability to
+have two or more programs resident in memory at the same time. This
+is possible because all NitrOS-9 program modules are "position-independent
+code", or "PIC". PIC programs do not have to be loaded into
+specific, predetermined memory addresses to work correctly, and can
+therefore be loaded at different memory addresses at different
+times. PIC programs require special types of machine language instructions
+which few computers have. The ability of the 6809
+microprocessor to use this type of program is one of its most
+powerful features.</p>
+<p>The <code>load</code> command can therefore be used two or more times (or a
+single file may contain several memory modules), and each
+program module will be automatically loaded at different,
+non-overlapping addresses (most other operating systems write over the
+previous program's memory whenever a new program is loaded). This
+technique also relieves the user from having to be directly concerned with
+absolute memory addresses. Any number of program modules
+can be loaded until available system memory is full.</p>
+<h2 id="memory-fragmentation">Memory Fragmentation<a class="headerlink" href="#memory-fragmentation" title="Permanent link">&para;</a></h2>
+<p>Even though PIC programs can be initially loaded at any address
+where free memory is available, program modules cannot be relocated
+dynamically afterwards, e.g., once a program is loaded it must
+remain at the address at which it was originally loaded (however
+Level Two systems can "load" (map) memory resident programs at
+different addresses in each process' address space). This characteristic
+can lead to a sometimes troublesome phenomenon called
+"memory fragmentation". When programs are loaded, they are assigned
+the first sufficiently large block of memory at the highest address
+possible in the address space. If a number of program modules are
+loaded, and subsequently one or more modules which are located in
+between other modules are "unlinked", several fragments of free
+memory space will exist. The sum of the sizes of the free memory
+space may be quite large, but because they are scattered, not enough
+space will exist in a single block to load a program module larger
+than the largest free space.</p>
+<p>The <code>mfree</code> command shows the location and size of each unused
+memory area and the <code>mdir -e</code> command shows the address, size, and
+link (use) count of each module in the address space. These
+commands can be used to detect fragmentation. Memory can usually be
+de-fragmemted by unlinking scattered modules and reloading them.
+<em>Make certain</em> none are in use before doing so.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

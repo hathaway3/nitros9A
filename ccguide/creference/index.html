@@ -1,0 +1,5112 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/creference/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Creference - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c-reference-manual" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Creference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#c-reference-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C Reference Manual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lexical-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lexical Conventions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identifiers-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identifiers (Names)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keywords
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integer-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integer Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicit-long-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit Long Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#character-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Character Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#floating-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Floating Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dec-pdp-11-hardware-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEC PDP-11 Hardware Characteristics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax Notation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-in-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's in a name?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objects-and-lvalues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objects and lvalues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#characters-and-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characters and Integers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#float-and-double" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Float and Double
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#floating-and-integral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Floating and Integral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pointers-and-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pointers and Integers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unsigned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unsigned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arithmetic-conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arithmetic Conversions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unary-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unary Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiplicative-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiplicative Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additive-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additive Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shift-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shift Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relational-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relational Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#equality-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Equality Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitwise-and-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bitwise AND Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitwise-exclusive-or-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bitwise Exclusive OR Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitwise-inclusive-or-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bitwise Inclusive OR Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-and-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical AND Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-or-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical OR Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conditional-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assignment-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assignment Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comma-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comma Operator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declarations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-class-specifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Class Specifiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-specifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Specifiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declarators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#meaning-of-declarators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meaning of Declarators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-and-union-declarations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure and Union Declarations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typedef" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typedef
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expression-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expression Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compound-statement-or-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compound Statement or Block
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conditional-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#while-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Do Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#break-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Break Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continue-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continue Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#return-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goto-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goto Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labeled-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labeled Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#null-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Null Statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-function-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Function Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-data-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External Data Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lexical-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lexical Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-of-externals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope of Externals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-replacement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token Replacement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-inclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Inclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conditional-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Compilation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#line-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Line Control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types Revisited
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structures-and-unions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structures and Unions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arrays-pointers-and-subscripting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arrays, Pointers, and Subscripting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicit-pointer-conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit Pointer Conversions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constant-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constant Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anachronisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anachronisms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syntax Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declarations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-definitions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preprocessor
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Creference</h1>
+
+<h2 id="c-reference-manual">C Reference Manual<a class="headerlink" href="#c-reference-manual" title="Permanent link">&para;</a></h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This manual describes the C language on the DEC PDP-11
+DEC PDP-11, and DEC VAX-11 are trademarks of Digital Equipment Corporation.</p>
+<p>, the DEC VAX-11,
+and the 6809</p>
+<p>6809 is a trademark of Motorola.</p>
+<p>.
+Where differences exist, it concentrates on the VAX, but tries to point
+out implementation-dependent details.  With few execptions, these dependencies
+follow directly from the underlying properties of the hardware; the various
+compilers are generally quite compatible.</p>
+<h2 id="lexical-conventions">Lexical Conventions<a class="headerlink" href="#lexical-conventions" title="Permanent link">&para;</a></h2>
+<p>There are six classes of tokens -
+identifiers, keywords, constants, strings, operators, and other separators.
+Blanks, tabs, newlines,
+and comments (collectively, "white space") as described below
+are ignored except as they serve to separate
+tokens.
+Some white space is required to separate
+otherwise adjacent identifiers,
+keywords, and constants.</p>
+<p>If the input stream has been parsed into tokens
+up to a given character, the next token is taken
+to include the longest string of characters
+which could possibly constitute a token.</p>
+<h2 id="comments">Comments<a class="headerlink" href="#comments" title="Permanent link">&para;</a></h2>
+<p>The characters
+<code>/*</code>
+introduce a comment which terminates
+with the characters
+<code>*/</code>.
+Comments do not nest.</p>
+<h2 id="identifiers-names">Identifiers (Names)<a class="headerlink" href="#identifiers-names" title="Permanent link">&para;</a></h2>
+<p>An identifier is a sequence of letters and digits.
+The first character must be a letter.
+The underscore
+(<code>_</code>)
+counts as a letter.
+Uppercase and lowercase letters
+are different.
+Although there is no limit on the length of a name,
+only initial characters are significant: at least
+eight characters of a non-external name, and perhaps
+fewer for external names.
+Moreover, some implementations may collapse case
+distinctions for external names.
+The external name sizes include:</p>
+<p>PDP-11
+  7 characters, 2 cases</p>
+<p>VAX-11</p>
+<blockquote>
+<p>100 characters, 2 cases</p>
+</blockquote>
+<p>Motorola 6809
+  7 characters, 2 cases</p>
+<h2 id="keywords">Keywords<a class="headerlink" href="#keywords" title="Permanent link">&para;</a></h2>
+<p>The following identifiers are reserved for use
+as keywords and may not be used otherwise:</p>
+<p>int
+  extern
+  else</p>
+<p>char
+  register
+  for</p>
+<p>float
+  typedef
+  do</p>
+<p>double
+  static
+  while</p>
+<p>struct
+  goto
+  switch</p>
+<p>union
+  return
+  case</p>
+<p>long
+  sizeof
+  default</p>
+<p>short
+  break
+  entry</p>
+<p>unsigned
+  continue
+  register</p>
+<p>auto
+  if</p>
+<p>Some implementations also reserve the words
+<code>direct</code>
+<code>fortran</code>
+and
+<code>asm</code></p>
+<h2 id="constants">Constants<a class="headerlink" href="#constants" title="Permanent link">&para;</a></h2>
+<p>There are several kinds
+of constants.
+Each has a type; an introduction to types is given in .
+Hardware characteristics that affect sizes are summarized in
+"Hardware Characteristics" under .</p>
+<h2 id="integer-constants">Integer Constants<a class="headerlink" href="#integer-constants" title="Permanent link">&para;</a></h2>
+<p>An integer constant consisting of a sequence of digits
+is taken
+to be octal if it begins with
+<code>0</code>
+(digit zero).
+An octal constant consists of the digits <code>0</code> through <code>7</code> only.
+A sequence of digits preceded by
+<code>0x</code>
+or
+<code>0X</code>
+(digit zero) is taken to be a hexadecimal integer.
+The hexadecimal digits include
+<code>a</code>
+or
+<code>A</code>
+through
+<code>f</code>
+or
+<code>F</code>
+with values 10 through 15.
+Otherwise, the integer constant is taken to be decimal.
+A decimal constant whose value exceeds the largest
+signed machine integer is taken to be
+<code>long</code>;
+an octal or hex constant which exceeds the largest unsigned machine integer
+is likewise taken to be
+<code>long</code>.</p>
+<h2 id="explicit-long-constants">Explicit Long Constants<a class="headerlink" href="#explicit-long-constants" title="Permanent link">&para;</a></h2>
+<p>A decimal, octal, or hexadecimal integer constant immediately followed
+by
+<code>l</code>
+(letter ell) or
+<code>L</code>
+is a long constant.
+As discussed below,
+on some machines
+integer and long values may be considered identical.</p>
+<h2 id="character-constants">Character Constants<a class="headerlink" href="#character-constants" title="Permanent link">&para;</a></h2>
+<p>A character constant is a character enclosed in single quotes,
+as in '<code>x</code>'.
+The value of a character constant is the numerical value of the
+character in the machine's character set.</p>
+<p>Certain nongraphic characters,
+the single quote
+(<code>'</code>)
+and the backslash
+(<code>\</code>),
+may be represented according to the following table
+of escape sequences:</p>
+<p>newline
+  NL (LF)
+  \n</p>
+<p>horizontal tab
+  HT
+  \t</p>
+<p>vertical tab
+  VT
+  \v</p>
+<p>backspace
+  BS
+  \b</p>
+<p>carriage return
+  CR
+  \r</p>
+<p>form feed
+  FF
+  \f</p>
+<p>backslash
+  \
+  \</p>
+<p>single quote
+  '
+  \'</p>
+<p>bit pattern
+  <em>ddd</em>
+  *ddd*</p>
+<p>The escape *ddd*
+consists of the backslash followed by 1, 2, or 3 octal digits
+which are taken to specify the value of the
+desired character.
+A special case of this construction is
+<code>\0</code>
+(not followed
+by a digit), which indicates the character
+<code>NUL</code>.
+If the character following a backslash is not one
+of those specified, the
+behavior is undefined.
+A new-line character is illegal in a character constant.
+The type of a character constant is <code>int</code>.</p>
+<h2 id="floating-constants">Floating Constants<a class="headerlink" href="#floating-constants" title="Permanent link">&para;</a></h2>
+<p>A floating constant consists of
+an integer part, a decimal point, a fraction part,
+an
+<code>e</code>
+or
+<code>E</code>,
+and an optionally signed integer exponent.
+The integer and fraction parts both consist of a sequence
+of digits.
+Either the integer part or the fraction
+part (not both) may be missing.
+Either the decimal point or
+the
+<code>e</code>
+and the exponent (not both) may be missing.
+Every floating constant is taken to be double-precision.</p>
+<h2 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">&para;</a></h2>
+<p>A string is a sequence of characters surrounded by
+double quotes,
+as in
+<code>"..."</code>.
+A string has type
+"array of <code>char</code>" and storage class
+<code>static</code>
+(see )
+and is initialized with the given characters.
+The compiler places a null byte
+(<code>\0</code>)
+at the end of each string so that programs
+which scan the string can
+find its end.
+In a string, the double quote character
+(<code>"</code>)
+must be preceded by
+a
+<code>\</code>;
+in addition, the same escapes as described for character
+constants may be used.</p>
+<p>A
+<code>\</code>
+and
+the immediately following newline are ignored.
+All strings, even when written identically, are distinct.</p>
+<h2 id="hardware-characteristics">Hardware Characteristics<a class="headerlink" href="#hardware-characteristics" title="Permanent link">&para;</a></h2>
+<p>The following figure summarize
+certain hardware properties that vary from machine to machine.</p>
+<h2 id="dec-pdp-11-hardware-characteristics">DEC PDP-11 Hardware Characteristics<a class="headerlink" href="#dec-pdp-11-hardware-characteristics" title="Permanent link">&para;</a></h2>
+<p>DEC PDP-11
+  DEC VAX-11
+  6809</p>
+<p>(ASCII)
+  (ASCII)
+  (ASCII)</p>
+<p>char
+  8 bits
+  8 bits
+  8 bits</p>
+<p>int
+  16
+  32
+  16</p>
+<p>short
+  16
+  16
+  16</p>
+<p>long
+  32
+  32
+  32</p>
+<p>float
+  32
+  32
+  32</p>
+<p>double
+  64
+  64
+  64</p>
+<p>float range
+  &plusmn;10&plusmn;38
+  &plusmn;10&plusmn;38
+  &plusmn;10&plusmn;38</p>
+<p>double range
+  &plusmn;10&plusmn;38
+  &plusmn;10&plusmn;38
+  &plusmn;10&plusmn;38</p>
+<h2 id="syntax-notation">Syntax Notation<a class="headerlink" href="#syntax-notation" title="Permanent link">&para;</a></h2>
+<p>Syntactic categories are indicated by</p>
+<p>italic</p>
+<p>type
+and literal words and characters
+in
+<code>bold</code>
+type.
+Alternative categories are listed on separate lines.
+An optional terminal or nonterminal symbol is
+indicated by the subscript "opt," so that</p>
+<p>{ <em>expressionopt</em> }</p>
+<p>indicates an optional expression enclosed in braces.
+The syntax is summarized in .</p>
+<h2 id="whats-in-a-name">What's in a name?<a class="headerlink" href="#whats-in-a-name" title="Permanent link">&para;</a></h2>
+<p>C bases the interpretation of an
+identifier upon two attributes of the identifier: its
+<em>storage class</em>
+and its
+<em>type</em>.
+The storage class determines the location and lifetime
+of the storage associated with an identifier;
+the type determines
+the meaning of the values
+found in the identifier's storage.</p>
+<p>There are four declarable storage classes:
+automatic, static, external, and register.
+Automatic variables are local to each invocation of
+a block (see )
+and are discarded upon exit from the block.
+Static variables are local to a block but retain
+their values upon reentry to a block even after control
+has left the block.
+External variables exist and retain their values throughout
+the execution of the entire program and
+may be used for communication between
+functions, even separately compiled functions.
+Register variables are (if possible) stored in the fast registers
+of the machine; like automatic
+variables, they are local to each block and disappear on exit from the block.</p>
+<p>C supports several fundamental types of objects:</p>
+<p>Objects declared as characters
+(<code>char</code>)
+are large enough to store any member of the implementation's
+character set, 
+and if a genuine character from that character set is
+stored in a <code>char</code> variable,
+its value is equivalent to the integer code for that character.
+Other quantities may be stored into character variables, but
+the implementation is machine dependent.</p>
+<p>Up to three sizes of integer, declared
+<code>short int</code>,
+<code>int</code>,
+and
+<code>long int</code>,
+are available.
+Longer integers provide no less storage than shorter ones,
+but the implementation may make either short integers or long integers,
+or both, equivalent to plain integers.
+"Plain" integers have the natural size suggested
+by the host machine architecture.
+The other sizes are provided to meet special needs.</p>
+<p>Unsigned integers, declared
+<code>unsigned</code>,
+obey the laws of arithmetic modulo
+2<em>n</em>
+where <em>n</em> is the number of bits in the representation.
+(On the PDP-11, unsigned long quantities are not supported.)</p>
+<p>Single-precision floating point
+(<code>float</code>)
+and double precision floating point
+(<code>double</code>)
+may be synonymous in some implementations.</p>
+<p>Because objects of the foregoing types can usefully be interpreted
+as numbers, they will be referred to as
+<em>arithmetic</em>
+types.
+Types
+<code>char</code> and
+<code>int</code>
+of all sizes will collectively be called</p>
+<p>integral</p>
+<p>types.
+<code>float</code>
+and
+<code>double</code>
+types will collectively be called
+<em>floating</em>
+types.</p>
+<p>Besides the fundamental arithmetic types, there is a
+conceptually infinite class of derived types constructed
+from the fundamental types in the following ways:</p>
+<ul>
+<li>
+<p><em>arrays</em>
+of objects of most types</p>
+</li>
+<li></li>
+</ul>
+<p><em>functions</em>
+which return objects of a given type</p>
+<ul>
+<li></li>
+</ul>
+<p><em>pointers</em>
+to objects of a given type</p>
+<ul>
+<li></li>
+</ul>
+<p><em>structures</em>
+containing a sequence of objects of various types</p>
+<ul>
+<li></li>
+</ul>
+<p><em>unions</em>
+capable of containing any one of several objects of various types.</p>
+<p>In general these methods of constructing objects can be applied recursively.</p>
+<h2 id="objects-and-lvalues">Objects and lvalues<a class="headerlink" href="#objects-and-lvalues" title="Permanent link">&para;</a></h2>
+<p>An
+<em>object</em>
+is a manipulatable region of storage.
+An <em>lvalue</em>
+is an expression referring to an object.
+An obvious example of an lvalue
+expression is an identifier.
+There are operators which yield lvalues:
+for example,
+if
+<code>E</code>
+is an expression of pointer type, then
+<code>*E</code>
+is an lvalue
+expression referring to the object to which
+<code>E</code> points.
+The name "lvalue" comes from the assignment expression
+<code>E1 = E2</code>
+in which the left operand
+<code>E1</code>
+must be
+an lvalue expression.
+The discussion of each operator
+below indicates whether it expects lvalue operands and whether it
+yields an lvalue.</p>
+<h2 id="conversions">Conversions<a class="headerlink" href="#conversions" title="Permanent link">&para;</a></h2>
+<p>A number of operators may, depending on their operands,
+cause conversion of the value of an operand from one type to another.
+This part explains the result to be expected from such
+conversions.
+The conversions demanded by most ordinary operators are summarized under
+"Arithmetic Conversions."
+The summary will be supplemented
+as required by the discussion
+of each operator.</p>
+<h2 id="characters-and-integers">Characters and Integers<a class="headerlink" href="#characters-and-integers" title="Permanent link">&para;</a></h2>
+<p>A character or a short integer may be used wherever an
+integer may be used.
+In all cases
+the value is converted to an integer.
+Conversion of a shorter integer
+to a longer preserves sign.
+Whether or not sign-extension occurs for characters is machine
+dependent, but it is guaranteed that a member of the
+standard character set is non-negative.
+Of the machines treated here,
+only the
+PDP-11
+and
+VAX-11
+sign-extend.
+On these machines,
+<code>char</code>
+variables range in value from
+-128 to 127.
+The more explicit type
+<code>unsigned</code>
+<code>char</code>
+forces the values to range from 0 to 255.</p>
+<p>On machines that treat characters as signed,
+the characters of the
+ASCII
+set are all non-negative.
+However, a character constant specified
+with an octal escape suffers sign extension
+and may appear negative;
+for example,
+<code>'\377'</code>
+has the value
+<code>-1</code>.</p>
+<p>When a longer integer is converted to a shorter
+integer
+or to a
+<code>char</code>,
+it is truncated on the left.
+Excess bits are simply discarded.</p>
+<h2 id="float-and-double">Float and Double<a class="headerlink" href="#float-and-double" title="Permanent link">&para;</a></h2>
+<p>All floating arithmetic in C is carried out in double precision.
+Whenever a
+<code>float</code>
+appears in an expression it is lengthened to
+<code>double</code>
+by zero padding its fraction.
+When a
+<code>double</code>
+must be
+converted to
+<code>float</code>,
+for example by an assignment,
+the
+<code>double</code>
+is rounded before
+truncation to
+<code>float</code>
+length.
+This result is undefined if it cannot be represented as a float.
+On the VAX, the compiler can be directed to use single percision for expressions
+containing only float and interger operands.</p>
+<h2 id="floating-and-integral">Floating and Integral<a class="headerlink" href="#floating-and-integral" title="Permanent link">&para;</a></h2>
+<p>Conversions of floating values to integral type
+are rather machine dependent.
+In particular, the direction of truncation of negative numbers
+varies.
+The result is undefined if
+it will not fit in the space provided.</p>
+<p>Conversions of integral values to floating type
+are well behaved.
+Some loss of accuracy occurs
+if the destination lacks sufficient bits.</p>
+<h2 id="pointers-and-integers">Pointers and Integers<a class="headerlink" href="#pointers-and-integers" title="Permanent link">&para;</a></h2>
+<p>An expression of integral type may be added to or subtracted from
+a pointer; in such a case,
+the first is converted as
+specified in the discussion of the addition operator.
+Two pointers to objects of the same type may be subtracted;
+in this case, the result is converted to an integer
+as specified in the discussion of the subtraction
+operator.</p>
+<h2 id="unsigned">Unsigned<a class="headerlink" href="#unsigned" title="Permanent link">&para;</a></h2>
+<p>Whenever an unsigned integer and a plain integer
+are combined, the plain integer is converted to unsigned
+and the result is unsigned.
+The value
+is the least unsigned integer congruent to the signed
+integer (modulo 2wordsize).
+In a 2's complement representation,
+this conversion is conceptual; and there is no actual change in the
+bit pattern.</p>
+<p>When an unsigned <code>short</code> integer is converted to
+<code>long</code>,
+the value of the result is the same numerically as that of the
+unsigned integer.
+Thus the conversion amounts to padding with zeros on the left.</p>
+<h2 id="arithmetic-conversions">Arithmetic Conversions<a class="headerlink" href="#arithmetic-conversions" title="Permanent link">&para;</a></h2>
+<p>A great many operators cause conversions
+and yield result types in a similar way.
+This pattern will be called the "usual arithmetic conversions."</p>
+<ul>
+<li>
+<p>First, any operands of type
+<code>char</code>
+or
+<code>short</code>
+are converted to
+<code>int</code>,
+and any operands of type <code>unsigned char</code>
+or <code>unsigned short</code> are converted
+to <code>unsigned int</code>.</p>
+</li>
+<li></li>
+</ul>
+<p>Then, if either operand is
+<code>double</code>,
+the other is converted to
+<code>double</code>
+and that is the type of the result.</p>
+<ul>
+<li></li>
+</ul>
+<p>Otherwise, if either operand is <code>unsigned long</code>,
+the other is converted to <code>unsigned long</code> and that
+is the type of the result.</p>
+<ul>
+<li></li>
+</ul>
+<p>Otherwise, if either operand is
+<code>long</code>,
+the other is converted to
+<code>long</code>
+and that is the type of the result.</p>
+<ul>
+<li></li>
+</ul>
+<p>Otherwise, if one operand is <code>long</code>, and
+the other is <code>unsigned int</code>, they are both
+converted to <code>unsigned long</code> and that is
+the type of the result.</p>
+<ul>
+<li></li>
+</ul>
+<p>Otherwise, if either operand is
+<code>unsigned</code>,
+the other is converted to
+<code>unsigned</code>
+and that is the type of the result.</p>
+<ul>
+<li></li>
+</ul>
+<p>Otherwise, both operands must be
+<code>int</code>,
+and that is the type of the result.</p>
+<h2 id="expressions">Expressions<a class="headerlink" href="#expressions" title="Permanent link">&para;</a></h2>
+<p>The precedence of expression operators is the same
+as the order of the major
+subsections of this section, highest precedence first.
+Thus, for example, the expressions referred to as the operands of
+<code>+</code>
+(see )
+are those expressions defined under ,
+, and .
+Within each subpart, the operators have the same
+precedence.
+Left- or right-associativity is specified
+in each subsection for the operators
+discussed therein.
+The precedence and associativity of all the expression
+operators are summarized in the
+grammar of .</p>
+<p>Otherwise, the order of evaluation of expressions
+is undefined.  In particular, the compiler
+considers itself free to
+compute subexpressions in the order it believes
+most efficient
+even if the subexpressions
+involve side effects.
+The order in which subexpression evaluation takes place is unspecified.
+Expressions involving a commutative and associative
+operator
+(<code>*,</code>
+<code>+</code>,
+<code>&amp;</code>,
+<code>|</code>,
+<code>^</code>)
+may be rearranged arbitrarily even in the presence
+of parentheses;
+to force a particular order of evaluation,
+an explicit temporary must be used.</p>
+<p>The handling of overflow and divide check
+in expression evaluation
+is undefined.
+Most existing implementations of C ignore integer overflows;
+treatment of
+division by 0 and all floating-point exceptions
+varies between machines and is usually
+adjustable by a library function.</p>
+<h2 id="primary-expressions">Primary Expressions<a class="headerlink" href="#primary-expressions" title="Permanent link">&para;</a></h2>
+<p>Primary expressions
+involving <code>.</code>,
+<code>-&gt;</code>,
+subscripting, and function calls
+group left to right.</p>
+<p>primary-expression:
+        identifier
+        constant
+        string
+        ( expression )
+        primary-expression [ expression ]
+        primary-expression ( expression-listopt )
+        primary-expression . identifier
+        primary-expression -&gt; identifier</p>
+<p>expression-list:
+        expression
+        expression-list , expression</p>
+<p>An identifier is a primary expression provided it has been
+suitably declared as discussed below.
+Its type is specified by its declaration.
+If the type of the identifier is "array of ...",
+then the value of the identifier expression
+is a pointer
+to the first object in the array; and the
+type of the expression is
+"pointer to ...".
+Moreover, an array identifier is not an lvalue
+expression.
+Likewise, an identifier which is declared
+"function returning ...",
+when used except in the function-name position
+of a call, is converted to "pointer to function returning ...".</p>
+<p>A
+constant is a primary expression.
+Its type may be
+<code>int</code>,
+<code>long</code>,
+or
+<code>double</code>
+depending on its form.
+Character constants have type
+<code>int</code>
+and floating constants have type
+<code>double</code>.</p>
+<p>A string is a primary expression.
+Its type is originally array of
+<code>char</code>,
+but following
+the same rule given above for identifiers,
+this is modified to pointer to
+<code>char</code> and
+the
+result is a pointer to the first character
+in the string.
+(There is an exception in certain initializers;
+see .)</p>
+<p>A parenthesized expression is a primary expression
+whose type and value are identical
+to those of the unadorned expression.
+The presence of parentheses does
+not affect whether the expression is an
+lvalue.</p>
+<p>A primary expression followed by an expression in square
+brackets is a primary expression.
+The intuitive meaning is that of a subscript.
+Usually, the primary expression has type "pointer to ...",
+the subscript expression is
+<code>int</code>,
+and the type of the result is "...".
+The expression
+<code>E1[E2]</code>
+is
+identical (by definition) to
+<code>*((E1)+E2))</code>.
+All the clues
+needed to understand
+this notation are contained in this subpart together
+with the discussions
+in  and  on identifiers,
+<code>*</code>
+and
+<code>+</code>
+respectively.
+The implications are summarized under "Arrays, Pointers, and Subscripting"
+under .</p>
+<p>A function call is a primary expression followed by parentheses
+containing a possibly
+empty, comma-separated list of expressions
+which constitute the actual arguments to the
+function.
+The primary expression must be of type "function returning ...,"
+and the result of the function call is of type "...".
+As indicated
+below, a hitherto unseen identifier followed
+immediately by a left parenthesis
+is contextually declared
+to represent a function returning
+an integer;
+thus in the most common case, integer-valued functions
+need not be declared.</p>
+<p>Any actual arguments of type
+<code>float</code>
+are
+converted to
+<code>double</code>
+before the call.
+Any of type
+<code>char</code>
+or
+<code>short</code>
+are converted to
+<code>int</code>.
+Array names are converted to pointers.
+No other conversions are performed automatically;
+in particular, the compiler does not compare
+the types of actual arguments with those of formal
+arguments.
+If conversion is needed, use a cast;
+see  and .</p>
+<p>In preparing for the call to a function,
+a copy is made of each actual parameter.
+Thus, all argument passing in C is strictly by value.
+A function may
+change the values of its formal parameters, but
+these changes cannot affect the values
+of the actual parameters.
+It is possible
+to pass a pointer on the understanding
+that the function may change the value
+of the object to which the pointer points.
+An array name is a pointer expression.
+The order of evaluation of arguments is undefined by the language;
+take note that the various compilers differ.
+Recursive calls to any
+function are permitted.</p>
+<p>A primary expression followed by a dot followed by an identifier
+is an expression.
+The first expression must be a structure or a union, and the identifier
+must name a member of the structure or union.
+The value is the named member of the structure or union, and it is
+an lvalue if the first expression is an lvalue.</p>
+<p>A primary expression followed by an arrow (built from
+<code>-</code>
+and
+<code>&gt;</code>)
+followed by an identifier
+is an expression.
+The first expression must be a pointer to a structure or a union
+and the identifier must name a member of that structure or union.
+The result is an lvalue referring to the named member
+of the structure or union
+to which the pointer expression points.
+Thus the expression
+<code>E1-&gt;MOS</code>
+is the same as
+<code>(*E1).MOS</code>.
+Structures and unions are discussed in
+ under
+.</p>
+<h2 id="unary-operators">Unary Operators<a class="headerlink" href="#unary-operators" title="Permanent link">&para;</a></h2>
+<p>Expressions with unary operators
+group right to left.</p>
+<p>unary-expression:
+        * expression
+        &amp; lvalue
+        - expression
+        ! expression
+        ~ expression
+        ++ lvalue
+        --lvalue
+        lvalue ++
+        lvalue --
+        ( type-name ) expression
+        sizeof<em> expression</em>
+        sizeof<em> ( type-name )</em></p>
+<p>The unary
+<code>*</code>
+operator
+means</p>
+<p>indirection</p>
+<p>;
+the expression must be a pointer, and the result
+is an lvalue referring to the object to
+which the expression points.
+If the type of the expression is "pointer to ...,"
+the type of the result is "...".</p>
+<p>The result of the unary
+<code>&amp;</code>
+operator is a pointer
+to the object referred to by the
+lvalue.
+If the type of the lvalue is "...",
+the type of the result is "pointer to ...".</p>
+<p>The result
+of the unary
+<code>-</code>
+operator
+is the negative of its operand.
+The usual arithmetic conversions are performed.
+The negative of an unsigned quantity is computed by
+subtracting its value from
+2<em>n</em> where <em>n</em> is the number of bits in
+the corresponding signed type.</p>
+<p>There is no unary
+<code>+</code>
+operator.</p>
+<p>The result of the logical negation operator
+<code>!</code>
+is one if the value of its operand is zero, zero if the value of its
+operand is nonzero.
+The type of the result is
+<code>int</code>.
+It is applicable to any arithmetic type
+or to pointers.</p>
+<p>The
+<code>~</code>
+operator yields the one's complement of its operand.
+The usual arithmetic conversions are performed.
+The type of the operand must be integral.</p>
+<p>The object referred to by the lvalue operand of prefix
+<code>++</code>
+is incremented.
+The value is the new value of the operand
+but is not an lvalue.
+The expression
+<code>++x</code>
+is equivalent to
+<code>x=x+1</code>.
+See the discussions  and 
+for information on conversions.</p>
+<p>The lvalue operand of prefix
+<code>--</code>
+is decremented
+analogously to the
+prefix
+<code>++</code>
+operator.</p>
+<p>When postfix
+<code>++</code>
+is applied to an lvalue,
+the result is the value of the object referred to by the lvalue.
+After the result is noted, the object
+is incremented in the same
+manner as for the prefix
+<code>++</code>
+operator.
+The type of the result is the same as the type of the lvalue expression.</p>
+<p>When postfix
+<code>--</code>
+is applied to an lvalue,
+the result is the value of the object referred to by the lvalue.
+After the result is noted, the object
+is decremented in the manner as for the prefix
+<code>--</code>
+operator.
+The type of the result is the same as the type of the lvalue
+expression.</p>
+<p>An expression preceded by the parenthesized name of a data type
+causes conversion of the value of the expression to the named type.
+This construction is called a</p>
+<p>cast.
+Type names are described in .</p>
+<p>The
+<code>sizeof</code>
+operator yields the size
+in bytes of its operand.
+(A <em>byte</em>
+is undefined by the language
+except in terms of the value of
+<code>sizeof</code>.
+However, in all existing implementations,
+a byte is the space required to hold a
+<code>char</code>.)
+When applied to an array, the result is the total
+number of bytes in the array.
+The size is determined from
+the declarations of
+the objects in the expression.
+This expression is semantically an
+<code>unsigned</code>
+constant and may
+be used anywhere a constant is required.
+Its major use is in communication with routines
+like storage allocators and I/O systems.</p>
+<p>The
+<code>sizeof</code>
+operator
+may also be applied to a parenthesized type name.
+In that case it yields the size in bytes of an object
+of the indicated type.</p>
+<p>The construction
+<code>sizeof(</code><em>type</em><code>)</code>
+is taken to be a unit,
+so the expression
+<code>sizeof(</code><em>type</em><code>)-2</code>
+is the same as
+<code>(sizeof(</code><em>type</em><code>))-2</code>.</p>
+<h2 id="multiplicative-operators">Multiplicative Operators<a class="headerlink" href="#multiplicative-operators" title="Permanent link">&para;</a></h2>
+<p>The multiplicative operators
+<code>*</code>,
+<code>/</code>,
+and
+<code>%</code>
+group left to right.
+The usual arithmetic conversions are performed.</p>
+<p>multiplicative expression:
+        expression * expression
+        expression / expression
+        expression % expression</p>
+<p>The binary
+<code>*</code>
+operator indicates multiplication.
+The
+<code>*</code>
+operator is associative,
+and expressions with several multiplications at the same
+level may be rearranged by the compiler.
+The binary
+<code>/</code>
+operator indicates division.</p>
+<p>The binary
+<code>%</code>
+operator yields the remainder
+from the division of the first expression by the second.
+The operands must be integral.</p>
+<p>When positive integers are divided, truncation is toward 0;
+but the form of truncation is machine-dependent
+if either operand is negative.
+On all machines covered by this manual,
+the remainder has the same sign as the dividend.
+It is always true that
+<code>(a/b)*b + a%b</code>
+is equal to
+<code>a</code>
+(if
+<code>b</code>
+is not 0).</p>
+<h2 id="additive-operators">Additive Operators<a class="headerlink" href="#additive-operators" title="Permanent link">&para;</a></h2>
+<p>The additive operators
+<code>+</code>
+and
+<code>-</code>
+group left to right.
+The usual arithmetic conversions are performed.
+There are some additional type possibilities for each operator.</p>
+<p>additive-expression:
+        expression + expression
+        expression - expression</p>
+<p>The result of the
+<code>+</code>
+operator is the sum of the operands.
+A pointer to an object in an array and
+a value of any integral type
+may be added.
+The latter is in all cases converted to
+an address offset
+by multiplying it
+by the length of the object to which the
+pointer points.
+The result is a pointer
+of the same type as the original pointer
+which points to another object in the same array,
+appropriately offset from the original object.
+Thus if
+<code>P</code>
+is a pointer
+to an object in an array, the expression
+<code>P+1</code>
+is a pointer
+to the next object in the array.
+No further type combinations are allowed for pointers.</p>
+<p>The
+<code>+</code>
+operator is associative,
+and expressions with several additions at the same level may
+be rearranged by the compiler.</p>
+<p>The result of the
+<code>-</code>
+operator is the difference of the operands.
+The usual arithmetic conversions are performed.
+Additionally,
+a value of any integral type
+may be subtracted from a pointer,
+and then the same conversions for addition apply.</p>
+<p>If two pointers to objects of the same type are subtracted,
+the result is converted
+(by division by the length of the object)
+to an
+<code>int</code>
+representing the number of
+objects separating
+the pointed-to objects.
+This conversion will in general give unexpected
+results unless the pointers point
+to objects in the same array, since pointers, even
+to objects of the same type, do not necessarily differ
+by a multiple of the object length.</p>
+<h2 id="shift-operators">Shift Operators<a class="headerlink" href="#shift-operators" title="Permanent link">&para;</a></h2>
+<p>The shift operators
+<code>&lt;&lt;</code>
+and
+<code>&gt;&gt;</code>
+group left to right.
+Both perform the usual arithmetic conversions on their operands,
+each of which must be integral.
+Then the right operand is converted to
+<code>int</code>;
+the type of the result is that of the left operand.
+The result is undefined if the right operand is negative
+or greater than or equal to the length of the object in bits.
+On the VAX a negative right operand is interpreted as reversing
+the direction of the shift.</p>
+<p>shift-expression:
+        expression &lt;&lt; expression
+        expression &gt;&gt; expression</p>
+<p>The value of
+<code>E1&lt;&lt;E2</code>
+is
+<code>E1</code>
+(interpreted as a bit
+pattern) left-shifted
+<code>E2</code>
+bits.
+Vacated bits are 0 filled.
+The value of
+<code>E1&gt;&gt;E2</code>
+is
+<code>E1</code>
+right-shifted
+<code>E2</code>
+bit positions.
+The right shift is guaranteed to be logical
+(0 fill)
+if
+<code>E1</code>
+is
+<code>unsigned</code>;
+otherwise, it may be
+arithmetic.</p>
+<h2 id="relational-operators">Relational Operators<a class="headerlink" href="#relational-operators" title="Permanent link">&para;</a></h2>
+<p>The relational operators group left to right. </p>
+<p>relational-expression:
+        expression &lt; expression
+        expression &gt; expression
+        expression &lt;= expression
+        expression &gt;= expression</p>
+<p>The operators
+<code>&lt;</code>
+(less than),
+<code>&gt;</code>
+(greater than), <code>&lt;=</code>
+(less than or equal to), and
+<code>&gt;=</code>
+(greater than or equal to)
+all yield 0 if the specified relation is false
+and 1 if it is true.
+The type of the result is
+<code>int</code>.
+The usual arithmetic conversions are performed.
+Two pointers may be compared;
+the result depends on the relative locations in the address space
+of the pointed-to objects.
+Pointer comparison is portable only when the pointers point to objects
+in the same array.</p>
+<h2 id="equality-operators">Equality Operators<a class="headerlink" href="#equality-operators" title="Permanent link">&para;</a></h2>
+<p>equality-expression:
+        expression == expression
+        expression != expression</p>
+<p>The
+<code>==</code>
+(equal to) and the
+<code>!=</code>
+(not equal to) operators
+are exactly analogous to the relational
+operators except for their lower
+precedence.
+(Thus
+<code>a&lt;b == c&lt;d</code>
+is 1 whenever
+<code>a&lt;b</code>
+and
+<code>c&lt;d</code>
+have the same truth value).</p>
+<p>A pointer may be compared to an integer
+only if the
+integer is the constant 0.
+A pointer to which 0 has been assigned is guaranteed
+not to point to any object
+and will appear to be equal to 0.
+In conventional usage, such a pointer is considered to be null.</p>
+<h2 id="bitwise-and-operator">Bitwise AND Operator<a class="headerlink" href="#bitwise-and-operator" title="Permanent link">&para;</a></h2>
+<p>and-expression:
+        expression &amp; expression</p>
+<p>The
+<code>&amp;</code>
+operator is associative,
+and expressions involving
+<code>&amp;</code>
+may be rearranged.
+The usual arithmetic conversions are performed.
+The result is the bitwise
+AND
+function of the operands.
+The operator applies only to integral
+operands.</p>
+<h2 id="bitwise-exclusive-or-operator">Bitwise Exclusive OR Operator<a class="headerlink" href="#bitwise-exclusive-or-operator" title="Permanent link">&para;</a></h2>
+<p>exclusive-or-expression:
+        expression ^ expression</p>
+<p>The
+<code>^</code>
+operator is associative,
+and expressions involving
+<code>^</code>
+may be rearranged.
+The usual arithmetic conversions are performed;
+the result is
+the bitwise exclusive
+OR
+function of
+the operands.
+The operator applies only to integral
+operands.</p>
+<h2 id="bitwise-inclusive-or-operator">Bitwise Inclusive OR Operator<a class="headerlink" href="#bitwise-inclusive-or-operator" title="Permanent link">&para;</a></h2>
+<p>inclusive-or-expression:
+        expression | expression</p>
+<p>The
+<code>|</code>
+operator is associative,
+and expressions involving
+<code>|</code>
+may be rearranged.
+The usual arithmetic conversions are performed;
+the result is the bitwise inclusive
+OR
+function of its operands.
+The operator applies only to integral
+operands.</p>
+<h2 id="logical-and-operator">Logical AND Operator<a class="headerlink" href="#logical-and-operator" title="Permanent link">&para;</a></h2>
+<p>logical-and-expression:
+        expression &amp;&amp; expression</p>
+<p>The
+<code>&amp;&amp;</code>
+operator groups left to right.
+It returns 1 if both its operands
+evaluate to nonzero, 0 otherwise.
+Unlike
+<code>&amp;</code>,
+<code>&amp;&amp;</code>
+guarantees left to right
+evaluation; moreover, the second operand is not evaluated
+if the first operand is 0.</p>
+<p>The operands need not have the same type, but each
+must have one of the fundamental
+types or be a pointer.
+The result is always
+<code>int</code>.</p>
+<h2 id="logical-or-operator">Logical OR Operator<a class="headerlink" href="#logical-or-operator" title="Permanent link">&para;</a></h2>
+<p>logical-or-expression:
+        expression || expression</p>
+<p>The
+<code>||</code>
+operator groups left to right.
+It returns 1 if either of its operands
+evaluates to nonzero, 0 otherwise.
+Unlike
+<code>|</code>,
+<code>||</code>
+guarantees left to right evaluation; moreover,
+the second operand is not evaluated
+if the value of the first operand is nonzero.</p>
+<p>The operands need not have the same type, but each
+must
+have one of the fundamental types
+or be a pointer.
+The result is always
+<code>int</code>.</p>
+<h2 id="conditional-operator">Conditional Operator<a class="headerlink" href="#conditional-operator" title="Permanent link">&para;</a></h2>
+<p>conditional-expression:
+        expression ? expression : expression</p>
+<p>Conditional expressions group right to left.
+The first expression is evaluated;
+and if it is nonzero, the result is the value of the
+second expression, otherwise that of third expression.
+If possible, the usual arithmetic conversions are performed
+to bring the second and third expressions to a common type.
+If both are structures or unions of the same type,
+the result has the type of the structure or union.
+If both pointers are of the same type,
+the result has the common type.
+Otherwise, one must be a pointer and the other the constant 0,
+and the result has the type of the pointer.
+Only one of the second and third
+expressions is evaluated.</p>
+<h2 id="assignment-operators">Assignment Operators<a class="headerlink" href="#assignment-operators" title="Permanent link">&para;</a></h2>
+<p>There are a number of assignment operators,
+all of which group right to left.
+All require an lvalue as their left operand,
+and the type of an assignment expression is that
+of its left operand.
+The value is the value stored in the
+left operand after the assignment has taken place.
+The two parts of a compound assignment operator are separate
+tokens.</p>
+<p>assignment-expression:
+        lvalue = expression
+        lvalue += expression
+        lvalue -= expression
+        lvalue *= expression
+        lvalue /= expression
+        lvalue %= expression
+        lvalue &gt;&gt;= expression
+        lvalue &lt;&lt;= expression
+        lvalue &amp;= expression
+        lvalue ^= expression
+        lvalue |= expression</p>
+<p>In the simple assignment with
+<code>=</code>,
+the value of the expression replaces that of the object
+referred
+to by the lvalue.
+If both operands have arithmetic type,
+the right operand is converted to the type of the left
+preparatory to the assignment.
+Second, both operands may be structures or unions of the same type.
+Finally, if the left operand is a pointer, the right operand must in general be a pointer
+of the same type.
+However, the constant 0 may be assigned to a pointer;
+it is guaranteed that this value will produce a null
+pointer distinguishable from a pointer to any object.</p>
+<p>The behavior of an expression
+of the form
+<code>E1</code> <code>op</code> = <code>E2</code>
+may be inferred by
+taking it as equivalent to
+<code>E1 = E1</code> <code>op</code> (<code>E2</code>);
+however,
+<code>E1</code>
+is evaluated only once.
+In
+<code>+=</code>
+and
+<code>-=</code>,
+the left operand may be a pointer; in which case, the (integral) right
+operand is converted as explained
+in .
+All right operands and all nonpointer left operands must
+have arithmetic type.</p>
+<h2 id="comma-operator">Comma Operator<a class="headerlink" href="#comma-operator" title="Permanent link">&para;</a></h2>
+<p>comma-expression:
+        expression , expression</p>
+<p>A pair of expressions separated by a comma is evaluated
+left to right, and the value of the left expression is
+discarded.
+The type and value of the result are the
+type and value of the right operand.
+This operator groups left to right.
+In contexts where comma is given a special meaning,
+e.g., in lists of actual arguments
+to functions (see ) and lists
+of initializers (see ),
+the comma operator as described in this subpart
+can only appear in parentheses. For example,</p>
+<p><code>f(a, (t=3, t+2), c)</code></p>
+<p>has three arguments, the second of which has the value 5.</p>
+<h2 id="declarations">Declarations<a class="headerlink" href="#declarations" title="Permanent link">&para;</a></h2>
+<p>Declarations are used to specify the interpretation
+which C gives to each identifier; they do not necessarily
+reserve storage associated with the identifier.
+Declarations have the form</p>
+<p>declaration:
+        decl-specifiers declarator-listopt ;</p>
+<p>The declarators in the declarator-list
+contain the identifiers being declared.
+The decl-specifiers
+consist of a sequence of type and storage class specifiers.</p>
+<p>decl-specifiers:
+        type-specifier decl-specifiersopt
+        sc-specifier decl-specifiersopt</p>
+<p>The list must be self-consistent in a way described below.</p>
+<h2 id="storage-class-specifiers">Storage Class Specifiers<a class="headerlink" href="#storage-class-specifiers" title="Permanent link">&para;</a></h2>
+<p>The sc-specifiers are:</p>
+<p><em>sc-specifier:</em>
+        auto
+        static
+        extern
+        register
+        typedef</p>
+<p>The
+<code>typedef</code>
+specifier does not reserve storage
+and is called a "storage class specifier" only for syntactic convenience.
+See  for more information.
+The meanings of the various storage classes were discussed in .</p>
+<p>The
+<code>auto</code>,
+<code>static</code>,
+and
+<code>register</code>
+declarations also serve as definitions
+in that they cause an appropriate amount of storage to be reserved.
+In the
+<code>extern</code>
+case,
+there must be an external definition (see )
+for the given identifiers
+somewhere outside the function in which they are declared.</p>
+<p>A
+<code>register</code>
+declaration is best thought of as an
+<code>auto</code>
+declaration, together with a hint to the compiler
+that the variables declared will be heavily used.
+Only the first few
+such declarations in each function are effective.
+Moreover, only variables of certain types will be stored in registers;
+on the PDP-11, they are
+<code>int</code>
+or pointer.
+One other restriction applies to register variables:
+the address-of operator
+<code>&amp;</code>
+cannot be applied to them.
+Smaller, faster programs can be expected if register declarations
+are used appropriately,
+but future improvements in code generation
+may render them unnecessary.</p>
+<p>At most, one sc-specifier may be given in a declaration.
+If the sc-specifier is missing from a declaration, it
+is taken to be
+<code>auto</code>
+inside a function,
+<code>extern</code>
+outside.
+Exception:
+functions are never automatic.</p>
+<h2 id="type-specifiers">Type Specifiers<a class="headerlink" href="#type-specifiers" title="Permanent link">&para;</a></h2>
+<p>The type-specifiers are</p>
+<p><em>type-specifier:</em>
+char
+        short
+        int
+        long
+        unsigned
+        float
+        double
+        struct-or-union-specifier
+        typedef-name</p>
+<p>At most one of the words <code>long</code> or <code>short</code>
+may be specified in conjunction with <code>int</code>;
+the meaning is the same as if <code>int</code> were not mentioned.
+The word <code>long</code> may be specified in conjunction with
+<code>float</code>;
+the meaning is the same as <code>double</code>.
+The word <code>unsigned</code> may be specified alone, or
+in conjunction with <code>int</code> or any of its short
+or long varieties, or with <code>char</code>.</p>
+<p>Otherwise, at most on type-specifier may be
+given in a declaration.
+In particular, adjectival use of <code>long</code>,
+<code>short</code>, or <code>unsigned</code> is not permitted
+with <code>typedef</code> names.
+If the type-specifier is missing from a declaration,
+it is taken to be <code>int</code>.</p>
+<p>Specifiers for structures and unions are discussed in
+.
+Declarations with
+<code>typedef</code>
+names are discussed in .</p>
+<h2 id="declarators">Declarators<a class="headerlink" href="#declarators" title="Permanent link">&para;</a></h2>
+<p>The declarator-list appearing in a declaration
+is a comma-separated sequence of declarators,
+each of which may have an initializer.</p>
+<p>declarator-list:
+        init-declarator
+        init-declarator , declarator-list</p>
+<p>init-declarator:
+        declarator initializeropt</p>
+<p>Initializers are discussed in .
+The specifiers in the declaration
+indicate the type and storage class of the objects to which the
+declarators refer.
+Declarators have the syntax:</p>
+<p>declarator:
+        identifier
+        ( declarator )
+        * declarator
+        declarator ()
+        declarator [ constant-expressionopt ]</p>
+<p>The grouping is
+the same as in expressions.</p>
+<h2 id="meaning-of-declarators">Meaning of Declarators<a class="headerlink" href="#meaning-of-declarators" title="Permanent link">&para;</a></h2>
+<p>Each declarator is taken to be
+an assertion that when a construction of
+the same form as the declarator appears in an expression,
+it yields an object of the indicated
+type and storage class.</p>
+<p>Each declarator contains exactly one identifier; it is this identifier that
+is declared.
+If an unadorned identifier appears
+as a declarator, then it has the type
+indicated by the specifier heading the declaration.</p>
+<p>A declarator in parentheses is identical to the unadorned declarator,
+but the binding of complex declarators may be altered by parentheses.
+See the examples below.</p>
+<p>Now imagine a declaration</p>
+<p><code>T D1</code></p>
+<p>where
+<code>T</code>
+is a type-specifier (like
+<code>int</code>,
+etc.)
+and
+<code>D1</code>
+is a declarator.
+Suppose this declaration makes the identifier have type
+...
+<code>T</code>
+,
+where the "..." is empty if
+<code>D1</code>
+is just a plain identifier
+(so that the type of
+<code>x</code>
+in
+"<code>int x</code>"
+is just
+<code>int</code>).
+Then if
+<code>D1</code>
+has the form</p>
+<p><code>*D</code></p>
+<p>the type of the contained identifier is
+... pointer to
+<code>T</code>
+&amp;.</p>
+<p>If
+<code>D1</code>
+has the form</p>
+<p><code>D()</code></p>
+<p>then the contained identifier has the type
+... function returning
+<code>T</code>.
+If
+<code>D1</code>
+has the form</p>
+<p><code>D[</code><em>constant-expression</em><code>]</code></p>
+<p>or</p>
+<p><code>D[]</code></p>
+<p>then the contained identifier has type
+... array of
+<code>T</code>.
+In the first case, the constant
+expression
+is an expression
+whose value is determinable at compile time
+, whose type is
+<code>int</code>,
+and whose value is positive.
+(Constant expressions are defined precisely in )
+When several "array of" specifications are adjacent, a multidimensional
+array is created;
+the constant expressions which specify the bounds
+of the arrays may be missing only for the first member of the sequence.
+This elision is useful when the array is external
+and the actual definition, which allocates storage,
+is given elsewhere.
+The first constant expression may also be omitted
+when the declarator is followed by initialization.
+In this case the size is calculated from the number
+of initial elements supplied.</p>
+<p>An array may be constructed from one of the basic types, from a pointer,
+from a structure or union,
+or from another array (to generate a multidimensional array).</p>
+<p>Not all the possibilities
+allowed by the syntax above are actually
+permitted.
+The restrictions are as follows:
+functions may not return
+arrays or functions
+although they may return pointers;
+there are no arrays of functions although
+there may be arrays of pointers to functions.
+Likewise, a structure or union may not contain a function;
+but it may contain a pointer to a function.</p>
+<p>As an example, the declaration</p>
+<p><code>int i, *ip, f(), *fip(), (*pfi)();</code></p>
+<p>declares an integer
+<code>i</code>,
+a pointer
+<code>ip</code>
+to an integer,
+a function
+<code>f</code>
+returning an integer,
+a function
+<code>fip</code>
+returning a pointer to an integer,
+and a pointer
+<code>pfi</code>
+to a function which
+returns an integer.
+It is especially useful to compare the last two.
+The binding of
+<code>*fip()</code>
+is
+<code>*(fip())</code>.
+The declaration suggests,
+and the same construction in an expression
+requires, the calling of a function
+<code>fip</code>.
+Using indirection through the (pointer) result
+to yield an integer.
+In the declarator
+<code>(*pfi)()</code>,
+the extra parentheses are necessary, as they are also
+in an expression, to indicate that indirection through
+a pointer to a function yields a function, which is then called;
+it returns an integer.</p>
+<p>As another example,</p>
+<p><code>float fa[17], *afp[17];</code></p>
+<p>declares an array of
+<code>float</code>
+numbers and an array of
+pointers to
+<code>float</code>
+numbers.
+Finally,</p>
+<p><code>static int x3d[3][5][7];</code></p>
+<p>declares a static 3-dimensional array of integers,
+with rank 3&times;5&times;7.
+In complete detail,
+<code>x3d</code>
+is an array of three items;
+each item is an array of five arrays;
+each of the latter arrays is an array of seven
+integers.
+Any of the expressions
+<code>x3d</code>,
+<code>x3d[i]</code>,
+<code>x3d[i][j]</code>,
+<code>x3d[i][j][k]</code>
+may reasonably appear in an expression.
+The first three have type "array"
+and the last has type
+<code>int</code>.</p>
+<h2 id="structure-and-union-declarations">Structure and Union Declarations<a class="headerlink" href="#structure-and-union-declarations" title="Permanent link">&para;</a></h2>
+<p>A structure
+is an object consisting of a sequence of named members.
+Each member may have any type.
+A union is an object which may, at a given time, contain any one
+of several members.
+Structure and union specifiers have the same form.</p>
+<p>struct-or-union-specifier:
+        struct-or-union { struct-decl-list }
+        struct-or-union identifier { struct-decl-list }
+        struct-or-union identifier</p>
+<p><em>struct-or-union:</em>
+        struct
+        union</p>
+<p>The
+struct-decl-list</p>
+<p>is a sequence of declarations for the members of the structure or union:</p>
+<p>struct-decl-list:
+        struct-declaration
+        struct-declaration struct-decl-list</p>
+<p>struct-declaration:
+        type-specifier struct-declarator-list ;</p>
+<p>struct-declarator-list:
+        struct-declarator
+        struct-declarator , struct-declarator-list</p>
+<p>In the usual case, a struct-declarator is just a declarator
+for a member of a structure or union.
+A structure member may also consist of a specified number of bits.
+Such a member is also called a</p>
+<p>field ;</p>
+<p>its length,
+a non-negative constant expression,
+is set off from the field name by a colon.</p>
+<p>struct-declarator:
+        declarator
+        declarator : constant-expression
+        : constant-expression</p>
+<p>Within a structure, the objects declared
+have addresses which increase as the declarations
+are read left to right.
+Each nonfield member of a structure
+begins on an addressing boundary appropriate
+to its type;
+therefore, there may
+be unnamed holes in a structure.
+Field members are packed into machine integers;
+they do not straddle words.
+A field which does not fit into the space remaining in a word
+is put into the next word.
+No field may be wider than a word.</p>
+<p>Fields are assigned right to left
+on the
+PDP-11
+and
+VAX-11,
+left to right on the 3B 20.</p>
+<p>A struct-declarator with no declarator, only a colon and a width,
+indicates an unnamed field useful for padding to conform
+to externally-imposed layouts.
+As a special case, a field with a width of 0
+specifies alignment of the next field at an implementation dependant boundary.</p>
+<p>The language does not restrict the types of things that
+are declared as fields,
+but implementations are not required to support any but
+integer fields.
+Moreover,
+even
+<code>int</code>
+fields may be considered to be unsigned.
+On the
+PDP-11,
+fields are not signed and have only integer values;
+on the
+VAX-11,
+fields declared with
+<code>int</code>
+are treated as containing a sign.
+For these reasons,
+it is strongly recommended that fields be declared as
+<code>unsigned</code>.
+In all implementations,
+there are no arrays of fields,
+and the address-of operator
+<code>&amp;</code>
+may not be applied to them, so that there are no pointers to
+fields.</p>
+<p>A union may be thought of as a structure all of whose members
+begin at offset 0 and whose size is sufficient to contain
+any of its members.
+At most, one of the members can be stored in a union
+at any time.</p>
+<p>A structure or union specifier of the second form, that is, one of</p>
+<pre><code>    `struct` *identifier { struct-decl-list *}
+    `union` *identifier { struct-decl-list *}
+</code></pre>
+<p>declares the identifier to be the</p>
+<p>structure tag</p>
+<p>(or union tag)
+of the structure specified by the list.
+A subsequent declaration may then use
+the third form of specifier, one of</p>
+<pre><code>    `struct` *identifier*
+    `union` *identifier*
+</code></pre>
+<p>Structure tags allow definition of self-referential
+structures. Structure tags also
+permit the long part of the declaration to be
+given once and used several times.
+It is illegal to declare a structure or union
+which contains an instance of
+itself, but a structure or union may contain a pointer to an instance of itself.</p>
+<p>The third form of a structure or union specifier may be
+used prior to a declaration which gives the complete specification
+of the structure or union in situations in which the size
+of the structure or union is unnecessary.
+The size is unnecessary in two situations: when a
+pointer to a structure or union is being declared and
+when a <code>typedef</code> name is declared to be a synonym
+for a structure or union.
+This, for example, allows the declaration of a pair
+of structures which contain pointers to each other.</p>
+<p>The names of members and tags do not conflict
+with each other or with ordinary variables.
+A particular name may not be used twice
+in the same structure,
+but the same name may be used in several different structures in the same scope.</p>
+<p>A simple but important example of a structure declaration is
+the following binary tree structure:</p>
+<p>struct tnode 
+{
+        char tword[20];
+        int count;
+        struct tnode <em>left;
+        struct tnode </em>right;
+};</p>
+<p>which contains an array of 20 characters, an integer, and two pointers
+to similar structures.
+Once this declaration has been given, the
+declaration</p>
+<p><code>struct tnode s, *sp;</code></p>
+<p>declares
+<code>s</code>
+to be a structure of the given sort
+and
+<code>sp</code>
+to be a pointer to a structure
+of the given sort.
+With these declarations, the expression</p>
+<p><code>sp-&gt;count</code></p>
+<p>refers to the
+<code>count</code>
+field of the structure to which
+<code>sp</code>
+points;</p>
+<p><code>s.left</code></p>
+<p>refers to the left subtree pointer
+of the structure
+<code>s</code>;
+and</p>
+<p><code>s.right-&gt;tword[0]</code></p>
+<p>refers to the first character of the
+<code>tword</code>
+member of the right subtree of
+<code>s</code>.</p>
+<h2 id="initialization">Initialization<a class="headerlink" href="#initialization" title="Permanent link">&para;</a></h2>
+<p>A declarator may specify an initial value for the
+identifier being declared.
+The initializer is preceded by
+<code>=</code>
+and consists of an expression or a list of values nested in braces.</p>
+<p>initializer:
+        = expression
+        = { initializer-list }
+        = { initializer-list , }</p>
+<p>initializer-list:
+        expression
+        initializer-list , initializer-list
+        { <em>initializer-list </em>}
+        { <em>initializer-list</em> , }</p>
+<p>All the expressions in an initializer
+for a static or external variable must be constant
+expressions, which are described in ,
+or expressions which reduce to the address of a previously
+declared variable, possibly offset by a constant expression.
+Automatic or register variables may be initialized by arbitrary
+expressions involving constants and previously declared variables and functions.</p>
+<p>Static and external variables that are not initialized are
+guaranteed to start off as zero.
+Automatic and register variables that are not initialized
+are guaranteed to start off as garbage.</p>
+<p>When an initializer applies to a</p>
+<p>scalar</p>
+<p>(a pointer or an object of arithmetic type),
+it consists of a single expression, perhaps in braces.
+The initial value of the object is taken from
+the expression; the same conversions as for assignment are performed.</p>
+<p>When the declared variable is an</p>
+<p>aggregate</p>
+<p>(a structure or array),
+the initializer consists of a brace-enclosed, comma-separated list of
+initializers for the members of the aggregate
+written in increasing subscript or member order.
+If the aggregate contains subaggregates, this rule
+applies recursively to the members of the aggregate.
+If there are fewer initializers in the list than there are members of the aggregate,
+then the aggregate is padded with zeros.
+It is not permitted to initialize unions or automatic aggregates.</p>
+<p>Braces may in some cases be omitted.
+If the initializer begins with a left brace, then
+the succeeding comma-separated list of initializers initializes
+the members of the aggregate;
+it is erroneous for there to be more initializers than members.
+If, however, the initializer does not begin with a left brace,
+then only enough elements from the list are taken to account
+for the members of the aggregate; any remaining members
+are left to initialize the next member of the aggregate of which
+the current aggregate is a part.</p>
+<p>A final abbreviation allows a
+<code>char</code>
+array to be initialized by a string.
+In this case successive characters of the string
+initialize the members of the array.</p>
+<p>For example,</p>
+<p><code>int x[] = { 1, 3, 5 };</code></p>
+<p>declares and initializes
+<code>x</code>
+as a one-dimensional array which has three members, since no size was specified
+and there are three initializers.
+<div class="highlight"><pre><span></span><code>float y[4][3] = 
+{
+        { 1, 3, 5 },
+        { 2, 4, 6 },
+        { 3, 5, 7 },
+};
+</code></pre></div>
+is a completely-bracketed initialization:
+1, 3, and 5 initialize the first row of
+the array
+<code>y[0]</code>,
+namely
+<code>y[0][0]</code>,
+<code>y[0][1]</code>,
+and
+<code>y[0][2]</code>.
+Likewise, the next two lines initialize
+<code>y[1]</code>
+and
+<code>y[2]</code>.
+The initializer ends early and therefore
+<code>y[3]</code>
+is initialized with 0.
+Precisely, the same effect could have been achieved by</p>
+<p>float y[4][3] = 
+{
+        1, 3, 5, 2, 4, 6, 3, 5, 7
+};</p>
+<p>The initializer for
+<code>y</code>
+begins with a left brace but that for
+<code>y[0]</code>
+does not;
+therefore, three elements from the list are used.
+Likewise, the next three are taken successively for
+<code>y[1]</code>
+and
+<code>y[2]</code>.
+Also,</p>
+<p>float y[4][3] = 
+{
+        { 1 }, { 2 }, { 3 }, { 4 }
+};</p>
+<p>initializes the first column of
+<code>y</code>
+(regarded as a two-dimensional array)
+and leaves the rest 0.</p>
+<p>Finally,</p>
+<p><code>char msg[] = "Syntax error on line %s\n";</code></p>
+<p>shows a character array whose members are initialized
+with a string.</p>
+<h2 id="type-names">Type Names<a class="headerlink" href="#type-names" title="Permanent link">&para;</a></h2>
+<p>In two contexts (to specify type conversions explicitly
+by means of a cast
+and as an argument of
+<code>sizeof</code>),
+it is desired to supply the name of a data type.
+This is accomplished using a "type name", which in essence
+is a declaration for an object of that type which omits the name of
+the object.</p>
+<p>type-name:
+        type-specifier abstract-declarator</p>
+<p>abstract-declarator:
+        empty
+        ( abstract-declarator )
+        * abstract-declarator
+        abstract-declarator ()
+        abstract-declarator [ <em>constant-expressionopt </em>]</p>
+<p>To avoid ambiguity,
+in the construction</p>
+<pre><code>    *( abstract-declarator *)
+</code></pre>
+<p>the
+abstract-declarator
+is required to be nonempty.
+Under this restriction,
+it is possible to identify uniquely the location in the abstract-declarator
+where the identifier would appear if the construction were a declarator
+in a declaration.
+The named type is then the same as the type of the
+hypothetical identifier.
+For example,
+<div class="highlight"><pre><span></span><code>int
+int *
+int *[3]
+int (*)[3]
+int *()
+int (*)()
+int (*[3])()
+</code></pre></div>
+name respectively the types "integer," "pointer to integer,"
+"array of three pointers to integers,"
+"pointer to an array of three integers,"
+"function returning pointer to integer,"
+"pointer to function returning an integer,"
+and "array of three pointers to functions returning an integer."</p>
+<h2 id="typedef">Typedef<a class="headerlink" href="#typedef" title="Permanent link">&para;</a></h2>
+<p>Declarations whose "storage class" is
+<code>typedef</code>
+do not define storage but instead
+define identifiers which can be used later
+as if they were type keywords naming fundamental
+or derived types.</p>
+<p><em>typedef-name:</em>
+        <em>identifier</em></p>
+<p>Within the scope of a declaration involving
+<code>typedef</code>,
+each identifier appearing as part of
+any declarator therein becomes syntactically
+equivalent to the type keyword
+naming the type
+associated with the identifier
+in the way described in .
+For example,
+after
+<div class="highlight"><pre><span></span><code>typedef int MILES, *KLICKSP;
+typedef struct { double re, im; } complex;
+</code></pre></div>
+the constructions</p>
+<p>MILES distance;
+extern KLICKSP metricp;
+complex z, *zp;</p>
+<p>are all legal declarations; the type of
+<code>distance</code>
+is
+<code>int</code>,
+that of
+<code>metricp</code>
+is "pointer to <code>int</code>, "
+and that of
+<code>z</code>
+is the specified structure.
+The
+<code>zp</code>
+is a pointer to such a structure.</p>
+<p>The
+<code>typedef</code>
+does not introduce brand-new types, only synonyms for
+types which could be specified in another way.
+Thus
+in the example above
+<code>distance</code>
+is considered to have exactly the same type as
+any other
+<code>int</code>
+object.</p>
+<h2 id="statements">Statements<a class="headerlink" href="#statements" title="Permanent link">&para;</a></h2>
+<p>Except as indicated, statements are executed in sequence.</p>
+<h2 id="expression-statement">Expression Statement<a class="headerlink" href="#expression-statement" title="Permanent link">&para;</a></h2>
+<p>Most statements are expression statements, which have
+the form</p>
+<p><em>expression </em>;</p>
+<p>Usually expression statements are assignments or function
+calls.</p>
+<h2 id="compound-statement-or-block">Compound Statement or Block<a class="headerlink" href="#compound-statement-or-block" title="Permanent link">&para;</a></h2>
+<p>So that several statements can be used where one is expected,
+the compound statement (also, and equivalently, called "block") is provided:</p>
+<p>compound-statement:
+        { declaration-listopt statement-listopt }</p>
+<p>declaration-list:
+        declaration
+        declaration declaration-list</p>
+<p>statement-list:
+        statement
+        statement statement-list</p>
+<p>If any of the identifiers
+in the declaration-list were previously declared,
+the outer declaration is pushed down for the duration of the block,
+after which it resumes its force.</p>
+<p>Any initializations of
+<code>auto</code>
+or
+<code>register</code>
+variables are performed each time the block is entered at the top.
+It is currently possible
+(but a bad practice)
+to transfer into a block;
+in that case the initializations are not performed.
+Initializations of
+<code>static</code>
+variables are performed only once when the program
+begins execution.
+Inside a block,
+<code>extern</code>
+declarations do not reserve storage
+so initialization is not permitted.</p>
+<h2 id="conditional-statement">Conditional Statement<a class="headerlink" href="#conditional-statement" title="Permanent link">&para;</a></h2>
+<p>The two forms of the conditional statement are</p>
+<p><code>if</code> ( <em>expression</em> ) <em>statement</em>
+<code>if</code> ( <em>expression</em> ) <em>statement</em> <code>else</code> <em>statement</em></p>
+<p>In both cases, the expression is evaluated;
+and if it is nonzero, the first substatement
+is executed.
+In the second case, the second substatement is executed
+if the expression is 0.
+The "else" ambiguity is resolved by connecting
+an
+<code>else</code>
+with the last encountered
+<code>else</code>-less
+<code>if</code>.</p>
+<h2 id="while-statement">While Statement<a class="headerlink" href="#while-statement" title="Permanent link">&para;</a></h2>
+<p>The
+<code>while</code>
+statement has the form</p>
+<p><code>while</code> ( <em>expression</em> ) <em>statement</em></p>
+<p>The substatement is executed repeatedly
+so long as the value of the
+expression remains nonzero.
+The test takes place before each execution of the
+statement.</p>
+<h2 id="do-statement">Do Statement<a class="headerlink" href="#do-statement" title="Permanent link">&para;</a></h2>
+<p>The
+<code>do</code>
+statement has the form</p>
+<p><code>do</code> <em>statement</em>  <code>while</code> ( <em>expression </em>) ;</p>
+<p>The substatement is executed repeatedly until
+the value of the expression becomes 0.
+The test takes place after each execution of the
+statement.</p>
+<h2 id="for-statement">For Statement<a class="headerlink" href="#for-statement" title="Permanent link">&para;</a></h2>
+<p>The
+<code>for</code>
+statement has the form:</p>
+<p><code>for</code><em> ( exp-1opt ; exp-2opt ; exp-3opt ) statement</em></p>
+<p>Except for the behavior of <code>continue</code>,
+this statement is equivalent to</p>
+<p><em>exp-1 </em>;
+<code>while</code> ( *exp-2 ) *
+{
+        statement
+        exp-3 ;
+}</p>
+<p>Thus the first expression specifies initialization
+for the loop; the second specifies
+a test, made before each iteration, such
+that the loop is exited when the expression becomes
+0.
+The third expression often specifies an incrementing
+that is performed after each iteration.</p>
+<p>Any or all of the expressions may be dropped.
+A missing</p>
+<p>exp-2</p>
+<p>makes the
+implied
+<code>while</code>
+clause equivalent to
+<code>while(1)</code>;
+other missing expressions are simply
+dropped from the expansion above.</p>
+<h2 id="switch-statement">Switch Statement<a class="headerlink" href="#switch-statement" title="Permanent link">&para;</a></h2>
+<p>The
+<code>switch</code>
+statement causes control to be transferred
+to one of several statements depending on
+the value of an expression.
+It has the form</p>
+<p><code>switch</code> ( <em>expression</em> ) <em>statement</em></p>
+<p>The usual arithmetic conversion is performed on the
+expression, but the result must be
+<code>int</code>.
+The statement is typically compound.
+Any statement within the statement
+may be labeled with one or more case prefixes
+as follows:</p>
+<p><code>case</code> <em>constant-expression </em>:</p>
+<p>where the constant
+expression
+must be
+<code>int</code>.
+No two of the case constants in the same switch
+may have the same value.
+Constant expressions are precisely defined in .</p>
+<p>There may also be at most one statement prefix of the
+form</p>
+<p><code>default :</code></p>
+<p>When the
+<code>switch</code>
+statement is executed, its expression
+is evaluated and compared with each case constant.
+If one of the case constants is
+equal to the value of the expression,
+control is passed to the statement
+following the matched case prefix.
+If no case constant matches the expression
+and if there is a
+<code>default</code>,
+prefix, control
+passes to the prefixed
+statement.
+If no case matches and if there is no
+<code>default</code>,
+then
+none of the statements in the
+switch is executed.</p>
+<p>The prefixes
+<code>case</code>
+and
+<code>default</code>
+do not alter the flow of control,
+which continues unimpeded across such prefixes.
+To exit from a switch, see
+.</p>
+<p>Usually, the statement that is the subject of a switch is compound.
+Declarations may appear at the head of this
+statement,
+but
+initializations of automatic or register variables
+are ineffective.</p>
+<h2 id="break-statement">Break Statement<a class="headerlink" href="#break-statement" title="Permanent link">&para;</a></h2>
+<p>The statement</p>
+<p><code>break ;</code></p>
+<p>causes termination of the smallest enclosing
+<code>while</code>,
+<code>do</code>,
+<code>for</code>,
+or
+<code>switch</code>
+statement;
+control passes to the
+statement following the terminated statement.</p>
+<h2 id="continue-statement">Continue Statement<a class="headerlink" href="#continue-statement" title="Permanent link">&para;</a></h2>
+<p>The statement</p>
+<p><code>continue ;</code></p>
+<p>causes control to pass to the loop-continuation portion of the
+smallest enclosing
+<code>while</code>,
+<code>do</code>,
+or
+<code>for</code>
+statement; that is to the end of the loop.
+More precisely, in each of the statements</p>
+<p>while (...) {
+  do {
+  for (...) {</p>
+<p>statement ;
+  statement ;
+  statement ;</p>
+<p>contin: ;
+       contin: ;
+       contin: ;</p>
+<p>}
+  } while (...);
+  }</p>
+<p>a
+<code>continue</code>
+is equivalent to
+<code>goto contin</code>.
+(Following the
+<code>contin:</code>
+is a null statement, see .)</p>
+<h2 id="return-statement">Return Statement<a class="headerlink" href="#return-statement" title="Permanent link">&para;</a></h2>
+<p>A function returns to its caller by means of
+the
+<code>return</code>
+statement which has one of the
+forms</p>
+<p>return ;
+return <em>expression </em>;</p>
+<p>In the first case, the returned value is undefined.
+In the second case, the value of the expression
+is returned to the caller
+of the function.
+If required, the expression is converted,
+as if by assignment, to the type of
+function in which it appears.
+Flowing off the end of a function is
+equivalent to a return with no returned value.
+The expression may be parenthesized.</p>
+<h2 id="goto-statement">Goto Statement<a class="headerlink" href="#goto-statement" title="Permanent link">&para;</a></h2>
+<p>Control may be transferred unconditionally by means of
+the statement</p>
+<p><code>goto</code> <em>identifier </em>;</p>
+<p>The identifier must be a label
+(see )
+located in the current function.</p>
+<h2 id="labeled-statement">Labeled Statement<a class="headerlink" href="#labeled-statement" title="Permanent link">&para;</a></h2>
+<p>Any statement may be preceded by
+label prefixes of the form</p>
+<p><em>identifier </em>:</p>
+<p>which serve to declare the identifier
+as a label.
+The only use of a label is as a target of a
+<code>goto</code>.
+The scope of a label is the current function,
+excluding any subblocks in which the same identifier has been redeclared.
+See </p>
+<h2 id="null-statement">Null Statement<a class="headerlink" href="#null-statement" title="Permanent link">&para;</a></h2>
+<p>The null statement has the form</p>
+<pre><code>  `;`
+</code></pre>
+<p>A null statement is useful to carry a label just before the
+<code>}</code>
+of a compound statement or to supply a null
+body to a looping statement such as
+<code>while</code>.</p>
+<h2 id="external-definitions">External Definitions<a class="headerlink" href="#external-definitions" title="Permanent link">&para;</a></h2>
+<p>A C program consists of a sequence of external definitions.
+An external definition declares an identifier to
+have storage class
+<code>extern</code>
+(by default)
+or perhaps
+<code>static</code>,
+and
+a specified type.
+The type-specifier (see )
+may also be empty, in which case the type is taken to be
+<code>int</code>.
+The scope of external definitions persists to the end
+of the file in which they are declared just as the effect
+of declarations persists to the end of a block.
+The syntax of external definitions is the same
+as that of all declarations except that
+only at this level may the code for functions be given.</p>
+<h2 id="external-function-definitions">External Function Definitions<a class="headerlink" href="#external-function-definitions" title="Permanent link">&para;</a></h2>
+<p>Function definitions have the form</p>
+<p>function-definition:
+        decl-specifiersopt function-declarator function-body</p>
+<p>The only sc-specifiers
+allowed
+among the decl-specifiers
+are
+<code>extern</code>
+or
+<code>static</code>;
+see  for the distinction between them.
+A function declarator is similar to a declarator
+for a "function returning ..." except that
+it lists the formal parameters of
+the function being defined.</p>
+<p>function-declarator:
+        declarator ( parameter-listopt )</p>
+<p>parameter-list:
+        identifier
+        identifier , parameter-list</p>
+<p>The function-body
+has the form</p>
+<p>function-body:
+        declaration-listopt compound-statement</p>
+<p>The identifiers in the parameter list, and only those identifiers,
+may be declared in the declaration list.
+Any identifiers whose type is not given are taken to be
+<code>int</code>.
+The only storage class which may be specified is
+<code>register</code>;
+if it is specified, the corresponding actual parameter
+will be copied, if possible, into a register
+at the outset of the function.</p>
+<p>A simple example of a complete function definition is</p>
+<p>int max(a, b, c)
+        int a, b, c;
+{
+        int m;</p>
+<pre><code>    m = (a &gt; b) ? a : b;
+    return((m &gt; c) ? m : c);
+</code></pre>
+<p>}</p>
+<p>Here
+<code>int</code>
+is the type-specifier;
+<code>max(a, b, c)</code>
+is the function-declarator;
+<code>int a, b, c;</code>
+is the declaration-list for
+the formal
+parameters;
+<code>{ ... }</code>
+is the
+block giving the code for the statement.</p>
+<p>The C program converts all
+<code>float</code>
+actual parameters
+to
+<code>double</code>,
+so formal parameters declared
+<code>float</code>
+have their declaration adjusted to read
+<code>double</code>.
+All <code>char</code> and <code>short</code> formal parameter
+declarations are similarly adjusted
+to read <code>int</code>.
+Also, since a reference to an array in any context
+(in particular as an actual parameter)
+is taken to mean
+a pointer to the first element of the array,
+declarations of formal parameters declared "array of ..."
+are adjusted to read "pointer to ...."</p>
+<h2 id="external-data-definitions">External Data Definitions<a class="headerlink" href="#external-data-definitions" title="Permanent link">&para;</a></h2>
+<p>An external data definition has the form</p>
+<p>data-definition:
+        declaration</p>
+<p>The storage class of such data may be
+<code>extern</code>
+(which is the default)
+or
+<code>static</code>
+but not
+<code>auto</code>
+or
+<code>register</code>.</p>
+<h2 id="scope-rules">Scope Rules<a class="headerlink" href="#scope-rules" title="Permanent link">&para;</a></h2>
+<p>A C program need not all
+be compiled at the same time. The source text of the
+program
+may be kept in several files, and precompiled
+routines may be loaded from
+libraries.
+Communication among the functions of a program
+may be carried out both through explicit calls
+and through manipulation of external data.</p>
+<p>Therefore, there are two kinds of scopes to consider:
+first, what may be called the
+<em>lexical scope</em>
+of an identifier, which is essentially the
+region of a program during which it may
+be used without drawing "undefined identifier"
+diagnostics;
+and second, the scope
+associated with external identifiers,
+which is characterized by the rule
+that references to the same external
+identifier are references to the same object.</p>
+<h2 id="lexical-scope">Lexical Scope<a class="headerlink" href="#lexical-scope" title="Permanent link">&para;</a></h2>
+<p>The lexical scope of identifiers declared in external definitions
+persists from the definition through
+the end of the source file
+in which they appear.
+The lexical scope of identifiers which are formal parameters
+persists through the function with which they are
+associated.
+The lexical scope of identifiers declared at the head of a block
+persists until the end of the block.
+The lexical scope of labels is the whole of the
+function in which they appear.</p>
+<p>In all cases, however,
+if an identifier is explicitly declared at the head of a block,
+including the block constituting a function,
+any declaration of that identifier outside the block
+is suspended until the end of the block.</p>
+<p>Remember also (see ) that identifiers associated with
+ordinary variables,
+and those associated with structure and union members
+form two disjoint classes which do not conflict.
+Members and tags follow the same scope rules
+as other identifiers.
+<code>typedef</code>
+names are in the same class as ordinary identifiers.
+They may be redeclared in inner blocks, but an explicit
+type must be given in the inner declaration:
+<div class="highlight"><pre><span></span><code>typedef float distance;
+...
+{
+     auto int distance;
+     ...
+}
+</code></pre></div></p>
+<p>The
+<code>int</code>
+must be present in the second declaration,
+or it would be taken to be
+a declaration with no declarators and type
+<code>distance</code>.</p>
+<h2 id="scope-of-externals">Scope of Externals<a class="headerlink" href="#scope-of-externals" title="Permanent link">&para;</a></h2>
+<p>If a function refers to an identifier declared to be
+<code>extern</code>,
+then somewhere among the files or libraries
+constituting the complete program
+there must be at least one external definition
+for the identifier.
+All functions in a given program which refer to the same
+external identifier refer to the same object,
+so care must be taken that the type and size
+specified in the definition
+are compatible with those specified
+by each function which references the data.</p>
+<p>It is illegal to explicitly initialize any external
+identifier more than once in the set of files and libraries
+comprising a multi-file program.
+It is legal to have more than one data definition
+for any external non-function identifier;
+explicit use of <code>extern</code> does not
+change the meaning of an external declaration.</p>
+<p>In restricted environments, the use of the <code>extern</code>
+storage class takes on an additional meaning.
+In these environments, the explicit appearance of the
+<code>extern</code> keyword in external data declarations of
+identities without initialization indicates that
+the storage for the identifiers is allocated elsewhere,
+either in this file or another file.
+It is required that there be exactly one definition of
+each external identifier (without <code>extern</code>)
+in the set of files and libraries
+comprising a mult-file program.</p>
+<p>Identifiers declared
+<code>static</code>
+at the top level in external definitions
+are not visible in other files.
+Functions may be declared
+<code>static</code>.</p>
+<p>Compiler Control Lines</p>
+<p>The C compiler contains a preprocessor capable
+of macro substitution, conditional compilation,
+and inclusion of named files.
+Lines beginning with
+<code>#</code>
+communicate
+with this preprocessor.
+There may be any number of blanks and horizontal tabs
+between the <code>#</code> and the directive.
+These lines have syntax independent of the rest of the language;
+they may appear anywhere and have effect which lasts (independent of
+scope) until the end of the source program file.</p>
+<h2 id="token-replacement">Token Replacement<a class="headerlink" href="#token-replacement" title="Permanent link">&para;</a></h2>
+<p>A compiler-control line of the form</p>
+<p><code>#define</code> <em>identifier token-stringopt</em></p>
+<p>causes the preprocessor to replace subsequent instances
+of the identifier with the given string of tokens.
+Semicolons in or at the end of the token-string are part of that string.
+A line of the form</p>
+<p><code>#define</code> <em>identifier(identifier, ... )token-stringopt</em></p>
+<p>where there is no space between the first identifier
+and the
+<code>(</code>,
+is a macro definition with arguments.
+There may be zero or more formal parameters.
+Subsequent instances of the first identifier followed
+by a
+<code>(</code>,
+a sequence of tokens delimited by commas, and a
+<code>)</code>
+are replaced
+by the token string in the definition.
+Each occurrence of an identifier mentioned in the formal parameter list
+of the definition is replaced by the corresponding token string from the call.
+The actual arguments in the call are token strings separated by commas;
+however, commas in quoted strings or protected by
+parentheses do not separate arguments.
+The number of formal and actual parameters must be the same.
+Strings and character constants in the token-string are scanned
+for formal parameters, but
+strings and character constants in the rest of the program are
+not scanned for defined identifiers
+to replacement.</p>
+<p>In both forms the replacement string is rescanned for more
+defined identifiers.
+In both forms
+a long definition may be continued on another line
+by writing
+<code>\</code>
+at the end of the line to be continued.</p>
+<p>This facility is most valuable for definition of "manifest constants,"
+as in
+<div class="highlight"><pre><span></span><code>#define TABSIZE 100
+
+int table[TABSIZE];
+</code></pre></div></p>
+<p>A control line of the form</p>
+<p><code>#undef</code> <em>identifier</em></p>
+<p>causes the
+identifier's preprocessor definition (if any) to be forgotten.</p>
+<p>If a <code>#define</code>d identifier is the subject of a subsequent
+<code>#define</code> with no intervening <code>#undef</code>, then
+the two token-strings are compared textually.
+If the two token-strings are not identical
+(all white space is considered as equivalent), then
+the identifier is considered to be redefined.</p>
+<h2 id="file-inclusion">File Inclusion<a class="headerlink" href="#file-inclusion" title="Permanent link">&para;</a></h2>
+<p>A compiler control line of
+the form</p>
+<p><code>#include</code><em> "filename</em>"</p>
+<p>causes the replacement of that
+line by the entire contents of the file</p>
+<p>filename.
+The named file is searched for first in the directory
+of the file containing the <code>#include</code>,
+and then in a sequence of specified or standard places.
+Alternatively, a control line of the form</p>
+<p><code>#include</code>* </p>
+<p>searches only the specified or standard places
+and not the directory of the <code>#include</code>.
+(How the places are specified is not part of the language.)</p>
+<p><code>#include</code>s
+may be nested.</p>
+<h2 id="conditional-compilation">Conditional Compilation<a class="headerlink" href="#conditional-compilation" title="Permanent link">&para;</a></h2>
+<p>A compiler control line of the form</p>
+<p><code>#if</code> <em>constant-expression</em></p>
+<p>checks whether the constant expression evaluates to nonzero.
+(Constant expressions are discussed in .
+A control line of the form</p>
+<p><code>#ifdef</code><em>identifier</em></p>
+<p>checks whether the identifier is currently defined
+in the preprocessor; i.e., whether it has been the
+subject of a
+<code>#define</code>
+control line.
+It is equivalent to <code>#ifdef(</code><em>identifier</em><code>)</code>.
+A control line of the form</p>
+<p><code>#ifndef</code><em>identifier</em></p>
+<p>checks whether the identifier is currently undefined
+in the preprocessor.
+It is equivalent to</p>
+<p><code>#if !defined(</code><em>identifier</em><code>)</code>.</p>
+<p>All three forms are followed by an arbitrary number of lines,
+possibly containing a control line</p>
+<p><code>#else</code></p>
+<p>and then by a control line</p>
+<p><code>#endif</code></p>
+<p>If the checked condition is true,
+then any lines
+between
+<code>#else</code>
+and
+<code>#endif</code>
+are ignored.
+If the checked condition is false, then any lines between
+the test and a
+<code>#else</code>
+or, lacking a
+<code>#else</code>,
+the
+<code>#endif</code>
+are ignored.</p>
+<p>These constructions may be nested.</p>
+<h2 id="line-control">Line Control<a class="headerlink" href="#line-control" title="Permanent link">&para;</a></h2>
+<p>For the benefit of other preprocessors which generate C programs,
+a line of the form</p>
+<p><code>#line</code><em>constant identifier</em></p>
+<p>causes the compiler to believe, for purposes of error
+diagnostics,
+that the line number of the next source line is given by the constant and the current input
+file is named by the identifier.
+If the identifier is absent, the remembered file name does not change.</p>
+<p>Implicit Declarations</p>
+<p>It is not always necessary to specify
+both the storage class and the type
+of identifiers in a declaration.
+The storage class is supplied by
+the context in external definitions
+and in declarations of formal parameters
+and structure members.
+In a declaration inside a function,
+if a storage class but no type
+is given, the identifier is assumed
+to be
+<code>int</code>;
+if a type but no storage class is indicated,
+the identifier is assumed to
+be
+<code>auto</code>.
+An exception to the latter rule is made for
+functions because
+<code>auto</code>
+functions do not exist.
+If the type of an identifier is "function returning ...,"
+it is implicitly declared to be
+<code>extern</code>.</p>
+<p>In an expression, an identifier
+followed by
+<code>(</code>
+and not already declared
+is contextually
+declared to be function returning
+<code>int</code>.</p>
+<h2 id="types-revisited">Types Revisited<a class="headerlink" href="#types-revisited" title="Permanent link">&para;</a></h2>
+<p>This part summarizes the operations
+which can be performed on objects of certain types.</p>
+<h2 id="structures-and-unions">Structures and Unions<a class="headerlink" href="#structures-and-unions" title="Permanent link">&para;</a></h2>
+<p>Structures and unions may be assigned, passed as arguments to functions,
+and returned by functions.
+Other plausible operators, such as equality comparison
+and structure casts,
+are not implemented.</p>
+<p>In a reference
+to a structure or union member, the
+name on the right
+of the <code>-&gt;</code> or the <code>.</code>
+must specify a member of the aggregate
+named or pointed to by the expression
+on the left.
+In general, a member of a union may not be inspected
+unless the value of the union has been assigned using that same member.
+However, one special guarantee is made by the language in order
+to simplify the use of unions:
+if a union contains several structures that share a common initial sequence
+and if the union currently contains one of these structures,
+it is permitted to inspect the common initial part of any of
+the contained structures.</p>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<p>There are only two things that
+can be done with a function <code>m</code>,
+call it or take its address.
+If the name of a function appears in an
+expression not in the function-name position of a call,
+a pointer to the function is generated.
+Thus, to pass one function to another, one
+might say
+<div class="highlight"><pre><span></span><code>int f();
+...
+g(f);
+</code></pre></div></p>
+<p>Then the definition of
+<code>g</code>
+might read
+<div class="highlight"><pre><span></span><code>g(funcp)
+        int (*funcp)();
+{
+        ...
+        (*funcp)();
+        ...
+}
+</code></pre></div></p>
+<p>Notice that
+<code>f</code>
+must be declared
+explicitly in the calling routine since its appearance
+in
+<code>g(f)</code>
+was not followed by
+<code>(.</code></p>
+<h2 id="arrays-pointers-and-subscripting">Arrays, Pointers, and Subscripting<a class="headerlink" href="#arrays-pointers-and-subscripting" title="Permanent link">&para;</a></h2>
+<p>Every time an identifier of array type appears
+in an expression, it is converted into a pointer
+to the first member of the array.
+Because of this conversion, arrays are not
+lvalues.
+By definition, the subscript operator
+<code>[]</code>
+is interpreted
+in such a way that
+<code>E1[E2]</code>
+is identical to
+<code>*((E1)+E2))</code>.
+Because of the conversion rules
+which apply to
+<code>+</code>,
+if
+<code>E1</code>
+is an array and
+<code>E2</code>
+an integer, then
+<code>E1[E2]</code>
+refers to the
+<code>E2-th</code>
+member of
+<code>E1</code>.
+Therefore,
+despite its asymmetric
+appearance, subscripting is a commutative operation.</p>
+<p>A consistent rule is followed in the case of
+multidimensional arrays.
+If
+<code>E</code>
+is an
+<em>n</em>-dimensional
+array
+of rank
+i&times;j&times;...&times;k,
+then
+<code>E</code>
+appearing in an expression is converted to
+a pointer to an (n-1)-dimensional
+array with rank
+j&times;...&times;k.
+If the
+<code>*</code>
+operator, either explicitly
+or implicitly as a result of subscripting,
+is applied to this pointer,
+the result is the pointed-to (n-1)-dimensional array,
+which itself is immediately converted into a pointer.</p>
+<p>For example, consider</p>
+<p><code>int x[3][5];</code></p>
+<p>Here
+<code>x</code>
+is a 3&times;5 array of integers.
+When
+<code>x</code>
+appears in an expression, it is converted
+to a pointer to (the first of three) 5-membered arrays of integers.
+In the expression
+<code>x[i]</code>,
+which is equivalent to
+<code>*(x+i)</code>,
+<code>x</code>
+is first converted to a pointer as described;
+then
+<code>i</code>
+is converted to the type of
+<code>x</code>,
+which involves multiplying
+<code>i</code>
+by the
+length the object to which the pointer points,
+namely 5-integer objects.
+The results are added and indirection applied to
+yield an array (of five integers) which in turn is converted to
+a pointer to the first of the integers.
+If there is another subscript, the same argument applies
+again; this time the result is an integer.</p>
+<p>Arrays in C are stored
+row-wise (last subscript varies fastest)
+and the first subscript in the declaration helps determine
+the amount of storage consumed by an array.
+Arrays play no other part in subscript calculations.</p>
+<h2 id="explicit-pointer-conversions">Explicit Pointer Conversions<a class="headerlink" href="#explicit-pointer-conversions" title="Permanent link">&para;</a></h2>
+<p>Certain conversions involving pointers are permitted
+but have implementation-dependent aspects.
+They are all specified by means of an explicit type-conversion
+operator, see  and
+.</p>
+<p>A pointer may be converted to any of the integral types large
+enough to hold it.
+Whether an
+<code>int</code>
+or
+<code>long</code>
+is required is machine dependent.
+The mapping function is also machine dependent but is intended
+to be unsurprising to those who know the addressing structure
+of the machine.
+Details for some particular machines are given below.</p>
+<p>An object of integral type may be explicitly converted to a pointer.
+The mapping always carries an integer converted from a pointer back to the same pointer
+but is otherwise machine dependent.</p>
+<p>A pointer to one type may be converted to a pointer to another type.
+The resulting pointer may cause addressing exceptions
+upon use if
+the subject pointer does not refer to an object suitably aligned in storage.
+It is guaranteed that
+a pointer to an object of a given size may be converted to a pointer to an object
+of a smaller size
+and back again without change.</p>
+<p>For example,
+a storage-allocation routine
+might accept a size (in bytes)
+of an object to allocate, and return a
+<code>char</code>
+pointer;
+it might be used in this way.
+<div class="highlight"><pre><span></span><code>extern char *alloc();
+double *dp;
+
+dp = (double *) alloc(sizeof(double));
+*dp = 22.0 / 7.0;
+</code></pre></div></p>
+<p>The
+alloc
+must ensure (in a machine-dependent way)
+that its return value is suitable for conversion to a pointer to
+<code>double</code>;
+then the</p>
+<p>use</p>
+<p>of the function is portable.</p>
+<p>The pointer
+representation on the
+PDP-11
+corresponds to a 16-bit integer and
+measures bytes.
+The
+<code>char</code>'s
+have no alignment requirements; everything else must have an even address.</p>
+<p>On the
+VAX-11,
+pointers are 32 bits long and measure bytes.
+Elementary objects are aligned on a boundary equal to their
+length, except that
+<code>double</code>
+quantities need be aligned only on even 4-byte boundaries.
+Aggregates are aligned on the strictest boundary required by
+any of their constituents.</p>
+<p>The 3B 20 computer has 24-bit pointers placed into 32-bit quantities.
+Most objects are
+aligned on 4-byte boundaries. <code>short</code>s are aligned in all cases on
+2-byte boundaries. Arrays of characters, all structures,
+<code>int</code>s, <code>long</code>s, <code>float</code>s, and <code>double</code>s are aligned on 4-byte
+boundries; but structure members may be packed tighter.</p>
+<h2 id="constant-expressions">Constant Expressions<a class="headerlink" href="#constant-expressions" title="Permanent link">&para;</a></h2>
+<p>In several places C requires expressions which evaluate to
+a constant:
+after <code>case</code>,
+as array bounds, and in initializers.
+In the first two cases, the expression can
+involve only integer constants, character constants,
+and
+<code>sizeof</code>
+expressions, possibly
+connected by the binary operators
+<div class="highlight"><pre><span></span><code>+ - * / % &amp; | ^ &gt; == !=  = &amp;&amp; ||
+</code></pre></div>
+or by the unary operators
+<div class="highlight"><pre><span></span><code>-  ~
+</code></pre></div>
+or by the ternary operator
+<div class="highlight"><pre><span></span><code>?:
+</code></pre></div></p>
+<p>Parentheses can be used for grouping
+but not for function calls.</p>
+<p>More latitude is permitted for initializers;
+besides constant expressions as discussed above,
+one can also use floating constants
+and arbitrary casts and
+can also apply the unary
+<code>&amp;</code>
+operator to external or static objects
+and to external or static arrays subscripted
+with a constant expression.
+The unary
+<code>&amp;</code>
+can also
+be applied implicitly
+by appearance of unsubscripted arrays and functions.
+The basic rule is that initializers must
+evaluate either to a constant or to the address
+of a previously declared external or static object plus or minus a constant.</p>
+<p>Portability Considerations</p>
+<p>Certain parts of C are inherently machine dependent.
+The following list of potential trouble spots
+is not meant to be all-inclusive
+but to point out the main ones.</p>
+<p>Purely hardware issues like
+word size and the properties of floating point arithmetic and integer division
+have proven in practice to be not much of a problem.
+Other facets of the hardware are reflected
+in differing implementations.
+Some of these,
+particularly sign extension
+(converting a negative character into a negative integer)
+and the order in which bytes are placed in a word,
+are nuisances that must be carefully watched.
+Most of the others are only minor problems.</p>
+<p>The number of
+<code>register</code>
+variables that can actually be placed in registers
+varies from machine to machine
+as does the set of valid types.
+Nonetheless, the compilers all do things properly for their own machine;
+excess or invalid
+<code>register</code>
+declarations are ignored.</p>
+<p>Some difficulties arise only when
+dubious coding practices are used.
+It is exceedingly unwise to write programs
+that depend
+on any of these properties.</p>
+<p>The order of evaluation of function arguments
+is not specified by the language.
+The order in which side effects take place
+is also unspecified.</p>
+<p>Since character constants are really objects of type
+<code>int</code>,
+multicharacter character constants may be permitted.
+The specific implementation
+is very machine dependent
+because the order in which characters
+are assigned to a word
+varies from one machine to another.</p>
+<p>Fields are assigned to words and characters to integers right to left
+on some machines
+and left to right on other machines.
+These differences are invisible to isolated programs
+that do not indulge in type punning (e.g.,
+by converting an
+<code>int</code>
+pointer to a
+<code>char</code>
+pointer and inspecting the pointed-to storage)
+but must be accounted for when conforming to externally-imposed
+storage layouts.</p>
+<p>The language accepted by the various compilers differs in minor details. Most
+notably, the current PDP-11 compiler will not initialize structures containing
+bitfields, and does not accept a few assignment operators in certain contexts where the
+value of the assignment is used.</p>
+<h2 id="anachronisms">Anachronisms<a class="headerlink" href="#anachronisms" title="Permanent link">&para;</a></h2>
+<p>Since C is an evolving language, certain obsolete constructions may be
+found in older programs. Although most versions of the compiler support
+such anachronisms, ultimately they will disappear, leaving only a portability
+problem behind.</p>
+<p>Earlier versions of C used the form =<code>op</code> instead
+of <code>op</code>= for assignment
+operators. This leads to ambiguities, typified by:
+<div class="highlight"><pre><span></span><code>     x=-1
+</code></pre></div>
+which actually decrements x since the = and the - are adjacent, but which might
+easily be intended to assign -1 to x.</p>
+<p>The syntax of initializers has changed: previously, the equals sign that introduces
+and initializer was not present, so instead of
+<div class="highlight"><pre><span></span><code>     int x    = 1;
+</code></pre></div>
+one used
+<div class="highlight"><pre><span></span><code>     int x    1;
+</code></pre></div>
+The change was made because the initialization
+<div class="highlight"><pre><span></span><code>     int f  (1+2)
+</code></pre></div>
+resembles a function declaration closely enough to confuse the compilers.</p>
+<h2 id="syntax-summary">Syntax Summary<a class="headerlink" href="#syntax-summary" title="Permanent link">&para;</a></h2>
+<p>This summary of C syntax is intended more for aiding comprehension
+than as an exact statement of the language.</p>
+<h2 id="expressions_1">Expressions<a class="headerlink" href="#expressions_1" title="Permanent link">&para;</a></h2>
+<p>The basic expressions are:</p>
+<pre><code> expression:
+         primary
+         * expression
+         &amp;lvalue
+         - expression
+         ! expression
+         ~ expression
+         ++ lvalue
+         --lvalue
+         lvalue ++
+         lvalue --
+         `sizeof`* expression*
+         `sizeof (`*type-name*`)`
+         ( type-name ) expression
+         expression binop expression
+         expression ? expression : expression
+         lvalue asgnop expression
+         expression , expression
+
+
+ primary:
+         identifier
+         constant
+         string
+         ( expression )
+         primary ( expression-listopt )
+         primary [ expression ]
+         primary . identifier
+         primary - identifier
+
+
+ lvalue:
+         identifier
+         primary [ expression ]
+         lvalue . identifier
+         primary - identifier
+         * expression
+         ( lvalue )
+</code></pre>
+<p>The primary-expression operators</p>
+<pre><code> ()  []  .  -&lt;
+</code></pre>
+<p>have highest priority and group left to right.
+The unary operators</p>
+<pre><code> *  &amp;  -  !  ~  ++ -- `sizeof`*   ( type-name *)
+</code></pre>
+<p>have priority below the primary operators
+but higher than any binary operator
+and group right to left.
+Binary operators
+group left to right; they have priority
+decreasing
+as indicated below.</p>
+<pre><code> *binop:*
+         *    /    %
+         +    -
+         &gt;&gt;   &lt;&lt;
+             =
+         ==   !=
+         &amp;
+         ^
+         |
+         &amp;&amp;
+         ||
+</code></pre>
+<p>The conditional operator groups right to left.</p>
+<p>Assignment operators all have the same
+priority and all group right to left.</p>
+<pre><code> *asgnop:*
+         =  +=  -=  *=  /=  %=  &gt;&gt;=  &lt;&lt;=  &amp;=  ^=  |=
+</code></pre>
+<p>The comma operator has the lowest priority and groups left to right.</p>
+<h2 id="declarations_1">Declarations<a class="headerlink" href="#declarations_1" title="Permanent link">&para;</a></h2>
+<pre><code> declaration:
+         decl-specifiers init-declarator-listopt ;
+
+
+ decl-specifiers:
+         type-specifier decl-specifiersopt
+         sc-specifier decl-specifiersopt
+
+
+ *sc-specifier:*
+         auto
+         static
+         extern
+         register
+         typedef
+
+
+ *type-specifier:*
+ char
+         short
+         int
+         long
+         unsigned
+         float
+         double
+         struct-or-union-specifier
+         typedef-name
+
+
+ init-declarator-list:
+         init-declarator
+         init-declarator , init-declarator-list
+
+
+ init-declarator:
+         declarator initializeropt
+
+
+ declarator:
+         identifier
+         ( declarator )
+         * declarator
+         declarator ()
+         declarator [ constant-expressionopt ]
+
+
+ *struct-or-union-specifier:*
+         struct* { struct-decl-list }*
+         struct *identifier { struct-decl-list }*
+         struct *identifier*
+         union { *struct-decl-list }*
+         union *identifier { struct-decl-list }*
+         union *identifier*
+
+
+ struct-decl-list:
+         struct-declaration
+         struct-declaration struct-decl-list
+
+
+ struct-declaration:
+         type-specifier struct-declarator-list ;
+
+
+ struct-declarator-list:
+         struct-declarator
+         struct-declarator , struct-declarator-list
+
+
+ struct-declarator:
+         declarator
+         declarator : constant-expression
+         : constant-expression
+
+
+ initializer:
+         = expression
+         = { initializer-list }
+         = { initializer-list , }
+
+
+ initializer-list:
+         expression
+         initializer-list , initializer-list
+         { initializer-list }
+         { initializer-list , }
+
+
+ type-name:
+         type-specifier abstract-declarator
+
+
+ abstract-declarator:
+         empty
+         ( abstract-declarator )
+         * abstract-declarator
+         abstract-declarator ()
+         abstract-declarator [ constant-expressionopt ]
+
+
+ typedef-name:
+         identifier
+</code></pre>
+<h2 id="statements_1">Statements<a class="headerlink" href="#statements_1" title="Permanent link">&para;</a></h2>
+<pre><code> compound-statement:
+         { declaration-listopt statement-listopt }
+
+
+ declaration-list:
+         declaration
+         declaration declaration-list
+
+
+ statement-list:
+         statement
+         statement statement-list
+
+
+ statement:
+         compound-statement
+         expression ;
+         `if`* ( expression ) statement*
+         `if`* ( expression ) statement*  `else`* statement*
+         `while`* ( expression ) statement*
+         `do`* statement*  `while`* ( expression ) ;*
+         `for`* (expopt'*`;`*expopt'*`;`*expopt'**) statement*
+         `switch`* ( expression ) statement*
+         `case`* constant-expression :  statement*
+         `default`* : statement*
+         break ;
+         continue ;
+         return ;
+         return* expression ;*
+         `goto` identifier ;
+         identifier : statement
+         ;
+</code></pre>
+<h2 id="external-definitions_1">External definitions<a class="headerlink" href="#external-definitions_1" title="Permanent link">&para;</a></h2>
+<pre><code> program:
+         external-definition
+         external-definition program
+
+
+ external-definition:
+         function-definition
+         data-definition
+
+
+ function-definition:
+         decl-specifieropt function-declarator function-body
+
+
+ function-declarator:
+         declarator ( parameter-listopt )
+
+
+ parameter-list:
+         identifier
+         identifier , parameter-list
+
+
+ function-body:
+         declaration-listopt compound-statement
+
+
+ *data-definition:*
+         `extern`* declaration*` ;`
+         `static`* declaration*` ;`
+</code></pre>
+<h2 id="preprocessor">Preprocessor<a class="headerlink" href="#preprocessor" title="Permanent link">&para;</a></h2>
+<pre><code>         `#define`` identifier token-stringopt`
+         `#define`` identifier``(``identifier``,...)``token-stringopt`
+         `#undef`` identifier`
+         `#include "``filename``"`
+         #include 
+         `#if`` constant-expression`
+         `#ifdef`` identifier`
+         `#ifndef`` identifier`
+         `#else`
+         `#endif`
+         `#line` `constant` `identifier`
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

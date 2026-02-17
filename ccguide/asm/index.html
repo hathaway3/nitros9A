@@ -1,0 +1,1612 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/ccguide/asm/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Asm - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#relocating-macro-assembler-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Asm
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nitros9guide/intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nitros9guide/nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#relocating-macro-assembler-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relocating Macro Assembler Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#symbolic-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symbolic Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#label-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Label field
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undefined-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undefined names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-location-counters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Location Counters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#psect-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PSECT Directive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vsect-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VSECT Directive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csect-directive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSECT Directive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rzb-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RZB statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macro-interactive-assembler-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Macro Interactive Assembler Source
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-macros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to Macros
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macro-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Macro Definition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nested-macro-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested Macro Calls
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Labels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-pseudo-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Pseudo-Instructions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \n
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \L
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAIL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REPT
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Asm</h1>
+
+<h2 id="relocating-macro-assembler-reference">Relocating Macro Assembler Reference<a class="headerlink" href="#relocating-macro-assembler-reference" title="Permanent link">&para;</a></h2>
+<p>This appendix gives a summary of the operation of the "Relocating
+Macro Assembler" (named c.asm as distributed with the C Compiler).
+This appendix and the example assembly source files supplied with
+the C compiler should provide the basic information on how to use the
+"Relocating Macro Assembler" to create relocatable-object format
+files (ROF). It is further assumed that you are familiar with the
+6809 instruction set and mnemonics. See the Microware Relocating
+Assembler Manual for a more detailed description. The main function
+of this appendix is to enable the reader to understand the output
+produced by c.asm. The Relocating Macro Assembler allows programs
+to be compiled separately and then linked together, and it also
+allows macros to be defined within programs.</p>
+<p>Differences between the Relocating Macro Assembler (RMA) and the
+Microware Interactive Assembler (MIA):</p>
+<p>RMA does not have an interactive mode. Only a disk file is
+allowed as input.</p>
+<p>RMA output is an ROF file. The ROF file must be processed by
+the linker to produce an executable OS9 memory module. The
+layout of the ROF file is described later.</p>
+<p>RMA has a number of new directives to control the placement of
+code and data in the executable module. Since RMA does not
+produce memory modules, the MIA directives "mod" and "emod" are
+not present. Instead, new directives PSECT and VSECT control
+the allocation of code and data areas by the linker.</p>
+<p>RMA has no equivalent to the MIA "setdp" directive. Data (and
+DP) allocation is handled by the linker.</p>
+<h2 id="symbolic-names">Symbolic Names<a class="headerlink" href="#symbolic-names" title="Permanent link">&para;</a></h2>
+<p>A symbolic name is valid if it consists of from one to nine
+uppercase or lowercase characters, decimal digits or the characters
+"$", "_", "." or "@". RMA does not fold lowercase letters to
+uppercase. The names "Hi.you" and "HI.YOU" are distinct names.</p>
+<h2 id="label-field">Label field<a class="headerlink" href="#label-field" title="Permanent link">&para;</a></h2>
+<p>If a symbolic name in the label field of a source statement is
+followed by a ":" (colon), the name will be known
+<em>globally</em> (by all modules linked together).
+If no colon appears, the name will be known only in the PSECT
+in which it was defined. PSECT will be described later.</p>
+<h2 id="undefined-names">Undefined names<a class="headerlink" href="#undefined-names" title="Permanent link">&para;</a></h2>
+<p>If a symbolic name is used in an expression and hasn't been defined,
+RMA assumes the name is external to the PSECT. RMA will record
+information about the reference so the linker can adjust the operand
+accordingly. External names cannot appear in operand expressions
+for assembler directives.</p>
+<h2 id="listing-format">Listing format<a class="headerlink" href="#listing-format" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>00098 0032 59        +         rolb
+00117 0045=17ffb8      label   lbsr  _dmove     Comment
+^     ^   ^^         ^ ^       ^     ^          ^
+|     |   ||         | |       |     |          Start of comment
+|     |   ||         | |       |     Start of operand
+|     |   ||         | |       Start of mnemonic
+|     |   ||         | Start of label
+|     |   ||         A &quot;+&quot; indicates a line generated by a macro
+|     |   ||         expansion.
+|     |   |Start of object code bytes.
+|     |   An &quot;=&quot; here indicates that the operand contains an
+|     |   external reference.
+|     Location counter value
+Line number.
+</code></pre></div>
+<h2 id="section-location-counters">Section Location Counters<a class="headerlink" href="#section-location-counters" title="Permanent link">&para;</a></h2>
+<p>Each section contains the following location counters:</p>
+<p>PSECT
+- instruction location counter</p>
+<p>VSECT
+- initialized direct page location counter
+non-initialized direct page location counter
+initialized data location counter
+non-initialized data location counter</p>
+<p>CSECT
+- base offset counter</p>
+<h2 id="section-directives">Section Directives<a class="headerlink" href="#section-directives" title="Permanent link">&para;</a></h2>
+<p>RMA contains 3 section directives. PSECT indicates to the linker
+the beginning of a relocatable-object-format file (ROF) and
+initializes the instruction and data location counters and assembles
+code into the ROF object code area. VSECT causes RMA to change to
+the data location counters and place any generated code into the
+appropiate ROF data area. CSECT initializes a base value for
+assigning offsets to symbols. The end of these sections is indicated by the
+ENDSECT directive.</p>
+<p>The source statements placed in a particular section cause the
+linker to perform a function appropiate for the statement.
+Therefore, the mnemonics allowed within a section are restricted as
+follows:</p>
+<ul>
+<li></li>
+</ul>
+<p>The mnemonics are allowed inside or outside any section: nam,
+opt, ttl, pag, spc, use, fail, rept, endr, ifeq, ifne, iflt,
+ifle, ifge, ifgt, ifpl, endc, else, equ, set, macro, endm,
+csect, and endsect.</p>
+<ul>
+<li></li>
+</ul>
+<p>Within a CSECT: rmb</p>
+<ul>
+<li></li>
+</ul>
+<p>Within a PSECT: any 6809 instruction mnemonic, fcc, fdb,fcs,
+fcb, rzb, vsect, endsect, os9 and end.</p>
+<ul>
+<li></li>
+</ul>
+<p>Within a VSECT: rmb, fcc, fdb, fcs, fcb, rzb and endsect.</p>
+<h2 id="psect-directive">PSECT Directive<a class="headerlink" href="#psect-directive" title="Permanent link">&para;</a></h2>
+<p>The main difference between PSECT and MOD is that MOD sets up
+information for OS-9 and PSECT sets up information for the
+linker (c.link in the C compiler).</p>
+<p>PSECT {name,typelang,attrrev,edition,stacksize,entrypoint}</p>
+<p>name
+Up to 20 bytes (any printable character except space
+or comma) for a name to be used by the linker to
+identify this PSECT. This name need not be distinct
+from all other PSECTs linked together, but it helps
+to identify PSECTs the linker has a problem with if
+the names are different.</p>
+<p>typelang
+byte expression for the executable module type/language
+byte. If this PSECT is not a "mainline"
+(a module that has been designed to be forked to) module
+this byte must be zero.</p>
+<p>attrrev
+byte expression for executable module attribute/revision byte.</p>
+<p>edition
+byte expression for executable module edition byte.</p>
+<p>stacksize
+word expression estimating the amount of stack storage
+required by this psect. The linker totals this
+value in all PSECTs to appear in the executable module and
+adds this value to any data storage requirement
+for the entire program.</p>
+<p>entrypoint
+word expression entrypoint offset for this PSECT.
+If the PSECT is not a mainline odule, this should
+be set to zero.</p>
+<p>PSECT must have either no operand list or an operand list
+containing a name and five expressions. If no operand list is
+provided, the PSECT name defaults to "program" and all other
+expressions to zero. The can only be one PSECT per assembly
+language file.</p>
+<p>The PSECT directive initializes all counter orgs and marks the
+start of the program module. No VSECT data reservations or
+object code may appear before or after the PSECT/ENDSECT block.</p>
+<p>Example:
+<div class="highlight"><pre><span></span><code>psect myprog,Prgrm+Objct,Reent+1,Edit,0,progent
+psect another_prog,0,0,0,0,0
+</code></pre></div></p>
+<h2 id="vsect-directive">VSECT Directive<a class="headerlink" href="#vsect-directive" title="Permanent link">&para;</a></h2>
+<p>VSECT {DP}</p>
+<p>The VSECT directive causes RMA to change to the data location
+counters. If DP appears after VSECT, the direct page counters are
+used, otherwise the non-direct page data is used. The RMB directive
+within this section reserves the specified number of bytes in the
+appropiate uninitialized data section. The fcc, fdb, fcs, fcb and
+rzb (reserve zeroed bytes) directives place data into the
+appropiate initialized data section. If an operand for fdb or fcb
+contains an external reference, this information is placed in the
+external reference part of the ROF to be adjusted at link or
+execution time. ENDSECT marks the end of the VSECT block. Any
+number of VSECT blocks can appear within a PSECT. Note, however,
+that the data location counters maintain their values between one
+VSECT block and the next. Since the linker handles the actual data
+allocation, there is no facility provided to adjust the data
+location counters.</p>
+<h2 id="csect-directive">CSECT Directive<a class="headerlink" href="#csect-directive" title="Permanent link">&para;</a></h2>
+<p>CSECT {expression}</p>
+<p>The CSECT directive provides a means for assigning consecutive
+offsets to labels without resorting to EQUs. If the expression is
+present, the CSECT base counter is set to that value, otherwise it
+is set to zero.</p>
+<h2 id="rzb-statement">RZB statement<a class="headerlink" href="#rzb-statement" title="Permanent link">&para;</a></h2>
+<p>RZB </p>
+<p>The reserve zeroed bytes pseudo-instruction generates sequences of
+zero bytes in the code or initialized data sections, the number of
+which is specified by the expression.</p>
+<p>Comparison Between Assembly Programs for the Microware Interactive Assember
+and the Relocating Macro Assembler</p>
+<p>The following two program examples simply fork a BASIC09. The
+purpose of the examples are to show some of the differences in the
+new relocating assembler. The differences are apparent.</p>
+<div class="highlight"><pre><span></span><code>* this program forks a basic09
+          ifp1
+          use ..../defs/os9defs.a
+          endc
+
+PRGRM     equ $10
+OBJCT     equ $01
+
+stk       equ 200
+          psect rmatest,$11,$81,0,stk,entry
+
+name      fcs /basic09/
+prm       fcb $D
+prmsize   equ *-prm
+
+entry     leax name,pcr
+          leau prm,pcr
+          ldy #prmsize
+          lda #PRGRM+OBJCT
+          clrb
+          os9 F$FORK
+          os9 F$WAIT
+          os9 F$EXIT
+          endsect
+</code></pre></div>
+<h2 id="macro-interactive-assembler-source">Macro Interactive Assembler Source<a class="headerlink" href="#macro-interactive-assembler-source" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>          ifp1
+          use defsfile
+          endc
+
+          mod siz,prnam,type,revs,start,size
+prnam     fcs /testshell/
+type      set prgm+objct
+revs      set reent+1
+
+          rmb 250
+          rmb 200
+name      fcs /basic09/
+prm       fcb $D
+prmsize   equ *-prm
+size      equ .
+start     equ *
+          leax name,pcr
+          leau prm,pcr
+          ldy #prmsize
+          lda #PRGRM+OBJCT
+          clrb
+          os9 F$FORK
+          os9 F$WAIT
+          os9 F$EXIT
+          emod
+siz       equ
+</code></pre></div>
+<h2 id="introduction-to-macros">Introduction to Macros<a class="headerlink" href="#introduction-to-macros" title="Permanent link">&para;</a></h2>
+<p>In programming applications it is frequently necessary to use a
+repeated sequence or pattern of instructions in many different
+places in a program. For example, suppose a group of program
+statements creates a file a number of times throughout the program.
+The code might look like the following statements:</p>
+<div class="highlight"><pre><span></span><code>    leax name,pcr
+    lda $02
+    ldb $03
+    os9 I$CREATE
+</code></pre></div>
+<p>The sequence must be replicated each time that a new file is
+created. A macro assembler eliminates the need for coding duplicate
+statement patterns by allowing the programmer to define macro
+instructions that are equivalent to longer code sequences.</p>
+<p>When a macro is called, it is the same as calling a subrouting to
+perform a defined function. A macro produces in-line code that is
+inserted into the normal flow of the program beginning at the
+location of the macro call. The statements that may be generated by
+a macro are generally unrestricted, and the statements may contain
+substitutable arguments.</p>
+<h2 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h2>
+<h2 id="macro-definition">Macro Definition<a class="headerlink" href="#macro-definition" title="Permanent link">&para;</a></h2>
+<p>A macro definition consists of three sections:</p>
+<div class="highlight"><pre><span></span><code>       MACRO    /* macro header */
+              .        /*  is the name of the macro */
+              .
+              body     /* macro body */
+              .
+              .
+              ENDM     /* macro terminator */
+</code></pre></div>
+<ul>
+<li></li>
+</ul>
+<p>The macro header - assigns a name to the macro</p>
+<ul>
+<li></li>
+</ul>
+<p>The body - contains the macro statements</p>
+<ul>
+<li></li>
+</ul>
+<p>The terminator - indicates the end of the macro</p>
+<p>A macro can have up to nine arguments (\1 to \9) in the operand
+fields. The arguments are used to refer to symbols, registers, etc.</p>
+<p>The following macro below could represent the file creation pattern:</p>
+<div class="highlight"><pre><span></span><code>CREATE MACRO
+       leax \1,pcr
+       lda $\2
+       ldb $\3
+       os9 I$CREATE
+       ENDM
+</code></pre></div>
+<p>Calls can be made to create files with different names, access
+modes, and attributes as follows:</p>
+<div class="highlight"><pre><span></span><code>CREATE name2,02,03
+CREATE name3,01,02
+</code></pre></div>
+<p>The above macro calls will produce the following in-line code:</p>
+<div class="highlight"><pre><span></span><code>       leax name2, pcr
+       lda $02
+       ldb $03
+       os9 I$CREATE
+
+       leax name3, pcr
+       lda $01
+       ldb $02
+       os9 I$CREATE
+</code></pre></div>
+<p>If an argument has multiple parts, for example if d1,d2 is to be
+passed to the macro called frud, it must be passed in double quotes.
+For example:</p>
+<div class="highlight"><pre><span></span><code>frud &quot;0,s&quot;,&quot;2,s&quot;
+</code></pre></div>
+<p>If frud looks like the following macro:
+<div class="highlight"><pre><span></span><code>frud MACRO
+\@   leau \1
+     ldd  \2
+     beq  \@
+     ENDM
+</code></pre></div>
+The previous call to frud would expand the macro as follows:
+<div class="highlight"><pre><span></span><code>@xxx  leau 0,s
+      ldd  2,s
+      beq  @xxx
+</code></pre></div>
+Where "\@" is a label, and "xxx" would be replaced
+by a three digit number.</p>
+<p>An argument may be declared null by leaving it blank in the macro
+call. For example, if the macro instruction was "ldd \1ZZ\2", then
+the call to the macro with arguments AA,BB would expand the
+instruction to "ldd AAZZBB", and the call with argument ,BB will
+expand it to "ldd ZZBB".</p>
+<h2 id="nested-macro-calls">Nested Macro Calls<a class="headerlink" href="#nested-macro-calls" title="Permanent link">&para;</a></h2>
+<p>Macro calls may be nested, that is, the body of a macro definition
+may contain a call to another macro. For example, the macro prepw
+could be defined as follows:
+<div class="highlight"><pre><span></span><code>prepw MACRO
+      lda \1
+      getw
+      ENDM
+</code></pre></div>
+Getw is a macro call. The code to getw is substituted in-line at
+expansion time. However, the definition of a new macro within
+another is not permitted. Macro calls may be nested up to eight deep.</p>
+<h2 id="labels">Labels<a class="headerlink" href="#labels" title="Permanent link">&para;</a></h2>
+<p>Sometimes it is necessary to use labels within a macro. Labels are
+specified by "\@". Each time the macro is called, a unique label
+will be generated to avoid multiple definition errors. Within the
+expanded code "\@" will take on the form "@xxx", where xxx
+will be a decimal number between 000 to 999.</p>
+<p>More than one label may be specified in a macro by the addition of
+an extra character(s). For example, if two different labels are
+required in a macro, they can be specified by "\@A" and "\@B". In
+the first expansion of te macro, the labels would be "@001A" and
+"@001B", and in the second expansion they would be "@002A" and
+"@002B". The extra characters may be appended before the "\" or
+after the "@".</p>
+<h2 id="additional-pseudo-instructions">Additional Pseudo-Instructions<a class="headerlink" href="#additional-pseudo-instructions" title="Permanent link">&para;</a></h2>
+<h2 id="n">\n<a class="headerlink" href="#n" title="Permanent link">&para;</a></h2>
+<p>will return the number of arguments passed to the macro.</p>
+<h2 id="l">\L<a class="headerlink" href="#l" title="Permanent link">&para;</a></h2>
+<p>will return the length of the ith argument
+that is specified by .</p>
+<h2 id="fail">FAIL<a class="headerlink" href="#fail" title="Permanent link">&para;</a></h2>
+<p>Causes an error to be generated.</p>
+<h2 id="rept">REPT<a class="headerlink" href="#rept" title="Permanent link">&para;</a></h2>
+<p>will repeat an instruction or group of instructions  times.
+ENDR terminates REPT.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1650 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official documentation for the NitrOS-9 Project">
+      
+      
+        <meta name="author" content="The NitrOS-9 Project Team">
+      
+      
+        <link rel="canonical" href="https://hathaway3.github.io/nitros9A/nitros9guide/chap4/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chap4 - NitrOS-9 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#advanced-features-of-the-shell" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-header__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NitrOS-9 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chap4
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ccguide/intro/" class="md-tabs__link">
+          
+  
+  
+  C Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../articles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Articles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../os9sysprog/" class="md-tabs__link">
+          
+  
+  
+  Technical Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  History
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NitrOS-9 Documentation" class="md-nav__button md-logo" aria-label="NitrOS-9 Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NitrOS-9 Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the Shell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chap7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nitros9guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ccguide/ccguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User's Guide Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../os9sysprog/os9sysprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Programmer's Manual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features-of-the-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features of the Shell
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-more-detailed-description-command-line-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A More Detailed Description Command Line Processing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12K
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12K">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-modifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Modifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternate-memory-size-modifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternate Memory Size Modifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io-redirection-modifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I/O Redirection Modifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-separators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Separators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequential-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrent Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipes-and-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipes and Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Grouping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#built-in-shell-commands-and-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Built-in Shell Commands and Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell-procedure-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shell Procedure Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-compiled-intermediate-code-programs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Compiled Intermediate Code Programs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-timesharing-system-procedure-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Up Timesharing System Procedure Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h2 id="advanced-features-of-the-shell">Advanced Features of the Shell<a class="headerlink" href="#advanced-features-of-the-shell" title="Permanent link">&para;</a></h2>
+<p>The basic shell functions were introduced in a prior chapter in order
+to provide an understanding of how basic NitrOS-9 commands work. In
+this section the more advanced capabilities of the shell are
+discussed. In addition to basic command line processing, the shell
+has functions that facilitate:</p>
+<ul>
+<li></li>
+</ul>
+<p>I/O redirection (including filters)</p>
+<ul>
+<li></li>
+</ul>
+<p>Memory Allocation</p>
+<ul>
+<li></li>
+</ul>
+<p>Multitasking (concurrent execution)</p>
+<ul>
+<li></li>
+</ul>
+<p>Procedure File Execution (background processing)</p>
+<ul>
+<li></li>
+</ul>
+<p>Execution Control (built-in commands)</p>
+<p>There is a virtually unlimited combination of ways these
+capabilities can be used, and it is impossible to give more than a
+representative set of examples in this manual. You are therefore
+encouraged to study the basic rules, use your imagination, and
+explore the possibilities on your own.</p>
+<h2 id="a-more-detailed-description-command-line-processing">A More Detailed Description Command Line Processing<a class="headerlink" href="#a-more-detailed-description-command-line-processing" title="Permanent link">&para;</a></h2>
+<p>The shell is a program that reads and processes command lines one
+at a time from its input path (usually your keyboard). Each line is
+first scanned (or "parsed") in order to identify and process any of
+the following parts which may be present:</p>
+<ul>
+<li></li>
+</ul>
+<p>A program, procedure file, or built-in command name ("verbs")</p>
+<ul>
+<li></li>
+</ul>
+<p>Parameters to be passed to the program</p>
+<ul>
+<li></li>
+</ul>
+<p>Execution modifiers to be processed by the shell</p>
+<p>Note that only the verb (the program or command name) need be
+present, the other parts are optional. After the verb has been
+identified, the shell processes modifiers (if any). Any other text
+not yet processed is assumed to be parameters and passed to the program called.</p>
+<p>Unless the verb is a "built-in command", the shell will run the
+program named as a new process (task). It then deactivates itself
+until the program called eventually terminates, at which time it
+gets another input line, then the process is repeated. This happens
+over and over until an end-of-file condition is detected on the
+shell's input path which causes the shell to terminate its own
+execution.</p>
+<p>Here is a sample shell line which calls the assembler:</p>
+<div class="highlight"><pre><span></span><code>asm sourcefile l -o &gt;/p #12k
+</code></pre></div>
+<p>In this example:</p>
+<p>asm
+is the verb</p>
+<p>sourcefile l -o
+are parameters passed to <code>asm</code></p>
+<blockquote>
+<p>/p
+is a modifier which redirects the output
+(listing) to the system's printer</p>
+</blockquote>
+<h1 id="12k">12K<a class="headerlink" href="#12k" title="Permanent link">&para;</a></h1>
+<p>is a modifier which requests that the
+process be assigned 12K bytes of memory
+instead of its (smaller) default amount.</p>
+<p>The verb must be the first name in the command line. After it
+has been scanned, the shell first checks if it is a "built-in"
+command. If it is, it is immediately executed. Otherwise, the shell
+assumes it is a program name and attempts to locate and execute it.</p>
+<h2 id="execution-modifiers">Execution Modifiers<a class="headerlink" href="#execution-modifiers" title="Permanent link">&para;</a></h2>
+<p>Execution modifiers are processed by the shell before the program
+is run. If an error is detected in any of the modifiers, the run
+will be aborted and the error reported. Characters which comprise
+modifiers are stripped from the part(s) of the command line passed
+to the program as parameters, therefore, the characters reserved for
+use as modifiers ( # ; !  &amp; ) cannot be used inside parameters,
+but can be used before or after the parameters.</p>
+<h2 id="alternate-memory-size-modifier">Alternate Memory Size Modifier<a class="headerlink" href="#alternate-memory-size-modifier" title="Permanent link">&para;</a></h2>
+<p>When command programs are invoked by the shell, they are
+allocated the minimum amount of working RAM memory specified in the
+program's module header. A module header is part of all executable
+programs and holds the program's name, size, memory requirements,
+etc. Sometimes it is desirable to increase this default
+memory size. Memory can be assigned in 256-byte pages using the
+modifier "#n" where n is the decimal number of pages, or in 1024
+byte increments using the modifier "#nK". The two examples below
+behave identically:</p>
+<div class="highlight"><pre><span></span><code>OS9: copy #8 file1 file2     (gives 8*256 = 2048 bytes)
+OS9: copy #2K file1 file2    (gives 2*1024 = 2048 bytes)
+</code></pre></div>
+<h2 id="io-redirection-modifiers">I/O Redirection Modifiers<a class="headerlink" href="#io-redirection-modifiers" title="Permanent link">&para;</a></h2>
+<p>The second kind of modifier is used to redirect the program's
+"standard I/O paths" to alternate files or devices. Well-written
+NitrOS-9 programs use these paths for routine I/O. Because the programs
+do not use specific file or device names, it is fairly simple to
+"redirect" the I/O to any file or device without altering the
+program itself. Programs which normally receive input from a
+terminal or send output to a terminal use one or more of the
+standard I/O paths as defined below:</p>
+<p>STANDARD INPUT: This path normally passes data from the
+terminal's keyboard to the program.</p>
+<p>STANDARD OUTPUT PATH: This path is normally used to output
+data from the program to the terminal's display.</p>
+<p>STANDARD ERROR OUTPUT PATH: This path is used to output
+routine status messages such as prompts and errors to the
+terminal's display (defaults to the same device as the
+standard output path). NOTE: The name "error output" is
+sometimes misleading since many other kinds of messages besides
+errors are sent on this path.</p>
+<p>When new processes are created, they inherit their parent process'
+standard I/O paths. Therefore, when the shell
+creates new processes, they usually inherit its standard I/O paths.
+When you log-on the shell's standard input is the terminal keyboard;
+the standard output and error output is the terminal's display.
+When a redirection modifier is used on a shell command line, the
+shell will open the corresponding paths and pass them to the new
+process as its standard I/O paths. There are three redirection
+modifiers as given below:</p>
+<p>Redirect the standard input path</p>
+<blockquote>
+<p>Redirect the standard output path</p>
+<blockquote>
+<p>Redirect the standard error output path</p>
+</blockquote>
+</blockquote>
+<p>When redirection modifiers are used on a command line, they must
+be immediately followed by a pathlist describing the file or device
+the I/O is to be redirected to or from. For example, the standard
+output of <code>list</code> can be redirected to write to the system printer
+instead of the terminal:</p>
+<div class="highlight"><pre><span></span><code>OS9: list correspondence &gt;/p
+</code></pre></div>
+<p>Files referenced by I/O redirection modifiers are automatically
+opened or created, and closed (as appropriate) by the shell. Here is
+another example, the output of the <code>dir</code> command is redirected to the
+file <code>/D1/savelisting</code>:</p>
+<div class="highlight"><pre><span></span><code>OS9: DIR &gt;/D1/savelisting
+</code></pre></div>
+<p>If the <code>list</code> command is used on the file <code>/D1/savelisting</code>, output
+from the <code>dir</code> command will be displayed as shown below:</p>
+<div class="highlight"><pre><span></span><code>OS9: list /d1/savelisting
+
+   Directory of .   10:15:00
+myfile          savelisting       file1
+</code></pre></div>
+<p>Redirection modifiers can be used before and/or after the program's
+parameters, but each modifier can only be used once.</p>
+<h2 id="command-separators">Command Separators<a class="headerlink" href="#command-separators" title="Permanent link">&para;</a></h2>
+<p>A single shell input line can request execution of more than one
+program. These programs may be executed sequentially or
+concurrently. Sequential execution means that one program must
+complete its function and terminate before the next program is
+allowed to begin execution. Concurrent execution means that several
+programs are allowed to begin execution and run simultaneously.</p>
+<h2 id="sequential-execution">Sequential Execution<a class="headerlink" href="#sequential-execution" title="Permanent link">&para;</a></h2>
+<p>Programs are executed sequentially when each is entered on a
+separate line. More than one program can be specified on a single
+shell command line by separating each
+<code>program name</code> <code>parameters</code>
+from the next one with a ";" character. For example:</p>
+<div class="highlight"><pre><span></span><code>OS9: copy myfile /d1/newfile ; dir &gt;/p
+</code></pre></div>
+<p>This command line will first execute the <code>copy</code> command and then the
+<code>dir</code> command.</p>
+<p>If an error is returned by any program, subsequent commands on
+the same line are not executed (regardless of the state of the "x"
+option), otherwise, ";" and "return" are identical
+separators.</p>
+<p>Here are some more examples:</p>
+<div class="highlight"><pre><span></span><code>OS9: copy oldfile newfile; del oldfile; list newfile
+
+OS9: dir &gt;/d1/myfile ; list temp &gt;/p; del temp
+</code></pre></div>
+<p>All programs executed sequentially are in fact separate, child
+processes of the shell. After initiating execution of a
+program to be executed sequentially, the shell enters the "wait"
+state until execution of the called program terminates.</p>
+<h2 id="concurrent-execution">Concurrent Execution<a class="headerlink" href="#concurrent-execution" title="Permanent link">&para;</a></h2>
+<p>The second kind of separator is the "&amp;" which implies concurrent
+execution, meaning that the program is run (as a separate, child
+process), but the shell does not wait for it to complete
+before processing the next command.</p>
+<p>The concurrent execution separator is therefore the means by
+which multiprogramming (running two or more programs simultaneously)
+is accomplished. The number of programs that can run at the same
+time is not fixed: it depends upon the amount of free memory in the
+system versus the memory requirements of the specific programs.
+Here is an example:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir &gt;/p&amp;
+&amp;007
+
+OS9:
+</code></pre></div>
+<p>This command line will cause shell to start the <code>dir</code> command
+executing, print the process ID number (&amp;007), and then immediately
+display the "OS9:" prompt and wait for another command to be
+entered. Meanwhile the <code>dir</code> command will be busy sending a directory
+listing to the printer. You can display a "status summary" of all
+processes you have created by using the <code>procs</code> command. Below is
+another example:</p>
+<div class="highlight"><pre><span></span><code>OS9: dir &gt;/p&amp; list file1&amp; copy file1 file2 ; del temp
+</code></pre></div>
+<p>Because they were followed by "&amp;" separators, the <code>dir</code>,
+<code>list</code>, and
+<code>copy</code> programs will run concurrently,
+but the <code>del</code> program will not
+run until the <code>copy</code> program has terminated because sequential
+execution (";") was specified.</p>
+<h2 id="pipes-and-filters">Pipes and Filters<a class="headerlink" href="#pipes-and-filters" title="Permanent link">&para;</a></h2>
+<p>The third kind of separator is the "!" character which is used to
+construct "pipelines". Pipelines consist of two or more concurrent
+programs whose standard input and/or output paths connect to each
+other using "pipes".</p>
+<p>Pipes are the primary means-by which data is transferred from
+process to process (interprocess communications). Pipes are first-in,
+first-out buffers that behave like mass-storage files.</p>
+<p>I/O transfers using pipes are automatically buffered and
+synchronized. A single pipe may have several "readers" and several
+"writers". Multiple writers send, and multiple readers accept, data
+to/from the pipe on a first-come, first-serve basis. An end-of-file
+will occur if an attempt is made to read from a pipe but there are
+no writers available to send data. Conversely, a write error will
+occur if an attempt is made to write to a pipe having no readers.</p>
+<p>Pipelines are created by the shell when an input line having one
+or more "!" separators is processed. For each "!", the standard
+output of the program named to the left of the "!" is redirected via
+a pipe to the standard input of the program named to the right of
+the "!". Individual pipes are created for each "!" present.
+For example:</p>
+<div class="highlight"><pre><span></span><code>OS9: update /p
+</code></pre></div>
+<p>In the example above, the program <code>update</code> has its input redirected
+from a path called <code>master_file</code>. Its standard output becomes the
+standard input for the program <code>sort</code>. Its output, in turn, becomes
+the standard input for the program <code>write_report</code>, which has its
+standard output redirected to the printer.</p>
+<p>All programs in a pipeline are executed concurrently. The pipes
+automatically synchronize the programs so the output of one never
+"gets ahead" of the input request of the next program in the
+pipeline. This implies that data cannot flow through a pipeline any
+faster than the slowest program can process it. Some of the most
+useful applications of pipelines are jobs like character set
+conversion, print file formatting, data compression/decompression,
+etc. Programs which are designed to process data as components of a
+pipeline are often called "filters".
+The <code>tee</code> command, which uses
+pipes to allow data to be simultaneously "broadcast" from a single
+input path to several output paths, is a useful filter.</p>
+<h2 id="command-grouping">Command Grouping<a class="headerlink" href="#command-grouping" title="Permanent link">&para;</a></h2>
+<p>Sections of shell input lines can be enclosed in parentheses
+which permits modifiers and separators to be applied to an entire
+set of programs. The shell processes them by calling itself
+recursively (as a new process) to execute the enclosed program list.
+For example:
+<div class="highlight"><pre><span></span><code>OS9: (dir /d0; dir /d1) &gt;/p
+</code></pre></div>
+gives the same result as:
+<div class="highlight"><pre><span></span><code>OS9: dir /d0 &gt;/p; dir /d1 &gt;/p
+</code></pre></div>
+except for the subtle difference that the printer is "kept"
+continuously in the first example; in the second case another user
+could "steal" the printer in between the <code>dir</code> commands.</p>
+<p>Command grouping can be used to cause a group of programs to be
+executed sequentially, but also concurrently with respect to the
+shell that initiated them, such as:</p>
+<div class="highlight"><pre><span></span><code>OS9: (del file1; del file2; del file3)&amp;
+</code></pre></div>
+<p>A useful extension of this form is to construct pipelines consisting
+of sequential and/or concurrent programs. For example:</p>
+<div class="highlight"><pre><span></span><code>OS9: (dir CMDS; dir SYS) ! makeuppercase ! transmit
+</code></pre></div>
+<p>Here is a very practical example of the use of pipelines. Recall
+that the <code>dsave</code> command generates a procedure file to copy all the
+files in a directory. The example below shows how the output of
+<code>dsave</code> can be pipelined to a shell which will execute the NitrOS-9
+commands as they are generated by <code>dsave</code>. Assume that we want to
+copy all files from a directory called WORKING to a directory called
+ARCHIVE:</p>
+<div class="highlight"><pre><span></span><code>OS9: chd /d0/WORKING; dsave /d0/ARCHIVE ! shell -p
+</code></pre></div>
+<h2 id="built-in-shell-commands-and-options">Built-in Shell Commands and Options<a class="headerlink" href="#built-in-shell-commands-and-options" title="Permanent link">&para;</a></h2>
+<p>When processing input lines, the shell looks for several special
+names of commands or option switches that are built-in the shell.
+These commands are executed without loading a program and creating a
+new process, and generally affect how the shell operates. They can
+be used at the beginning of a line, or following any program
+separator (";", "&amp;", or "!").
+Two or more adjacent built-in
+commands can be separated by spaces or commas.</p>
+<p>The built-in commands and their functions are:</p>
+<p><code>chd</code> <code>pathlist</code>
+change the working data directory to the directory
+specified by the pathlist.</p>
+<p><code>chx</code> <code>pathlist</code>
+change the working execution directory to the
+directory specified by the pathlist.</p>
+<p><code>ex</code> <code>name</code>
+directly execute the module named. This
+transforms the shell process so it ceases
+to exist and a new module begins execution in
+its place.</p>
+<p><code>w</code>
+wait for any process to terminate.</p>
+<ul>
+<li><code>text</code>
+comment: "text" is not processed.</li>
+</ul>
+<p><code>kill</code> <code>Proc ID</code>
+abort the process specified.</p>
+<p><code>setpr</code> <code>Proc ID</code> <code>priority</code>
+changes process' priority.</p>
+<p>x
+causes shell to abort on any error (default)</p>
+<p>-x
+causes shell not to abort on error</p>
+<p>p
+turns shell prompt and messages on (default)</p>
+<p>-p
+inhibits shell prompt and messages</p>
+<p>t
+makes shell copy all input lines to output</p>
+<p>-t
+does not copy input lines to output (default)</p>
+<p>The change directory commands switch the shell's working directory
+and, by inheritance, any subsequently created child process. The
+<code>ex</code> command is used where the shell is needed to initiate execution
+of a program without the overhead of a suspended <code>shell</code> process.
+The name used is processed according to standard shell operation,
+and modifiers can be used.</p>
+<h2 id="shell-procedure-files">Shell Procedure Files<a class="headerlink" href="#shell-procedure-files" title="Permanent link">&para;</a></h2>
+<p>The shell is a reentrant program that can be simultaneously
+executed by more than one process at a time. As is the case with
+most other NitrOS-9 programs, it uses standard I/O paths for routine
+input and output. specifically, it requests command
+lines from the standard input path and writes its prompts and other
+data to the standard error path.</p>
+<p>The shell can start up another process also running the shell by
+means of the <code>shell</code> command. If the standard input path is
+redirected to a mass storage file, the new "incarnation" of the
+shell can accept and execute command lines from the file instead of
+a terminal keyboard. The text file to be processed is
+called a "procedure file". It contains one or more command lines
+that are identical to command lines that are manually entered from
+the keyboard. This technique is sometimes called "batch" or
+"background" processing.</p>
+<p>If the <code>program name</code> specified on a shell command line can not be
+found in memory or in the execution directory, shell will search the
+data directory for a file with the desired name. If one is found,
+shell will automatically execute it as a procedure file.</p>
+<p>Execution of procedure files have a number of valuable
+applications. It can eliminate repetitive manual entry of commonly-used
+sequences of commands. It can allow the computer to execute a
+lengthy series of programs "in the background" while the computer is
+unattended or while the user is running other programs "in the
+foreground".</p>
+<p>In addition to redirecting the shell's standard input to a
+procedure file, the standard output and standard error output can be
+redirected to another file which can record output for later review
+or printing. This can also eliminate the sometimes-annoying output
+of shell messages to your terminal at random times.</p>
+<p>Here are two simple ways to use the shell to create another
+shell:</p>
+<div class="highlight"><pre><span></span><code>OS9: shell &lt;procfile
+
+OS9: procfile
+</code></pre></div>
+<p>Both do exactly the same thing: execute the commands of the file
+<code>procfile</code>. To run the procedure file in a "background" mode you
+simply add the ampersand operator:</p>
+<div class="highlight"><pre><span></span><code>OS9: procfile&amp;
+</code></pre></div>
+<p>NitrOS-9 does not have any constraints on the number of jobs that can be
+simultaneously executed as long as there is memory available. Also, the procedure files can themselves cause sequential or
+concurrent execution of additional procedure files. Here's a more
+complex example of initiating two processing streams with
+redirection of each shell's output to files:</p>
+<div class="highlight"><pre><span></span><code>OS9: proc1 T &gt;&gt;stat1&amp; proc2 T &gt;&gt;stat2&amp;
+</code></pre></div>
+<p>Note that the built-in command "T" (copy input lines to error
+output) was used above. They make the output file contain a record
+of all lines executed, but without useless "OS9" prompts intermixed.
+The "-x" built-in command can be used if you do
+<em>not</em> want processing
+to stop if an error occurs. Note that the built-in commands only
+affect the shell that executes them, and not any others that may
+exist.</p>
+<h2 id="error-reporting">Error Reporting<a class="headerlink" href="#error-reporting" title="Permanent link">&para;</a></h2>
+<p>Many programs (including the shell) use NitrOS-9's standard error
+reporting function, which displays an error number on the error
+output path. The standard error codes are listed in the  of
+this manual. If desired, the <code>printerr</code> command can be executed,
+which replaces the smaller, built-in error display routine with a
+larger (and slower) routine that looks up descriptive error messages
+from a text file called <code>/dd/sys/errmsg</code>.
+Once the <code>printerr</code>
+command has been run it cannot be turned off. Also, its effect is
+system-wide.</p>
+<p>Programs called by the shell can return an error code in the CPU's
+"B" register (otherwise B should be cleared) upon termination. This
+type of error, as well as errors detected by the shell itself, will
+cause an error message to be displayed and processing of the command
+line or procedure file to be terminated unless the "-x" built-in
+command has been previously executed.</p>
+<h2 id="running-compiled-intermediate-code-programs">Running Compiled Intermediate Code Programs<a class="headerlink" href="#running-compiled-intermediate-code-programs" title="Permanent link">&para;</a></h2>
+<p>Before the shell executes a program, it checks the program
+module's language type. If its type is not 6809 machine language,
+shell will call the appropriate run-time system for that module.
+Versions of the shell supplied for various systems are capable of
+calling different run-time systems. Most versions of shell call
+Basic09 when appropriate, and Level Two versions of shell can also
+call the Pascal P-code interpreter (PascalN), or the CIS Cobol
+runtime system (RunC).</p>
+<p>For example, if you wanted to run a Basic09 I-code module called
+<code>adventure</code>, you could type the command given below:</p>
+<div class="highlight"><pre><span></span><code>OS9: basic09 adventure
+</code></pre></div>
+<p>Or you could accomplish the same thing by typing the following:</p>
+<div class="highlight"><pre><span></span><code>OS9: adventure
+</code></pre></div>
+<h2 id="setting-up-timesharing-system-procedure-files">Setting Up Timesharing System Procedure Files<a class="headerlink" href="#setting-up-timesharing-system-procedure-files" title="Permanent link">&para;</a></h2>
+<p>NitrOS-9 systems used for timesharing usually have a procedure file
+that brings the system up by means of one simple command or by using
+the system <code>startup</code> file. A procedure file which initiates the
+timesharing monitor for each terminal is executed to start up the
+system. The procedure file first starts the system clock, then
+initiates concurrent execution of a number of processes that have
+their I/O redirected to each timesharing terminal.</p>
+<p>Usually one <code>tsmon</code> command program is started up concurrently for
+each terminal in the system. This is a special program which
+monitors a terminal for activity. When a carriage return character
+is typed on any of these terminals, the <code>tsmon</code> command initiates the
+<code>login</code> command program. If a user does not enter a correct password
+or user number in three tries, the <code>login</code> command will be aborted.
+Here's a sample procedure file for a 4-terminal timesharing system
+having terminals names "TERM", "T1",
+"T2", and "T3".</p>
+<div class="highlight"><pre><span></span><code>* system startup procedure file
+echo Please Enter the Date and Time
+setime &lt;/term
+printerr
+tsmon /t1&amp;
+tsmon /t2&amp;
+tsmon /t3&amp;
+</code></pre></div>
+<p>NOTE: This <code>login</code> procedure will not work until a password file
+called <code>/DD/SYS/PASSWORD</code> has been created. For more information,
+please see the <code>login</code> command description.</p>
+<p>The example above deserves special attention. Note that the
+<code>setime</code> command has its input redirected to the system console
+"term", which is necessary because it would otherwise attempt to
+read the time information from its current standard input path,
+which is the procedure file and not the keyboard.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
