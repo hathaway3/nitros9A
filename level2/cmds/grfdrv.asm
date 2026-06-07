@@ -5996,7 +5996,8 @@ L1BDD               lsl       4,x                 (four 7 cycles & one 6 cycle)
                     rolb
                     rola
                     std       2,x
-                    std       <gr00B5             Save in "W register". I don't know if this needed on 6809.
+* (dead store removed here: result was never read back - gr00B5 gets
+*  immediately clobbered below and at every call site before any read)
                     ldd       ,x
                     rolb
                     rola

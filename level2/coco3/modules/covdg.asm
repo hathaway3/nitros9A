@@ -503,13 +503,23 @@ SScrl               ldx       <VD.ScrnA,u         Get ptr to 32x16 screen
                     tfm       y+,x+               scroll screen up
                     stx       <VD.CrsrA,u         save new cursor address (1st char on last line)
                     ELSE
-* Replace with StkBlCpy vector later for 6809 portion
-                    leax      <32,x               Point to start of 2nd line
-L0279               ldd       ,x++                Grab 2 chars
-                    std       <-34,x              Save on line above
-                    cmpx      <VD.ScrnE,u         Done screen?
-                    blo       L0279               No, keep scrolling
-                    leax      <-32,x              Done, point 1ast char on last line
+* Stack-blast copy (60 x 8-byte blocks = 480 bytes, scrolls screen up by 1 line)
+                    pshs      u                   Save static storage ptr (repurposing U as src ptr)
+                    ldd       <VD.ScrnE,u         D = end-of-screen addr = stop addr for source ptr
+                    pshs      d                   Save stop address on S
+                    leau      <32,x               U = source ptr = ScrnA+32 (start of 2nd line)
+L0279               pulu      d,y                 (9) grab 4 bytes from source
+                    std       ,x                  (5) store 1st pair
+                    sty       2,x                 (6) store 2nd pair
+                    pulu      d,y                 (9) grab 4 more bytes
+                    std       4,x                 (6) store 3rd pair
+                    sty       6,x                 (6) store 4th pair
+                    leax      8,x                 (5) advance dest ptr by 8
+                    cmpu      ,s                  (7) reached end of source?
+                    blo       L0279               (3) no, keep copying
+                    leas      2,s                 Discard saved stop address
+                    puls      u                   Restore static storage ptr
+* X now = ScrnA+480 = ScrnE-32 = start of last line (same as old "leax <-32,x" result)
                     stx       <VD.CrsrA,u         Save as new cursor position
                     lda       #32                 # chars to clear on last line
                     ldb       #$60                VDG char for space

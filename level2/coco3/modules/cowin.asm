@@ -2718,12 +2718,13 @@ L0D80               leas      -WN.SIZ,s           make a buffer to preserve curr
                     ldw       #WN.SIZ             Preserve window descriptor in stack buffer
                     tfm       x+,u+
                     ELSE
-* 6809 - eventually use mini stack blast copy (34 byte copy)
+* 6809 - mini stack blast copy: 34 bytes = 17 x 2-byte transfers (Y is free here -
+* reloaded at L0D80b's exit anyway, so no need to preserve it across the loop)
                     pshs      d
-                    ldb       #WN.SIZ             Copy from window descriptor buffer to temp stack copy
-L0D80b              lda       ,x+
-                    sta       ,u+
-                    decb
+                    ldy       #WN.SIZ/2           Copy from window descriptor buffer to temp stack copy
+L0D80b              ldd       ,x++
+                    std       ,u++
+                    leay      -1,y                (LEAY sets Z flag on 6809)
                     bne       L0D80b
                     std       >GrfMem+gr00B5
                     puls      d
@@ -4098,7 +4099,19 @@ L161B               equ       *
                     subd      >GrfMem+gr00B5      calculate relative coord in window
                     ENDC
                     std       5+2,s               save it on stack
-                    bsr       L1027               divide it by 8
+* Signed divide by 8 (was L1027 - inlined, only called from here & L168A)
+                    IFNE      H6309
+                    asrd
+                    asrd
+                    asrd
+                    ELSE
+                    asra
+                    rorb
+                    asra
+                    rorb
+                    asra
+                    rorb
+                    ENDC
                     stb       <$13+2,s            save it as mouse text X coord
                     ldb       Wt.DfCPY,y          get window default Y start coord
                     addb      $0C+2,s             add calculated X text coord
@@ -4155,23 +4168,6 @@ L1681               std       <10+$B,s            ($15,s) Save calculated X/Y te
 
 L1688               puls      pc,y,x              Restore regs, return with A=window table entry # for root window
 
-* Signed Divide by 8
-* ONLY CALLED TWICE...SHOULD EMBED
-L1027               equ       *
-                    IFNE      H6309
-                    asrd
-                    asrd
-                    asrd
-                    ELSE
-                    asra
-                    rorb
-                    asra
-                    rorb
-                    asra
-                    rorb
-                    ENDC
-                    rts
-
 * Calculate the current mouse Y text coord within a overlay window
 * used for menu pull down updates
 L168A               pshs      x,u                 preserve pointer to mouse coords & global mem
@@ -4200,7 +4196,19 @@ L16A6               ldx       ,s                  get mouse coordinate pointer
                     ldd       2,x                 get mouse Y co-ordinate
                     subd      ,s++                calculate the relative co-ordinate in window
                     ENDC
-                    bsr       L1027               divide it by 8
+* Signed divide by 8 (was L1027 - inlined, see L168A for details)
+                    IFNE      H6309
+                    asrd
+                    asrd
+                    asrd
+                    ELSE
+                    asra
+                    rorb
+                    asra
+                    rorb
+                    asra
+                    rorb
+                    ENDC
                     decb                          subtract 1
                     tfr       b,a                 copy it to A
                     puls      x,u,pc              restore & return
