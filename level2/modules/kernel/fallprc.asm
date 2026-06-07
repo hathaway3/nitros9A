@@ -128,9 +128,11 @@ FAllprcKidProcDesc  lbsr      FGprocpTarget ; get pointer to child process dsc. 
                     bne       FAllprcProcIDDead ; yes, send message to parent
                     lda       P$SID,y   ; no, check for another child (thru sibling list)
                     bne       FAllprcKidProcDesc ; yes there is another child, go see if it is dead
-* NOTE: MAY WANT TO ADD IN CLRB, CHANGE TO STD R$A,u
-                    sta       R$A,u     ; no child has died, clear out process # & status
-                    sta       R$B,u     ; code in caller's A&B regs
+* A is already 0 here (fell through the bne above on a zero P$SID), so
+* clear B and store both bytes in one 16-bit write instead of two 8-bit ones
+                    clrb
+                    std       R$A,u     ; no child has died, clear out process # & status
+                                        ; code in caller's A&B regs
                     pshs      cc        ; preserve CC
                     orcc      #IntMasks ; shut off interrupts
                     lda       <P$Signal,x ; any signals pending?
