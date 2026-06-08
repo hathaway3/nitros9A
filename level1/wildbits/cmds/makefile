@@ -27,7 +27,7 @@ CMDS		= asm attr backup bawk binex build cmp copy \
 		tee tmode touch tsmon unlink verify xmode \
 		scfg \
 		inetd telnet dw httpd $(BASIC09) $(BF) \
-		bootos9 wbinfo wbreset pick modem
+		bootos9 wbinfo wbreset pick
 
 ALLOBJS		= $(CMDS)
 

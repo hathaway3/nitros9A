@@ -159,7 +159,7 @@ BOOTFILE_DW_JR = $(KERNEL) \
 		$(CMDSDIR)/shell_21
 
 ALLOBJS		= bootfile_sd_k2 bootfile_sd_k bootfile_sd_jr \
-		  bootfile_dw_k bootfile_dw_k bootfile_dw_jr
+		  bootfile_dw_k2 bootfile_dw_k bootfile_dw_jr
 
 all: $(ALLOBJS)
 
@@ -176,11 +176,11 @@ bootfile_sd_k: $(BOOTFILE_SD_K) $(DEPENDS)
 bootfile_sd_jr: $(BOOTFILE_SD_JR) $(DEPENDS)
 	$(MERGE) $(BOOTFILE_SD_JR)>$@
 
-bootfile_dw_k: $(BOOTFILE_DW_K2) $(DEPENDS)
-	$(MERGE) $(BOOTFILE_DW_K2)>$@
-
-bootfile_dw_k2: $(BOOTFILE_DW_K) $(DEPENDS)
+bootfile_dw_k: $(BOOTFILE_DW_K) $(DEPENDS)
 	$(MERGE) $(BOOTFILE_DW_K)>$@
+
+bootfile_dw_k2: $(BOOTFILE_DW_K2) $(DEPENDS)
+	$(MERGE) $(BOOTFILE_DW_K2)>$@
 
 bootfile_dw_jr: $(BOOTFILE_DW_JR) $(DEPENDS)
 	$(MERGE) $(BOOTFILE_DW_JR)>$@

@@ -36,7 +36,7 @@ HELPFILES	+= dmem.hp basic09.hp runb.hp \
 
 HELPMSG		= helpmsg
 
-all:	$(BINFILES) $(DEPENDS)
+all:	$(BINFILES) inetd.conf $(DEPENDS)
 
 $(HELPMSG): $(HELPFILES)
 	$(MERGE) $^ > $@

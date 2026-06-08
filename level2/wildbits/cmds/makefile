@@ -16,7 +16,7 @@ LFLAGS		+= -L$(NITROS9DIR)/lib -L$(LEVEL2)/$(PORT)/libs
 LFLAGS		+= -lwildbitsl2 -lwbsnd
 LFLAGS		+= -lnet -lalib -lnos96809l2
 
-BASIC09	= basic09 runb inkey syscall wild
+BASIC09	= basic09 runb inkey syscall
 BF      = bf
 CPM     = cpm
 CMDS_DW = inetd dw telnet httpd
@@ -27,7 +27,7 @@ CMDS    = asm attr backup bawk binex build cmp copy \
 		makdir mdir megaread merge modem mfree minted mmap modpatch more padrom park \
 		pmap proc procs prompt pwd pxd rename save setime shellplus \
 		shell_21 sleep smap tee tmode touch tsmon unlink verify xmode \
-		bootos9 wbinfo wbreset rogue gfxstatus scfg xtclut drawtest play wild shellbg shellbgoff ntptime \
+		bootos9 wbinfo wbreset gfxstatus scfg xtclut drawtest play wild shellbg shellbgoff ntptime \
 		$(CMDS_DW) $(BASIC09) $(BF) $(CPM) view fadeout fadein
 
 CMDS_CART      = asm attr backup bawk binex build cmp copy \
@@ -37,7 +37,7 @@ CMDS_CART      = asm attr backup bawk binex build cmp copy \
 		makdir mdir merge modem mfree minted mmap more padrom park \
 		pmap proc procs prompt pwd pxd rename save setime \
 		sleep smap tee tmode touch tsmon unlink verify xmode \
-		bootos9 wbinfo wbreset rogue fstatus fcfg xtclut play wild
+		bootos9 wbinfo wbreset fstatus fcfg xtclut play wild
 
 SHELLMODS	= shellplus echo iniz link load save unlink
 
