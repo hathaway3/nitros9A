@@ -160,11 +160,21 @@ done                puls      b         ; restore task #
                     ldw       #R$Size   ; get size of register stack
                     tfm       x+,y+     ; move 'em to process descriptor
                   ELSE
-                    ldb       #R$Size   ; load B from #R$Size
-Uday                lda       ,x+       ; load A from ,x+
-                    sta       ,y+       ; store A at ,y+
-                    decb                ; decrement B
-                    bne       Uday      ; branch if zero is clear to Uday
+* Note! R$Size MUST BE an EVEN number of bytes for this to work!
+                    ldd       ,x        ; unrolled word-at-a-time copy via fixed offsets (X,Y discarded below)
+                    std       ,y
+                    ldd       2,x
+                    std       2,y
+                    ldd       4,x
+                    std       4,y
+                    ldd       6,x
+                    std       6,y
+                    ldd       8,x
+                    std       8,y
+                    ldd       10,x
+                    std       10,y
+                    ldd       12,x
+                    std       12,y
                   ENDC
                     ldx       <D.SysDAT ; get the system DAT image pointer
                     lda       $0B,x     ; get the original blocks
