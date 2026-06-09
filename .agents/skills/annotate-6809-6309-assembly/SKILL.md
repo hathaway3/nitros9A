@@ -64,7 +64,7 @@ Annotate 6809 or 6309 assembly in-place so the result is easier for a human to r
     - when an exported symbol is also a label definition, write it with a trailing colon, for example `_foo:`, not `_foo`
     - do not add colons to internal/local labels unless they are explicitly exported
 12. After annotating a file, run the pretty-printer:
-   - `python3 /Users/boisy/Projects/coco-shelf/nitros9/scripts/asmprettyprint.py <annotated-file>`
+   - `python3 ./scripts/asmprettyprint.py <annotated-file>`
 13. Replace the file contents with the pretty-printed output.
 14. Do not build, assemble, link, run tests, regenerate archives, or update disk images as part of this skill unless the user explicitly asks for that separate verification step.
 15. Return the annotated assembly, and briefly note any uncertain interpretations.
@@ -103,7 +103,7 @@ Annotate 6809 or 6309 assembly in-place so the result is easier for a human to r
 - If a shared symbol is missing but the meaning is clear, add it to the appropriate include and then use it instead of leaving the raw constant in the assembly source.
 - Do not change instruction order, opcodes, addressing modes, numeric values, directives, branch targets, or code/data layout unless the user explicitly asks for something beyond comment annotation. Replacing a raw constant with an equivalent symbol is allowed and expected when it preserves the exact value.
 - Default to comment-only edits.
-- After completing annotation of a file, run `python3 /Users/boisy/Projects/coco-shelf/nitros9/scripts/asmprettyprint.py <file>` and use its output as the final file contents.
+- After completing annotation of a file, run `python3 ./scripts/asmprettyprint.py <file>` and use its output as the final file contents.
 - Do not run `make`, `lwasm`, `lwlink`, `cmoc`, unit tests, archive rebuilds, disk-image updates, or any other build/verification command unless the user explicitly asks for a build or test after annotation.
 - Do not rename labels, introduce labels, replace raw targets with labels, or change local-label style unless the user explicitly requests label work.
 - If label work is explicitly requested, keep labels assembler-friendly: letters, digits, and underscores unless the source clearly uses another convention.
