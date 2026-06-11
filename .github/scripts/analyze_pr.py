@@ -1,9 +1,12 @@
+import json
 import os
 import sys
-import json
-import subprocess
+import urllib.error
+import urllib.request
 from google import genai
 from google.genai import types
+
+MAX_DIFF_BYTES = 200_000
 
 def main():
     # 1. Fetch required environment variables
@@ -21,9 +24,13 @@ def main():
     if not os.path.exists(diff_path) or os.path.getsize(diff_path) == 0:
         print("No changes found or diff file is empty.")
         sys.exit(0)
-        
+
     with open(diff_path, "r", encoding="utf-8", errors="ignore") as f:
         pr_diff = f.read()
+
+    if len(pr_diff) > MAX_DIFF_BYTES:
+        pr_diff = pr_diff[:MAX_DIFF_BYTES] + "\n\n[... diff truncated — too large to review in full ...]"
+        print(f"Warning: diff exceeded {MAX_DIFF_BYTES} bytes and was truncated.")
 
     # 3. Initialize the Gemini Client
     client = genai.Client(api_key=api_key)
@@ -66,44 +73,52 @@ def main():
 
     # 5. Call the Model (Using gemini-2.5-flash for speed and low cost)
     print("Sending diff to Gemini for analysis...")
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=user_prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.2, # Lower temperature for less creative, more analytical output
+    try:
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=user_prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=0.2,
+            )
         )
-    )
-
-    review_text = response.text.strip()
+        review_text = response.text.strip()
+    except Exception as e:
+        print(f"Gemini API error: {e}. Skipping review.")
+        sys.exit(0)
 
     # 6. Bypass posting if the model flags no severe errors
-    if "NO_ISSUES_DETECTED" in review_text:
+    if review_text == "NO_ISSUES_DETECTED":
         print("Gemini found no severe bugs. Skipping PR comment.")
         sys.exit(0)
 
-    # 7. Post the response back to the GitHub PR via a curl command to the REST API
+    # 7. Post the response back to the GitHub PR via the REST API
     print("Posting review feedback back to GitHub PR...")
 
-    # Properly escape markdown string payload for JSON
-    payload = json.dumps({"body": f"### 🤖 Automated Gemini PR Review\n\n{review_text}"})
-    
     url = f"https://api.github.com/repos/{repo_name}/issues/{pr_number}/comments"
-    
-    curl_cmd = [
-        "curl", "-s", "-X", "POST",
-        "-H", f"Authorization: token {github_token}",
-        "-H", "Accept: application/vnd.github.v3+json",
-        "-d", payload,
-        url
-    ]
-    
-    result = subprocess.run(curl_cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error posting comment: {result.stderr}")
+    body = json.dumps({"body": f"### 🤖 Automated Gemini PR Review\n\n{review_text}"}).encode()
+
+    req = urllib.request.Request(
+        url,
+        data=body,
+        headers={
+            "Authorization": f"token {github_token}",
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(req) as resp:
+            if resp.status == 201:
+                print("Review posted successfully.")
+            else:
+                print(f"Unexpected response status: {resp.status}")
+                sys.exit(1)
+    except urllib.error.HTTPError as e:
+        print(f"Error posting comment: HTTP {e.code} {e.reason}")
         sys.exit(1)
-    else:
-        print("Review posted successfully.")
 
 if __name__ == "__main__":
     main()

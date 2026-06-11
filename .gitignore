@@ -18,3 +18,7 @@ buildinfo
 bootfile
 kerneltrack
 *.dsk
+
+# Python cache
+__pycache__/
+*.pyc
