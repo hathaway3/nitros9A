@@ -1,0 +1,43 @@
+name: Gemini PR Code Reviewer
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Fetches all history so we can compare branches
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install google-genai
+
+      - name: Get PR Unified Diff
+        id: diff
+        run: |
+          # Fetch target branch explicitly if not present, to ensure comparison works
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth=100 || true
+          git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > pr_diff.txt
+          
+      - name: Run Gemini Analysis Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+          REPO_NAME: ${{ github.repository }}
+        run: |
+          python .github/scripts/analyze_pr.py
