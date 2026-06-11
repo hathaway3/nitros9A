@@ -45,7 +45,10 @@ u005E               rmb       2                   ptr to module dir end
 u0060               rmb       2                   ptr to module dir start
 u0062               rmb       4096
 u1062               rmb       64                  module name buffer
-u10A2               rmb       13                  module stats ??
+u10A2               rmb       48                  combined header/name buffer
+diroffset           rmb       2                   precalculated dir offset
+outbuf              rmb       256                 stdout write buffer
+outptr              rmb       2                   stdout write buffer pointer
                     rmb       256                 stack area
 size                equ       .
 
@@ -66,6 +69,8 @@ L00D4               clr       ,-u
                     cmpu      ,s
                     bhi       L00D4
                     puls      u
+                    leax      outbuf,u
+                    stx       <outptr
                     clr       <zflag              clear leading zero supression
                     clr       <narrow             default to wide
 *         ldd   #$0C30		wide column width=12/last start col=48
@@ -104,6 +109,10 @@ L010C               leay      >header,pcr         point to main header
                     sty       <u005E              save local end ptr
                     stu       <u0060              save system start ptr
                     puls      u
+                    leax      <u0062,u
+                    tfr       x,d
+                    subd      <u0060
+                    std       <diroffset
                     leax      -MD$ESize,x
                     ldy       <ParamPtr
                     ldd       ,y+
@@ -131,14 +140,27 @@ L016D               lbsr      L0308
                     beq       L018E
                     lbsr      L02DE
                     lbsr      copySTR
-L0178               lbsr      outSP
                     ldb       <bufptr+1
                     subb      #$0E
                     cmpb      <u000D
                     bhi       L018B
-L0183               subb      <u000C
-                    bhi       L0183
-                    bne       L0178
+                    
+                    ldb       #$0E
+col_loop
+                    addb      <u000C
+                    cmpb      <bufptr+1
+                    bls       col_loop
+                    
+                    pshs      b
+                    ldx       <bufptr
+                    lda       #C$SPAC
+space_fill
+                    sta       ,x+
+                    tfr       x,d
+                    cmpb      ,s
+                    bne       space_fill
+                    stx       <bufptr
+                    leas      1,s
                     bra       L018E
 
 L018B               lbsr      writeBUF
@@ -223,7 +245,8 @@ L0238               leax      MD$ESize,x          next entry
 L023A               cmpx      <u005E              more to do?
                     lbcs      L019A               yes, continue
 L0240               clrb
-L0241               os9       F$Exit
+L0241               lbsr      FlushBuf
+                    os9       F$Exit
 
 * print regD as 4 hex digits plus space
 out4HS              inc       <zflag              supress leading zeros
@@ -280,22 +303,63 @@ copySTR             lda       ,y+
                     bra       outCH
 
 * Append a CR and send entire line to stdout
-writeBUF            pshs      y,x,a
+writeBUF            pshs      y,x,d,a
                     lda       #C$CR
                     bsr       outCH
+                    
+                    * Calculate length of formatted line in linebuf: bufptr - linebuf
+                    ldx       <bufptr             X = bufptr (absolute)
+                    tfr       x,d                 D = bufptr
+                    leax      linebuf,u           X = linebuf start (absolute)
+                    pshs      x
+                    subd      ,s++                D = length
+                    beq       writeBUF_done       if 0, skip
+                    
+                    ldy       <outptr             Y = destination in outbuf (absolute)
+                    leax      linebuf,u           X = source (absolute)
+copy_line_loop
+                    lda       ,x+
+                    sta       ,y+
+                    decb
+                    bne       copy_line_loop
+                    sty       <outptr             save updated outptr
+                    
+                    * Reset bufptr to start of linebuf
                     leax      linebuf,u
                     stx       <bufptr
-                    ldy       #80
+                    
+                    * Check if outbuf is near full
+                    ldd       <outptr
+                    leax      outbuf,u
+                    pshs      x
+                    subd      ,s++
+                    cmpd      #176
+                    blo       writeBUF_done
+                    
+                    lbsr      FlushBuf
+                    
+writeBUF_done       puls      pc,y,x,d,a
+
+FlushBuf            pshs      y,x,d
+                    ldx       <outptr
+                    tfr       x,d
+                    leax      outbuf,u
+                    pshs      x
+                    subd      ,s++
+                    beq       FlushDone
+                    tfr       d,y
                     lda       #$01
-                    os9       I$WritLn
-                    puls      pc,y,x,a
+                    os9       I$Write
+                    leax      outbuf,u
+                    stx       <outptr
+FlushDone           puls      pc,y,x,d
 
 * Print TIME as HH:MM:SS
 L02B8               bsr       L02C0               print HH
                     bsr       L02BC               print :MM
 *				print :SS and return
 L02BC               lda       #':
-                    bsr       outCH
+                    lbsr      outCH
 L02C0               ldb       ,x+
 L02C4               subb      #100
                     bcc       L02C4
@@ -304,38 +368,69 @@ L02CF               lda       #'9+1
 L02D1               deca
                     addb      #10
                     bcc       L02D1
-                    bsr       outCH               tens digit
+                    lbsr      outCH               tens digit
                     tfr       b,a
                     adda      #'0
-                    bra       outCH               units digit
+                    lbra      outCH               units digit
 
 * copy module header & name to local buffers
 L02DE               pshs      u,x
-                    bsr       L0308               D=ptr to mdir entry
-                    ldx       4,x                 X=MD$MPtr
-                    ldy       #13
-                    leau      >u10A2,u            buffer for module header data
-                    os9       F$CpyMem            copy 13 bytes of module header
-                    pshs      b,a                 save DAT image ptr
-                    ldd       4,u                 name offset
-                    leax      d,x                 X=name ptr
-                    puls      b,a                 restore DAT image ptr
-                    ldu       2,s
-                    leau      >u1062,u            U=ptr to name buffer
+                    bsr       L0308               D=ptr to local mdir entry
+                    beq       L02DE_exit
+                    
+                    * Copy 48 bytes (header + name) in one shot
+                    ldx       4,x                 X=MD$MPtr (system header absolute pointer)
+                    ldy       #48
+                    leau      u10A2,u
+                    os9       F$CpyMem
+                    
+                    * Restore process pointer U from stack
+                    ldu       ,s                  U = original U (data base)
+                    
+                    * Verify if name is fully contained in u10A2
+                    ldb       #48
+                    subb      5,u                 B = remaining buffer space
+                    ldd       4,u                 D = M$Name offset
+                    leay      u10A2,u
+                    leay      d,y                 Y = pointer to name start in u10A2
+scan_loop           lda       ,y+
+                    bmi       name_ok             terminator found! name is fully contained!
+                    decb
+                    bne       scan_loop
+                    bra       L02DE_fallback
+                    
+name_ok
+                    * Fully contained! Copy name to u1062 in-memory
+                    ldd       4,u
+                    leay      u10A2,u
+                    leay      d,y                 Y = source name start
+                    leax      u1062,u             X = destination name buffer
+copy_name_loop      lda       ,y+
+                    sta       ,x+
+                    bpl       copy_name_loop
+                    bra       L02DE_done
+                    
+L02DE_fallback
+                    * Fallback separate name copy
+                    ldu       ,s                  restore U
+                    ldx       2,s                 restore X (local mdir entry pointer)
+                    bsr       L0308               D = ptr to local mdir entry
+                    pshs      b,a                 save DAT pointer
+                    ldx       4,x                 X = MD$MPtr
+                    ldd       4,u                 D = M$Name
+                    leax      d,x                 X = system name address
+                    puls      b,a                 D = DAT pointer
+                    ldu       ,s                  restore U
+                    leau      u1062,u             U = destination name buffer
                     ldy       #64
-                    os9       F$CpyMem            copy 64 bytes of name data
-                    tfr       u,y                 Y=ptr to name buf
-                    puls      pc,u,x
+                    os9       F$CpyMem
+                    
+L02DE_done          leay      u1062,u             Y = name buffer pointer (return value)
+L02DE_exit          puls      pc,u,x
 
-* calculate local buffer address for current mdir entry (DAT image ptr)
 L0308               ldd       ,x                  D=MD$MPDAT
-                    beq       L0319               if 0, skip empty slot
-                    pshs      y
-                    leay      <u0062,u            Y=local MDIR buffer
-                    pshs      y
-                    subd      <u0060              D=offset (MD$MPDAT-mdstart)
-                    addd      ,s++                D=ptr to local mdir entry
-                    puls      y
+                    beq       L0319               if 0, exit
+                    addd      <diroffset
 L0319               rts
 
                     emod

@@ -42,6 +42,8 @@ strtcol rmb 1 last starting column
 narrow rmb 1
  endc
 buffer rmb 80
+outbuf rmb 256
+outptr rmb 2
  rmb 200 stack
  rmb 250 parameters
 size equ .
@@ -90,6 +92,8 @@ Do32 inc <narrow
  endc
 SetSize
  std <nmwdth
+ leax <outbuf,u
+ stx <outptr
  leay >tophead,pcr
  leax <buffer,u
  stx <bufptr
@@ -121,20 +125,31 @@ PrtTtl ldy #80 max. length to write
  lda #stdout
  os9 I$WritLn
  ldx <mdstart
- bra ChkEnt40
+ lbra ChkEnt40
 loop ldy MD$MPtr,x
  beq PrtTtl40 skip if unused slot
  ldd M$Name,y
  leay d,y
  lbsr CopyStr
-PrtTtl10 lbsr OutSP
  ldb <bufptr+1
  subb #$12
  cmpb <strtcol
  bhi PrtTtl30
-PrtTtl20 subb <nmwdth
- bhi PrtTtl20
- bne PrtTtl10
+ ldb #$12
+col_loop
+ addb <nmwdth
+ cmpb <bufptr+1
+ bls col_loop
+ pshs b
+ ldx <bufptr
+ lda #C$SPAC
+space_fill
+ sta ,x+
+ tfr x,d
+ cmpb ,s
+ bne space_fill
+ stx <bufptr
+ leas 1,s
  bra PrtTtl40
 PrtTtl30 lbsr PrtBuf
 PrtTtl40 leax MD$ESize,x
@@ -193,7 +208,8 @@ ChkEnt40 cmpx <mdend
  bcs ChkEnt
 
 ExitOk clrb
-Exit os9 F$Exit
+Exit lbsr FlushBuf
+ os9 F$Exit
 
 Out4HS inc <zflag suppress leading zeros
  inc <zflag
@@ -251,21 +267,63 @@ CopyStr lda ,y
 *
 * Append a CR to buffer and write it
 *
-PrtBuf pshs y,x,a
+PrtBuf pshs y,x,d,a
  lda #C$CR
  bsr ApndA
+ 
+ * Calculate length of formatted line in buffer: bufptr - buffer
+ ldx <bufptr                 X = bufptr (absolute)
+ tfr x,d                     D = bufptr
+ leax <buffer,u              X = buffer start (absolute)
+ pshs x
+ subd ,s++                   D = length of formatted line
+ beq PrtBufDone              if nothing, skip
+ 
+ ldy <outptr                 Y = destination in outbuf (absolute)
+ leax <buffer,u              X = source buffer (absolute)
+copy_line_loop
+ lda ,x+
+ sta ,y+
+ decb
+ bne copy_line_loop
+ sty <outptr                 save updated outptr
+ 
+ * Reset bufptr to start of buffer
  leax <buffer,u
  stx <bufptr
- ldy #80
+ 
+ * Check if outbuf is near full
+ ldd <outptr
+ leax <outbuf,u
+ pshs x
+ subd ,s++
+ cmpd #176
+ blo PrtBufDone
+ 
+ bsr FlushBuf
+ 
+PrtBufDone
+ puls pc,y,x,d,a
+
+FlushBuf pshs y,x,d
+ ldx <outptr
+ tfr x,d
+ leax <outbuf,u
+ pshs x
+ subd ,s++
+ beq FlushDone
+ tfr d,y
  lda #stdout
- os9 I$WritLn
- puls pc,y,x,a
+ os9 I$Write
+ leax <outbuf,u
+ stx <outptr
+FlushDone puls pc,y,x,d
 
 * Write the time to the buffer as HH:MM:SS
 PrtTim bsr Byt2ASC
  bsr Colon
 Colon lda #':
- bsr ApndA
+ lbsr ApndA
 
 * Convert byte in B to ASCII
 * Entry: B = byte to convert 
@@ -277,10 +335,10 @@ Tens lda #'9+1
 TensLoop deca
  addb #10
  bcc TensLoop
- bsr ApndA
+ lbsr ApndA
  tfr b,a
  adda #'0
- bra ApndA
+ lbra ApndA
 
  emod
 eom equ *
