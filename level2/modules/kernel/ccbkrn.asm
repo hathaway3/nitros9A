@@ -408,13 +408,15 @@ KrnJumpKrnp2        jmp       ,y        ; execute krnp2
 
 * CCB we'll replace above with this:
                     ldd       <D.BtSz   ; get the size of OS9Boot file
+                    pshs      d         ; save actual size of OS9Boot on stack
                     addd      #$fff     ; add size of krn and round to higher size
                     clrb                ; clear B
-                    pshs      d         ; save on stack
+                    pshs      d         ; save rounded size on stack
                     os9       F$SRqMem  ; get memory - U is our starting address
                     stu       <D.BtPtr  ; save this just incase something uses it
                     tfr       u,x       ; setup x for vblock
-                    puls      d         ; setup d for vblock with stacked size
+                    leas      2,s       ; discard rounded size from stack
+                    puls      d         ; restore actual size into D for vblock
                     lbsr      I.VBlock  ; verify OS9Boot
                     *         this      was copied from f$boot
                     *         I         dont know why we need to do this.  Wouldn't
