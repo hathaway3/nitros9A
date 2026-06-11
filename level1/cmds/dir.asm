@@ -41,9 +41,9 @@
 
 * Disassembled 99/04/11 16:36:40 by Disasm v1.6 (C) 1988 by RML
 
-                    ifp1
+                  IFP1
                     use       defsfile
-                    endc
+                  ENDC
 
 tylg                set       Prgrm+Objct
 atrv                set       ReEnt+rev
@@ -57,7 +57,7 @@ nextdir             rmb       2
 dircount            rmb       1
 dirpath             rmb       1
 extended            rmb       1
-addmode             rmb       1                   additional mode
+addmode             rmb       1         additional mode
 u0006               rmb       2
 colwidth            rmb       1
 lastcol             rmb       1
@@ -67,7 +67,11 @@ date                rmb       3
 time                rmb       3
 dent                rmb       DIR.SZ
 fdsect              rmb       FD.Creat-FD.ATT
+currdent            rmb       2         current entry pointer
+dirbufptr           rmb       2         dir buffer pointer
+dirbufend           rmb       2         dir buffer end pointer
 linebuff            rmb       530
+dirbuf              rmb       256       directory read buffer
 size                equ       .
 
 colsize             equ       16
@@ -95,18 +99,21 @@ NHeader             fcb       C$CR,C$LF
                     fcb       C$LF
 NHeaderL            equ       *-NHeader
 
-start               leay      <linebuff,u         get ptr to line buffer
-                    sty       <bufptr             and save it
+start               leay      <linebuff,u get ptr to line buffer
+                    sty       <bufptr   and save it
                     clr       <addmode
                     clr       <extended
                     clr       <narrow
                     clr       <dircount
+                    leax      dirbuf,u
+                    stx       <dirbufptr
+                    stx       <dirbufend
                     pshs      y,x,b,a
-                    ldd       #$01*256+SS.ScSiz   standard output and screen size call
+                    ldd       #$01*256+SS.ScSiz standard output and screen size call
 * Ed13 fix: load X BEFORE calling I$GetStt in case some drivers (like piper) simply return carry clear
 * and do nothing in their I$GetStt routine.
                     ldx       #80
-                    os9       I$GetStt            get it
+                    os9       I$GetStt  get it
 * If the getstat fails, X remains 80. If it works, X contains the width of the device. Either way
 * there's no point in checking.
 L0120               tfr       x,d
@@ -118,40 +125,40 @@ L0120               tfr       x,d
 higher              lda       #16
                     pshs      a
                     subb      ,s+
-                    std       <colwidth           save new column width and last column
+                    std       <colwidth save new column width and last column
                     puls      y,x,b,a
-                    pshs      x                   save start of command line
-                    lbsr      GetOpts             parse for options
-                    puls      x                   get start of command line
-                    lbsr      SkipSpcs            skip any spaces
-                    cmpa      #C$CR               any dir names?
-                    bne       opendir             branch if so
-                    leax      >Dot,pcr            else assume dot
+                    pshs      x         save start of command line
+                    lbsr      GetOpts   parse for options
+                    puls      x         get start of command line
+                    lbsr      SkipSpcs  skip any spaces
+                    cmpa      #C$CR     any dir names?
+                    bne       opendir   branch if so
+                    leax      >Dot,pcr  else assume dot
 opendir             stx       <nextdir
                     lda       #DIR.+READ.
                     ora       <addmode
-                    pshs      x,a                 preserve mode, dir name
+                    pshs      x,a       preserve mode, dir name
                     os9       I$Open
                     sta       <dirpath
-                    puls      x,a                 get mode, dir name
+                    puls      x,a       get mode, dir name
                     lbcs      L0268
-                    os9       I$ChgDir            change to dir
-                    lbcs      L0268               branch if error
-                    pshs      x                   X now points just past name
-                    leay      >DirOf,pcr          point to "Dir of..."
-                    lbsr      PutStr              put it in buffer
-                    ldx       <nextdir            point to directory we are processing
-L0161               lda       ,x+                 get char
-                    lbsr      PutNBuf             put in buffer
-                    cmpx      ,s                  at end of char string?
-                    bcs       L0161               branch if not
-                    leas      $02,s               else clean  up stack
-                    lbsr      PutSpace            and put a space
-                    lbsr      PutSpace            and another one
-                    leax      date,u              point to date buffer
-                    os9       F$Time              get current time
-                    leax      <time,u             point to time
-                    lbsr      ShowDate            show it
+                    os9       I$ChgDir  change to dir
+                    lbcs      L0268     branch if error
+                    pshs      x         X now points just past name
+                    leay      >DirOf,pcr point to "Dir of..."
+                    lbsr      PutStr    put it in buffer
+                    ldx       <nextdir  point to directory we are processing
+L0161               lda       ,x+       get char
+                    lbsr      PutNBuf   put in buffer
+                    cmpx      ,s        at end of char string?
+                    bcs       L0161     branch if not
+                    leas      $02,s     else clean  up stack
+                    lbsr      PutSpace  and put a space
+                    lbsr      PutSpace  and another one
+                    leax      date,u    point to date buffer
+                    os9       F$Time    get current time
+                    leax      <time,u   point to time
+                    lbsr      ShowDate  show it
                     lbsr      CRnWrite
                     tst       <extended
                     beq       L01B3
@@ -170,83 +177,127 @@ L01B3               lda       <dirpath
                     ldu       #DIR.SZ*2
                     os9       I$Seek
                     puls      u
+                    leax      dirbuf,u
+                    stx       <dirbufptr
+                    stx       <dirbufend
                     lbra      L0253
-L01C5               tst       <dent
+L01C5               ldx       <currdent
+                    tst       ,x
                     lbeq      L0253
                     tst       <extended
                     bne       L01E8
-                    leay      <dent,u
+                    tfr       x,y
                     lbsr      PutStr
-L01D5               lbsr      PutSpace
-                    ldb       <bufptr+1
-                    subb      #64
+L01D5               ldb       <bufptr+1
+                    subb      #linebuff
                     cmpb      <lastcol
                     bhi       L022C
-L01E0               subb      <colwidth
-                    bhi       L01E0
-                    bne       L01D5
+
+                    ldb       #linebuff
+col_loop            addb      <colwidth
+                    cmpb      <bufptr+1
+                    bls       col_loop
+
+                    pshs      b
+                    ldx       <bufptr
+                    lda       #C$SPAC
+space_fill          sta       ,x+
+                    tfr       x,d
+                    cmpb      ,s
+                    bne       space_fill
+                    stx       <bufptr
+                    leas      1,s
                     bra       L0253
 L01E8
 * Use SS.FDInf to get the file descriptor sector
+                    ldx       <currdent
                     pshs      u
-                    lda       <dent+DIR.FD
+                    lda       DIR.FD,x
                     ldb       #FD.Creat-FD.ATT
                     tfr       d,y
                     leax      <fdsect,u
                     lda       <dirpath
                     ldb       #SS.FDInf
-                    ldu       <dent+DIR.FD+1
+                    ldu       DIR.FD+1,x
                     os9       I$GetStt
                     puls      u
-                    bcs       L0268               branch if SS.FDInf fails
-                    tst       <narrow             are we on a narrow screen?
-                    bne       L0231               branch if so
+                    lbcs      L0268     branch if SS.FDInf fails
+                    tst       <narrow   are we on a narrow screen?
+                    bne       L0231     branch if so
 
 * Wide extended output
                     ldd       <fdsect+FD.OWN
                     clr       <u0006
-                    bsr       L0274
+                    lbsr      L0274
                     lbsr      PutSpace
                     lbsr      L030B
                     lbsr      PutSpace
                     lbsr      L02D3
                     lbsr      PutSpace
                     lbsr      PutSpace
-                    bsr       L026E
-                    bsr       L0280
-                    leay      <dent,u
+                    lbsr      L026E
+                    lbsr      L0280
+                    ldy       <currdent
                     lbsr      PutStr
 L022C               lbsr      CRnWrite
-                    bra       L0253
+                    lbra      L0253
 
 * Narrow extended output
 L0231               lbsr      L030B
                     ldd       <fdsect+FD.OWN
                     clr       <u0006
-                    bsr       L0274
-                    bsr       PutSpace
-                    leay      <dent,u
+                    lbsr      L0274
+                    lbsr      PutSpace
+                    ldy       <currdent
                     lbsr      PutStr
                     lbsr      CRnWrite
                     lbsr      L02D3
-                    bsr       PutSpace
-                    bsr       PutSpace
-                    bsr       L026E
-                    bsr       L0280
+                    lbsr      PutSpace
+                    lbsr      PutSpace
+                    lbsr      L026E
+                    lbsr      L0280
                     lbsr      CRnWrite
-L0253               leax      <dent,u
-                    ldy       #DIR.SZ
-                    lda       <dirpath
-                    os9       I$Read
+L0253               lbsr      ReadDirEntry
                     lbcc      L01C5
                     cmpb      #E$EOF
                     bne       L0268
                     clrb
 L0268               lbsr      CRnWrite
 Exit                os9       F$Exit
-L026E               lda       <dent+DIR.FD
+
+* Buffered directory read routine
+ReadDirEntry        ldx       <dirbufptr
+                    cmpx      <dirbufend
+                    blo       ReadFromBuf
+
+                    lda       <dirpath
+                    ldy       #256
+                    leax      dirbuf,u
+                    os9       I$Read
+                    bcs       ReadError
+                    cmpy      #0
+                    beq       ReadEOF
+
+                    leax      dirbuf,u
+                    stx       <dirbufptr
+                    tfr       y,d
+                    addd      <dirbufptr
+                    std       <dirbufend
+                    ldx       <dirbufptr
+ReadFromBuf         stx       <currdent
+                    leay      32,x
+                    sty       <dirbufptr
+                    andcc     #$FE
+                    rts
+ReadEOF             ldb       #E$EOF
+                    orcc      #$01
+ReadError           rts
+
+L026E               ldx       <currdent
+                    lda       DIR.FD,x
                     bsr       L0298
-                    ldd       <dent+DIR.FD+1
+                    ldx       <currdent
+                    ldd       DIR.FD+1,x
 L0274               bsr       L029A
                     tfr       b,a
                     bsr       L028E
@@ -285,15 +336,10 @@ L02AB               adda      #'0
 PutSpace            lda       #C$SPAC
 
 * Entry: A = char to put in buffer
-PutNBuf             pshs      x                   save caller's X
-                    ldx       <bufptr             get buffer next pointer
-                    cmpx      #$0090              past end?
-                    bne       PutOk               branch if not
-                    bsr       WriteBuf
-                    ldx       <bufptr             get pointer
-PutOk               sta       ,x+                 save A
-                    stx       <bufptr             and update pointer
-                    puls      pc,x                return
+PutNBuf             ldx       <bufptr   get buffer next pointer
+                    sta       ,x+       save A
+                    stx       <bufptr   and update pointer
+                    rts
 
 PermMask            fcc       "dsewrewr"
                     fcb       $FF
@@ -310,11 +356,11 @@ L02DF               bsr       PutNBuf
                     rts
 
 * Put hi-bit terminated string at Y into line buffer
-PutStr              lda       ,y                  get char in A from Y
-                    anda      #$7F                strip off hi-bit
-                    bsr       PutNBuf             put in buffer
-                    lda       ,y+                 get char again
-                    bpl       PutStr              if hi-bit not set, continue
+PutStr              lda       ,y        get char in A from Y
+                    anda      #$7F      strip off hi-bit
+                    bsr       PutNBuf   put in buffer
+                    lda       ,y+       get char again
+                    bpl       PutStr    if hi-bit not set, continue
                     rts
 
 WriteBuf            pshs      y,x,b,a
@@ -343,14 +389,14 @@ L0320               bsr       DoColon
 L0324               lda       #'/
                     bra       L0334
 
-ShowDate            tst       <narrow             are we on a narrow screen?
-                    bne       ShowTime            branch if we are
-                    leax      date,u              else point to date buffer
-                    bra       L030E               and show date and time
-ShowTime            bsr       Byte2ASC            show hours
-DoColon             lda       #':                 put up colon
-L0334               bsr       PutNBuf             put in buffer
-                    bra       Byte2ASC            show minutes
+ShowDate            tst       <narrow   are we on a narrow screen?
+                    bne       ShowTime  branch if we are
+                    leax      date,u    else point to date buffer
+                    bra       L030E     and show date and time
+ShowTime            bsr       Byte2ASC  show hours
+DoColon             lda       #':       put up colon
+L0334               bsr       PutNBuf   put in buffer
+                    bra       Byte2ASC  show minutes
 
 L0338               lda       #'.+128
                     ldb       ,x
@@ -384,30 +430,30 @@ L0361               deca
                     lbra      PutNBuf
 
 * Entry: X = ptr to line to start parsing
-GetOpts             lda       ,x+                 get next char on cmd line
-                    cmpa      #C$CR               CR?
-                    beq       L039A               yep, return
-                    cmpa      #'-                 option?
-                    beq       GetDash             branch if not
+GetOpts             lda       ,x+       get next char on cmd line
+                    cmpa      #C$CR     CR?
+                    beq       L039A     yep, return
+                    cmpa      #'-       option?
+                    beq       GetDash   branch if not
 * Must be dir name, skip
                     inc       <dircount
-                    bsr       SkipNSpc            skip spaces
-ChkDash             bsr       SkipSpcs            skip spaces
-                    bra       GetOpts             and resart parsing
+                    bsr       SkipNSpc  skip spaces
+ChkDash             bsr       SkipSpcs  skip spaces
+                    bra       GetOpts   and resart parsing
 L039A               rts
 
 GetDash             lda       #C$SPAC
                     sta       -1,x
 GetDash2            ldd       ,x+
-                    ora       #$20                make lowercase
-IsItE               cmpa      #'e                 extended dir?
+                    ora       #$20      make lowercase
+IsItE               cmpa      #'e       extended dir?
                     bne       IsItX
                     sta       <extended
                     bra       FixCmdLn
 IsItX               cmpa      #'x
                     beq       ItIsX
                     ldb       #E$IllArg
-                    lbra      Exit                bad option, just exit
+                    lbra      Exit      bad option, just exit
 ItIsX               lda       #EXEC.
                     sta       <addmode
 FixCmdLn            lda       #C$SPAC
