@@ -69,13 +69,13 @@ L00D4               clr       ,-u
                     cmpu      ,s
                     bhi       L00D4
                     puls      u
+                    stx       <ParamPtr           ; save args ptr before overwriting X!
                     leax      outbuf,u
                     stx       <outptr
                     clr       <zflag              clear leading zero supression
                     clr       <narrow             default to wide
 *         ldd   #$0C30		wide column width=12/last start col=48
 *         std   <u000C
-                    stx       <ParamPtr           save args ptr
                     leax      linebuf,u
                     stx       <bufptr
                     lbsr      writeBUF
@@ -140,27 +140,30 @@ L016D               lbsr      L0308
                     beq       L018E
                     lbsr      L02DE
                     lbsr      copySTR
-                    ldb       <bufptr+1
-                    subb      #$0E
-                    cmpb      <u000D
+                    ldd       <bufptr
+                    pshs      u
+                    subd      ,s++
+                    subd      #linebuf            ; D = current column offset
+                    tfr       b,a                 ; A = current column offset
+                    cmpa      <u000D
                     bhi       L018B
-                    
-                    ldb       #$0E
-col_loop
-                    addb      <u000C
-                    cmpb      <bufptr+1
-                    bls       col_loop
-                    
+                    clrb                          ; B = target column offset
+col_loop            addb      <u000C
                     pshs      b
+                    cmpa      ,s+
+                    bhs       col_loop
+                    clra                          ; D = target column offset
+                    addd      #linebuf
+                    pshs      u
+                    addd      ,s++                ; D = absolute target address
+                    pshs      d                   ; save 16-bit target address on stack
                     ldx       <bufptr
                     lda       #C$SPAC
-space_fill
-                    sta       ,x+
-                    tfr       x,d
-                    cmpb      ,s
+space_fill          sta       ,x+
+                    cmpx      ,s
                     bne       space_fill
                     stx       <bufptr
-                    leas      1,s
+                    leas      2,s
                     bra       L018E
 
 L018B               lbsr      writeBUF
@@ -388,6 +391,9 @@ L02DE               pshs      u,x
                     ldu       ,s                  U = original U (data base)
                     
                     * Verify if name is fully contained in u10A2
+                    ldd       u10A2+4,u           D = M$Name offset
+                    cmpd      #48                 is name offset >= 48?
+                    bhs       L02DE_fallback      yes, then it's not in the 48-byte buffer!
                     ldb       #48
                     subb      u10A2+5,u           B = remaining buffer space
                     ldd       u10A2+4,u           D = M$Name offset

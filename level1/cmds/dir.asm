@@ -189,25 +189,30 @@ L01C5               ldx       <currdent
                     bne       L01E8
                     tfr       x,y
                     lbsr      PutStr
-L01D5               ldb       <bufptr+1
-                    subb      #linebuff
-                    cmpb      <lastcol
+L01D5               ldd       <bufptr
+                    pshs      u
+                    subd      ,s++
+                    subd      #linebuff           ; D = current column offset
+                    tfr       b,a                 ; A = current column offset
+                    cmpa      <lastcol
                     bhi       L022C
-
-                    ldb       #linebuff
+                    clrb                          ; B = target column offset
 col_loop            addb      <colwidth
-                    cmpb      <bufptr+1
-                    bls       col_loop
-
                     pshs      b
+                    cmpa      ,s+                           ; compare current offset (A) with target offset (B)
+                    bhs       col_loop
+                    clra                          ; D = target column offset
+                    addd      #linebuff
+                    pshs      u
+                    addd      ,s++                ; D = absolute target address
+                    pshs      d                   ; save 16-bit target address on stack
                     ldx       <bufptr
                     lda       #C$SPAC
 space_fill          sta       ,x+
-                    tfr       x,d
-                    cmpb      ,s
+                    cmpx      ,s
                     bne       space_fill
                     stx       <bufptr
-                    leas      1,s
+                    leas      2,s
                     bra       L0253
 L01E8
 * Use SS.FDInf to get the file descriptor sector

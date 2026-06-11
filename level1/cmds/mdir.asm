@@ -131,26 +131,31 @@ loop ldy MD$MPtr,x
  ldd M$Name,y
  leay d,y
  lbsr CopyStr
- ldb <bufptr+1
- subb #$12
- cmpb <strtcol
- bhi PrtTtl30
- ldb #$12
-col_loop
- addb <nmwdth
- cmpb <bufptr+1
- bls col_loop
- pshs b
- ldx <bufptr
- lda #C$SPAC
-space_fill
- sta ,x+
- tfr x,d
- cmpb ,s
- bne space_fill
- stx <bufptr
- leas 1,s
- bra PrtTtl40
+ ldd       <bufptr
+ pshs      u
+ subd      ,s++
+ subd      #buffer             ; D = current column offset
+ tfr       b,a                 ; A = current column offset
+ cmpa      <strtcol
+ bhi       PrtTtl30
+ clrb                          ; B = target column offset
+col_loop            addb      <nmwdth
+ pshs      b
+ cmpa      ,s+
+ bhs       col_loop
+ clra                          ; D = target column offset
+ addd      #buffer
+ pshs      u
+ addd      ,s++                ; D = absolute target address
+ pshs      d                   ; save 16-bit target address on stack
+ ldx       <bufptr
+ lda       #C$SPAC
+space_fill          sta       ,x+
+ cmpx      ,s
+ bne       space_fill
+ stx       <bufptr
+ leas      2,s
+ bra       PrtTtl40
 PrtTtl30 lbsr PrtBuf
 PrtTtl40 leax MD$ESize,x
  cmpx <mdend
