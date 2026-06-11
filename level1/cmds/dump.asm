@@ -107,7 +107,7 @@ start               stx       <D.Prm    Save ptr to parm area
                     leax      inbuf,u
                     stx       <inbufptr
                     stx       <inbufend
-                    ldd       #READ.
+                    lda       #READ.
                     sta       <Mode     I$OPEN mode bit flags (set to READ. or READ.+EXEC.)
                   IFNE    DOSCSIZ
                     clr       <narrow   assume wide

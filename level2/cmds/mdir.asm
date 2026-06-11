@@ -389,8 +389,8 @@ L02DE               pshs      u,x
                     
                     * Verify if name is fully contained in u10A2
                     ldb       #48
-                    subb      5,u                 B = remaining buffer space
-                    ldd       4,u                 D = M$Name offset
+                    subb      u10A2+5,u           B = remaining buffer space
+                    ldd       u10A2+4,u           D = M$Name offset
                     leay      u10A2,u
                     leay      d,y                 Y = pointer to name start in u10A2
 scan_loop           lda       ,y+
@@ -401,7 +401,7 @@ scan_loop           lda       ,y+
                     
 name_ok
                     * Fully contained! Copy name to u1062 in-memory
-                    ldd       4,u
+                    ldd       u10A2+4,u
                     leay      u10A2,u
                     leay      d,y                 Y = source name start
                     leax      u1062,u             X = destination name buffer
@@ -417,7 +417,7 @@ L02DE_fallback
                     bsr       L0308               D = ptr to local mdir entry
                     pshs      b,a                 save DAT pointer
                     ldx       4,x                 X = MD$MPtr
-                    ldd       4,u                 D = M$Name
+                    ldd       u10A2+4,u           D = M$Name
                     leax      d,x                 X = system name address
                     puls      b,a                 D = DAT pointer
                     ldu       ,s                  restore U

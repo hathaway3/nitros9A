@@ -72,6 +72,7 @@ dirbufptr           rmb       2         dir buffer pointer
 dirbufend           rmb       2         dir buffer end pointer
 linebuff            rmb       530
 dirbuf              rmb       256       directory read buffer
+                    rmb       256       stack area
 size                equ       .
 
 colsize             equ       16
