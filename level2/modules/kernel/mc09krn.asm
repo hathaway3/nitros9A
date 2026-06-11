@@ -971,7 +971,7 @@ KrnJoin2            equ       *         ; define assembler symbol KrnJoin2
                     bne       MyRTI     ; no, we're doing a system-state rti
 
                   IFNE    H6309   ; begin conditional assembly for H6309
-                    ldf       #R$Size   ; e=0 from call to KrnWeGngBack before
+                    ldw       #R$Size   ; load 16-bit register W (sets E=0, F=R$Size)
                     ldu       #Where+SWIStack ; point to the stack
                     tfm       u+,y+     ; move the stack from top of memory to user memory
                   ELSE
