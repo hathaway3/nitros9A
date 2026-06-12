@@ -1,0 +1,5 @@
+level1/cmds/dir.asm    merge=ours
+level1/cmds/mdir.asm   merge=ours
+level1/cmds/ident.asm  merge=ours
+level1/cmds/dump.asm   merge=ours
+level2/cmds/mdir.asm   merge=ours
