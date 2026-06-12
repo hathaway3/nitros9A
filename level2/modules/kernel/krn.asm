@@ -86,7 +86,7 @@ MName               fcs       /Krn/
                     fcc       /www.nitros9.org /
                     fcc       /www.nitros9.org/
                   ELSE
-                    fcc       /www.nitr/
+                    fcc       /www/
                   ENDC
                   ENDC
 
@@ -811,14 +811,16 @@ AllClr              equ       *         ; define assembler symbol AllClr
                     sta       <D.QCnt   ; and save it back
                     beq       DoFull    ; branch if zero
 * NOTE: Need to preserve X here - needed for BackTo1 routine
-*   (Currently in fnproc.asm). 145 cycles vs. original 213 cycles
-                    ldb       #R$Size   ; else get the size of the register stack
+*   (Currently in fnproc.asm). ~120 cycles vs. byte-at-a-time 206 cycles
+* Note! R$Size MUST BE a multiple of 4 bytes for this to work! (6809: 12)
                     ldy       #Where+SWIStack ; and the stack at the top of memory
                     orcc      #IntMasks ; mask interrupts
-l@                  lda       ,u+       ; get the source byte
-                    sta       ,y+       ; save it at the destination
-                    decb                ; decrement the counter
-                    bne       l@        ; branch if not done
+l@                  ldd       ,u++      ; copy two words per pass (D is free here,
+                    std       ,y++      ; X must survive for BackTo1)
+                    ldd       ,u++      ; get the next word
+                    std       ,y++      ; and save it at the destination
+                    cmpy      #Where+SWIStack+R$Size ; copied the whole package?
+                    bne       l@        ; not yet, keep going
                   ENDC
                     lbra      BackTo1   ; return to the user
 

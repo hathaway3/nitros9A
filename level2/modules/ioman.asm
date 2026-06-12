@@ -48,6 +48,10 @@ atrv                set       ReEnt+rev
 rev                 set       $06
 edition             set       13
 
+* Cached copy of the init module's PollCnt, read on every IRQ by IRQPoll.
+* Lives in the first of the 4 reserved DP bytes following D.PolTbl ($84).
+D.PolCnt            equ       D.PolTbl+2
+
                     mod       eom,name,tylg,atrv,start,size
 
 u0000               rmb       0
@@ -62,6 +66,7 @@ start               ldx       <D.Init             get pointer to init module
                     mul                           calculate size needed for device table
                     pshs      d                   preserve it
                     lda       PollCnt,x           get number of entries in polling table
+                    sta       <D.PolCnt           cache it in the DP for IRQPoll
                     ldb       #POLSIZ             get size of each entry
                     mul                           calculate size needed for polling table
                     pshs      d                   preserve it
@@ -1515,12 +1520,8 @@ L0664               comb                          Exit with Polling Table Full e
 ***************************
 * Device polling routine (Pointed to by <D.Poll)
 * Entry: None
-* NOTE: Could slightly speed up (by 6 cycles) by putting PollCnt from INIT module into
-*   an unused DP location, so that we can replace LDX <D.Init/ldb PollCnt,x with ldb <xxxx
-*   unless X needs to keep pointing at Init
 IRQPoll             ldy       <D.PolTbl           get pointer to polling table
-                    ldx       <D.Init             get pointer to init module
-                    ldb       PollCnt,x           get number of entries in table
+                    ldb       <D.PolCnt           get number of entries (cached in DP at init)
 L066F               lda       [Q$POLL,y]          get device's status register
                     eora      Q$FLIP,y            Invert any status bits to 1's for mask that are needed
                     bita      Q$MASK,y            Any IRQ status bits set?
