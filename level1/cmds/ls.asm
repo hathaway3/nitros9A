@@ -404,16 +404,16 @@ RowL                ldd       <rowoff
                     std       <idxoff
 RowEnt              ldd       <idxoff
                     leax      ptrtbl,u
-                    ldx       [d,x]     X = entry (name at offset 0)
+                    ldx       d,x       X = entry (name at offset 0)
                     bsr       PutName   B = characters emitted
+                    stb       <tmpd     remember the length (ldd below kills B)
                     ldd       <idxoff   step down one column
                     addd      <nrows2
                     std       <idxoff
                     cmpd      <entsz2   anything left on this row?
                     bhs       RowDone
                     lda       <colw     pad the column with spaces
-                    pshs      b
-                    suba      ,s+
+                    suba      <tmpd
                     bsr       PutSpaces
                     bra       RowEnt
 RowDone             bsr       PutEOL
@@ -498,7 +498,7 @@ LL1                 ldd       <idxoff
                     cmpd      <entsz2
                     lbhs      LLdone
                     leax      ptrtbl,u
-                    ldx       [d,x]     X = entry
+                    ldx       d,x       X = entry
                     stx       <entp
 * Fetch the file descriptor head via SS.FDInf.
                     pshs      u
@@ -580,6 +580,7 @@ PutSp               lda       #C$SPAC
 PSlash              lda       #'/
                     bsr       OutCh
 PB2A                ldb       ,x+
+                    subb      #100      PTensU counts up from the -100 residue
                     bra       PTensU
 
 * 4-digit year with century (Glenside Y2K arithmetic, as in dir).
