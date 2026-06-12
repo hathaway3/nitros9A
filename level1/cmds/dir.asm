@@ -221,10 +221,11 @@ L01E8
                     lda       DIR.FD,x
                     ldb       #FD.Creat-FD.ATT
                     tfr       d,y
-                    leax      <fdsect,u
+                    ldu       DIR.FD+1,x  LSN low word (before X is repointed!)
+                    ldx       ,s          caller's U = data base
+                    leax      <fdsect,x
                     lda       <dirpath
                     ldb       #SS.FDInf
-                    ldu       DIR.FD+1,x
                     os9       I$GetStt
                     puls      u
                     lbcs      L0268     branch if SS.FDInf fails
