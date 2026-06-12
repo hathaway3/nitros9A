@@ -173,8 +173,6 @@ done                puls      b         ; restore task #
                     std       8,y
                     ldd       10,x
                     std       10,y
-                    ldd       12,x
-                    std       12,y
                   ENDC
                     ldx       <D.SysDAT ; get the system DAT image pointer
                     lda       $0B,x     ; get the original blocks

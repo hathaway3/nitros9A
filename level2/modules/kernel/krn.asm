@@ -766,8 +766,6 @@ KrnSysCallSvc       ldu       <D.SysSvc ; get the system call service vector
                     std       8,u
                     ldd       10,y
                     std       10,u
-                    ldd       12,y
-                    std       12,u
                   ENDC
                     andcc     #^IntMasks ; unmask interrupts
 * B = the function code already from calling process: DON'T USE IT!
@@ -837,8 +835,6 @@ AllClr              equ       *         ; define assembler symbol AllClr
                     std       8,y
                     ldd       10,u
                     std       10,y
-                    ldd       12,u
-                    std       12,y
                   ENDC
                     lbra      BackTo1   ; return to the user
 
@@ -890,8 +886,6 @@ KrnBlockNumberWhere leau      a,u       ; point to the block number where stack 
                     std       8,y
                     ldd       10,x
                     std       10,y
-                    ldd       12,x
-                    std       12,y
                   ENDC
                     ldx       <D.SysDAT ; get the system DAT pointer
                     lda       $0B,x     ; get the first block we took out
@@ -1122,8 +1116,6 @@ KrnJoin2            equ       *         ; define assembler symbol KrnJoin2
                     std       8,y
                     ldd       10,u
                     std       10,y
-                    ldd       12,u
-                    std       12,y
                   ENDC
 MyRTI               rti                 ; return from IRQ
 
