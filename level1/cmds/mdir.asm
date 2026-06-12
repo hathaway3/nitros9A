@@ -41,9 +41,7 @@ strtcol rmb 1 last starting column
  ifne INCLUDE_SCREENSIZE_CODE
 narrow rmb 1
  endc
-outptr rmb 2
 buffer rmb 80
-outbuf rmb 256
  rmb 200 stack
  rmb 250 parameters
 size equ .
@@ -68,8 +66,6 @@ stitle fcb C$LF
  
 start stx <parmptr
  clr <zflag
- leax <outbuf,u
- stx <outptr
  ifne INCLUDE_SCREENSIZE_CODE
  clr <narrow assume wide output
  lda #stdout standard output
@@ -213,8 +209,7 @@ ChkEnt40 cmpx <mdend
  bcs ChkEnt
 
 ExitOk clrb
-Exit lbsr FlushBuf
- os9 F$Exit
+Exit os9 F$Exit
 
 Out4HS inc <zflag suppress leading zeros
  inc <zflag
@@ -272,57 +267,16 @@ CopyStr lda ,y
 *
 * Append a CR to buffer and write it
 *
-PrtBuf pshs y,x,d,a
+* I$WritLn (not I$Write) so SCF line editing supplies the auto linefeed
+PrtBuf pshs y,x,a
  lda #C$CR
  bsr ApndA
- 
- * Calculate length of formatted line in buffer: bufptr - buffer
- ldx <bufptr                 X = bufptr (absolute)
- tfr x,d                     D = bufptr
- leax <buffer,u              X = buffer start (absolute)
- pshs x
- subd ,s++                   D = length of formatted line
- beq PrtBufDone              if nothing, skip
- 
- ldy <outptr                 Y = destination in outbuf (absolute)
- leax <buffer,u              X = source buffer (absolute)
-copy_line_loop
- lda ,x+
- sta ,y+
- decb
- bne copy_line_loop
- sty <outptr                 save updated outptr
- 
- * Reset bufptr to start of buffer
  leax <buffer,u
  stx <bufptr
- 
- * Check if outbuf is near full
- ldd <outptr
- leax <outbuf,u
- pshs x
- subd ,s++
- cmpd #176
- blo PrtBufDone
- 
- bsr FlushBuf
- 
-PrtBufDone
- puls pc,y,x,d,a
-
-FlushBuf pshs y,x,d
- ldx <outptr
- tfr x,d
- leax <outbuf,u
- pshs x
- subd ,s++
- beq FlushDone
- tfr d,y
+ ldy #80
  lda #stdout
- os9 I$Write
- leax <outbuf,u
- stx <outptr
-FlushDone puls pc,y,x,d
+ os9 I$WritLn
+ puls pc,y,x,a
 
 * Write the time to the buffer as HH:MM:SS
 PrtTim bsr Byt2ASC

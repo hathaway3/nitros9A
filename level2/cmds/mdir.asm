@@ -41,14 +41,12 @@ narrow              rmb       1
 u000C               rmb       1                   name field width
 u000D               rmb       1                   last starting column
 diroffset           rmb       2                   precalculated dir offset
-outptr              rmb       2                   stdout write buffer pointer
 linebuf             rmb       80
 u005E               rmb       2                   ptr to module dir end
 u0060               rmb       2                   ptr to module dir start
 u0062               rmb       4096
 u1062               rmb       64                  module name buffer
 u10A2               rmb       48                  combined header/name buffer
-outbuf              rmb       256                 stdout write buffer
                     rmb       256                 stack area
 size                equ       .
 
@@ -70,8 +68,6 @@ L00D4               clr       ,-u
                     bhi       L00D4
                     puls      u
                     stx       <ParamPtr           ; save args ptr before overwriting X!
-                    leax      outbuf,u
-                    stx       <outptr
                     clr       <zflag              clear leading zero supression
                     clr       <narrow             default to wide
 *         ldd   #$0C30		wide column width=12/last start col=48
@@ -248,8 +244,7 @@ L0238               leax      MD$ESize,x          next entry
 L023A               cmpx      <u005E              more to do?
                     lbcs      L019A               yes, continue
 L0240               clrb
-L0241               lbsr      FlushBuf
-                    os9       F$Exit
+L0241               os9       F$Exit
 
 * print regD as 4 hex digits plus space
 out4HS              inc       <zflag              supress leading zeros
@@ -306,56 +301,16 @@ copySTR             lda       ,y+
                     bra       outCH
 
 * Append a CR and send entire line to stdout
-writeBUF            pshs      y,x,d,a
+* I$WritLn (not I$Write) so SCF line editing supplies the auto linefeed
+writeBUF            pshs      y,x,a
                     lda       #C$CR
                     bsr       outCH
-                    
-                    * Calculate length of formatted line in linebuf: bufptr - linebuf
-                    ldx       <bufptr             X = bufptr (absolute)
-                    tfr       x,d                 D = bufptr
-                    leax      linebuf,u           X = linebuf start (absolute)
-                    pshs      x
-                    subd      ,s++                D = length
-                    beq       writeBUF_done       if 0, skip
-                    
-                    ldy       <outptr             Y = destination in outbuf (absolute)
-                    leax      linebuf,u           X = source (absolute)
-copy_line_loop
-                    lda       ,x+
-                    sta       ,y+
-                    decb
-                    bne       copy_line_loop
-                    sty       <outptr             save updated outptr
-                    
-                    * Reset bufptr to start of linebuf
                     leax      linebuf,u
                     stx       <bufptr
-                    
-                    * Check if outbuf is near full
-                    ldd       <outptr
-                    leax      outbuf,u
-                    pshs      x
-                    subd      ,s++
-                    cmpd      #176
-                    blo       writeBUF_done
-                    
-                    lbsr      FlushBuf
-                    
-writeBUF_done       puls      pc,y,x,d,a
-
-FlushBuf            pshs      y,x,d
-                    ldx       <outptr
-                    tfr       x,d
-                    leax      outbuf,u
-                    pshs      x
-                    subd      ,s++
-                    beq       FlushDone
-                    tfr       d,y
+                    ldy       #80
                     lda       #$01
-                    os9       I$Write
-                    leax      outbuf,u
-                    stx       <outptr
-FlushDone           puls      pc,y,x,d
+                    os9       I$WritLn
+                    puls      pc,y,x,a
 
 * Print TIME as HH:MM:SS
 L02B8               bsr       L02C0               print HH
