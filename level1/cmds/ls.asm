@@ -23,12 +23,17 @@
 
 ;;; ls
 ;;;
-;;; Syntax:	ls [<opts>] [<path>]
+;;; Syntax:	ls [<opts>] [<path>][<pattern>]
 ;;; Usage:	Displays a sorted list of the file names in a directory
 ;;; Parameters:
 ;;;     -a  include the . and .. directory entries
 ;;;     -l  long listing (owner, date, attributes, sector, size)
 ;;;     -x  list the execution directory
+;;;
+;;; The final pathname component may be a pattern: * matches any run
+;;; of characters, ? matches any single character, case-insensitive
+;;; (ls ab*, ls /dd/cmds/d?r).  A name that is not a directory is
+;;; treated as an exact-match pattern, so ls startup lists one file.
 
                     nam       ls
                     ttl       Sorted directory lister
@@ -78,6 +83,12 @@ rowoff              rmb       2         current row table offset
 idxoff              rmb       2         current entry table offset
 pathp               rmb       2         pathname pointer from cmd line
 tmpd                rmb       2         scratch word
+patflg              rmb       1         <>0 = filtering with a pattern
+slashp              rmb       2         last '/' in the token (0 = none)
+mstar               rmb       2         matcher: position after last *
+mss                 rmb       2         matcher: name restart position
+patbuf              rmb       30        folded NUL-terminated pattern
+nmbuf               rmb       30        folded NUL-terminated name
 fdsect              rmb       FD.Creat-FD.ATT file descriptor head (-l)
 optbuf              rmb       32        SS.Opt path option buffer
 ptrtbl              rmb       MAXENT*2  sort pointer table
@@ -102,6 +113,7 @@ start               clr       <lflag
                     clr       <alfflg
                     clr       <maxnam
                     clr       <truncfl
+                    clr       <patflg
                     lda       #2        the first two entries are .. and .
                     sta       <skipcnt
                     ldd       #0
@@ -192,15 +204,57 @@ NoAlf
                     ldb       #80       0 means nobody answered
 SavWid              stb       <scrwid
 
-* Open the directory.
+* Open the directory, peeling off a trailing wildcard pattern if the
+* token has one (the OS-9 shell does not expand wildcards for us).
                     ldx       <pathp
-                    bne       OpenIt
+                    bne       ScanTok
                     leax      >Dot,pcr  no pathname given: use .
-OpenIt              lda       #DIR.+READ.
+                    bra       OpenDir
+ScanTok             stx       <tmpd     remember the token start
+                    ldd       #0
+                    std       <slashp
+scan1               lda       ,x+
+                    cmpa      #C$SPAC
+                    beq       scand
+                    cmpa      #C$CR
+                    beq       scand
+                    cmpa      #'/
+                    bne       scan2
+                    leay      -1,x      remember the last slash
+                    sty       <slashp
+                    bra       scan1
+scan2               cmpa      #'*
+                    beq       scan3
+                    cmpa      #'?
+                    bne       scan1
+scan3               inc       <patflg
+                    bra       scan1
+scand               tst       <patflg
+                    bne       SplitPat
+* No wildcards: try the token as a directory first.
+                    ldx       <tmpd
+                    lda       #DIR.+READ.
+                    ora       <addmode
+                    os9       I$Open
+                    bcc       Opened
+* Not a directory: treat the token as an exact-name pattern.
+                    inc       <patflg
+SplitPat            ldx       <slashp
+                    beq       PatNoDir
+                    lda       #C$CR     terminate the directory part
+                    sta       ,x
+                    leax      1,x       pattern begins after the slash
+                    lbsr      CopyPat
+                    ldx       <tmpd     and open the directory part
+                    bra       OpenDir
+PatNoDir            ldx       <tmpd     pattern is the whole token
+                    lbsr      CopyPat
+                    leax      >Dot,pcr  matched against the current dir
+OpenDir             lda       #DIR.+READ.
                     ora       <addmode
                     os9       I$Open
                     lbcs      Exit
-                    sta       <dirpath
+Opened              sta       <dirpath
                     leax      dirbuf,u  buffer starts out empty
                     stx       <dbptr
                     stx       <dbend
@@ -231,7 +285,13 @@ HaveEnt             leay      DIR.SZ,x
                     sta       <skipcnt
                     bra       Collect
 ChkLive             tst       ,x        deleted entry?
-                    beq       Collect
+                    lbeq      Collect
+                    tst       <patflg   filtering against a pattern?
+                    beq       nofilt
+                    lbsr      FoldName  fold the entry name into nmbuf
+                    lbsr      Match     does it fit the pattern?
+                    lbcs      Collect   no, skip the entry
+nofilt
 * Copy the 32-byte entry into the pool -- fully unrolled.
                     ldy       <poolptr
                     ldd       ,x
@@ -293,8 +353,12 @@ nmok                ldy       <poolptr  advance the pool
 RdEof               cmpb      #E$EOF    real error?
                     lbne      Exit
 RdDone              ldd       <entcnt
-                    lbeq      ExitOk    empty directory: nothing to say
-                    lslb                entsz2 = entcnt*2
+                    bne       RdSome
+                    tst       <patflg   pattern that matched nothing?
+                    lbeq      ExitOk    no, empty directory: nothing to say
+                    ldb       #E$PNNF   yes, report it
+                    lbra      Exit
+RdSome              lslb                entsz2 = entcnt*2
                     rola
                     std       <entsz2
                     addd      <tblbase
@@ -305,13 +369,13 @@ RdDone              ldd       <entcnt
 *****
                     ldd       <entcnt
                     cmpd      #1
-                    bls       SortDone
+                    lbls      SortDone
                     ldx       <tblbase
                     leax      2,x
                     stx       <outerx
 SoLoop              ldx       <outerx
                     cmpx      <tblend
-                    bhs       SortDone
+                    lbhs      SortDone
                     ldd       ,x        key = tbl[i]
                     std       <keyptr
                     tfr       x,y       Y = candidate slot (j+1)
@@ -365,6 +429,74 @@ Fold                anda      #$7F
                     bhi       FoldR
                     suba      #$20
 FoldR               rts
+
+* Copy the delimited pattern at X to patbuf, folded, NUL-terminated.
+CopyPat             leay      <patbuf,u
+                    ldb       #29       at most a name's worth
+cpat1               lda       ,x+
+                    cmpa      #C$SPAC
+                    beq       cpat2
+                    cmpa      #C$CR
+                    beq       cpat2
+                    bsr       Fold
+                    sta       ,y+
+                    decb
+                    bne       cpat1
+cpat2               clr       ,y
+                    rts
+
+* Copy the hi-bit terminated entry name at X to nmbuf, folded,
+* NUL-terminated.  X is preserved.
+FoldName            pshs      x
+                    leay      <nmbuf,u
+fnm1                lda       ,x+
+                    bmi       fnm2
+                    bsr       Fold
+                    sta       ,y+
+                    bra       fnm1
+fnm2                bsr       Fold      last character carries the hi bit
+                    sta       ,y+
+                    clr       ,y
+                    puls      pc,x
+
+* Glob-match nmbuf against patbuf (* = any run, ? = one character).
+* Exit: carry clear on a match, carry set otherwise.  X and Y preserved.
+Match               pshs      y,x
+                    leax      <patbuf,u
+                    leay      <nmbuf,u
+                    ldd       #0
+                    std       <mstar
+mat1                ldb       ,y        current name char (0 = end)
+                    lda       ,x+       current pattern char
+                    beq       matpend   pattern exhausted
+                    cmpa      #'*
+                    beq       matstar
+                    tstb
+                    beq       matback   name ended before the pattern
+                    cmpa      #'?
+                    beq       matadv    ? swallows any one character
+                    pshs      b
+                    cmpa      ,s+
+                    bne       matback
+matadv              leay      1,y
+                    bra       mat1
+matstar             stx       <mstar    resume point after the star
+                    sty       <mss      name position the star covers
+                    bra       mat1
+matpend             tstb                both exhausted = a match
+                    beq       matok
+matback             ldx       <mstar    mismatch: grow the last star
+                    beq       matfail   there wasn't one
+                    ldy       <mss
+                    ldb       ,y
+                    beq       matfail   star cannot grow past the end
+                    leay      1,y
+                    sty       <mss
+                    bra       mat1
+matok               andcc     #$FE
+                    puls      pc,y,x
+matfail             orcc      #$01
+                    puls      pc,y,x
 
 *****
 * Output.

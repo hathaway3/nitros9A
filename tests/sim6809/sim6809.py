@@ -278,7 +278,17 @@ class OS9Env:
     def syscall(self, code):
         if code in (0x84, 0x83, 0x86):            # I$Open / I$Create / I$ChgDir
             x = cpu.x
-            while rd8(x) not in (0x0D, 0x20, 0x2C): x += 1
+            name = bytearray()
+            while rd8(x) not in (0x0D, 0x20, 0x2C):
+                name.append(rd8(x)); x += 1
+            base = bytes(name).split(b"/")[-1]
+            # opening in DIR. mode fails for file-looking names so that
+            # commands' "not a directory" fallbacks can be exercised
+            if code == 0x84 and cpu.a & 0x80 and b"." in base \
+                    and base not in (b".", b".."):
+                cpu.b = 0xCB                      # E$BMode
+                setf(C, True)
+                return
             if code != 0x86:
                 cpu.a = 3
             cpu.x = x
