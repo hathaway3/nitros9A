@@ -26,6 +26,7 @@
 ;;; Syntax:	ls [<opts>] [<path>]
 ;;; Usage:	Displays a sorted list of the file names in a directory
 ;;; Parameters:
+;;;     -a  include the . and .. directory entries
 ;;;     -l  long listing (owner, date, attributes, sector, size)
 ;;;     -x  list the execution directory
 
@@ -143,12 +144,16 @@ POpt                lda       ,x+       get the option letter
                     ora       #$20      fold to lower case
                     cmpa      #'l       long listing?
                     beq       SetL
+                    cmpa      #'a       show . and .. as well?
+                    beq       SetA
                     cmpa      #'x       execution dir?
                     bne       BadOpt
                     lda       #EXEC.
                     sta       <addmode
                     bra       POpt
 SetL                sta       <lflag
+                    bra       POpt
+SetA                clr       <skipcnt
                     bra       POpt
 BadOpt              ldb       #E$IllArg
 Exit                os9       F$Exit
