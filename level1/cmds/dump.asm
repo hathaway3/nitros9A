@@ -385,9 +385,7 @@ readi_have_bytes    cmpd      <D.Len
                     bls       readi_use_avail
                     ldd       <D.Len
 
-readi_use_avail     tfr       d,y
-                    tfr       d,b
-                    ldx       <inbufptr
+readi_use_avail     ldx       <inbufptr B already holds chunk size (low byte of D)
                     leay      d,x
                     sty       <inbufptr
 

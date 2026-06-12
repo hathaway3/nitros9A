@@ -40,15 +40,15 @@ timebuf             rmb       3
 narrow              rmb       1
 u000C               rmb       1                   name field width
 u000D               rmb       1                   last starting column
+diroffset           rmb       2                   precalculated dir offset
+outptr              rmb       2                   stdout write buffer pointer
 linebuf             rmb       80
 u005E               rmb       2                   ptr to module dir end
 u0060               rmb       2                   ptr to module dir start
 u0062               rmb       4096
 u1062               rmb       64                  module name buffer
 u10A2               rmb       48                  combined header/name buffer
-diroffset           rmb       2                   precalculated dir offset
 outbuf              rmb       256                 stdout write buffer
-outptr              rmb       2                   stdout write buffer pointer
                     rmb       256                 stack area
 size                equ       .
 
@@ -146,7 +146,7 @@ L016D               lbsr      L0308
                     subd      #linebuf            ; D = current column offset
                     tfr       b,a                 ; A = current column offset
                     cmpa      <u000D
-                    bhi       L018B
+                    bhs       L018B
                     clrb                          ; B = target column offset
 col_loop            addb      <u000C
                     pshs      b
@@ -157,12 +157,12 @@ col_loop            addb      <u000C
                     pshs      u
                     addd      ,s++                ; D = absolute target address
                     pshs      d                   ; save 16-bit target address on stack
-                    ldx       <bufptr
+                    ldy       <bufptr             ; use Y: X holds the mdir entry ptr
                     lda       #C$SPAC
-space_fill          sta       ,x+
-                    cmpx      ,s
+space_fill          sta       ,y+
+                    cmpy      ,s
                     bne       space_fill
-                    stx       <bufptr
+                    sty       <bufptr
                     leas      2,s
                     bra       L018E
 
@@ -388,17 +388,16 @@ L02DE               pshs      u,x
                     os9       F$CpyMem
                     
                     * Restore process pointer U from stack
-                    ldu       ,s                  U = original U (data base)
+                    ldu       2,s                 U = original U (data base)
                     
                     * Verify if name is fully contained in u10A2
                     ldd       u10A2+4,u           D = M$Name offset
                     cmpd      #48                 is name offset >= 48?
                     bhs       L02DE_fallback      yes, then it's not in the 48-byte buffer!
-                    ldb       #48
-                    subb      u10A2+5,u           B = remaining buffer space
-                    ldd       u10A2+4,u           D = M$Name offset
                     leay      u10A2,u
                     leay      d,y                 Y = pointer to name start in u10A2
+                    ldb       #48
+                    subb      u10A2+5,u           B = remaining buffer space
 scan_loop           lda       ,y+
                     bmi       name_ok             terminator found! name is fully contained!
                     decb
@@ -418,19 +417,21 @@ copy_name_loop      lda       ,y+
                     
 L02DE_fallback
                     * Fallback separate name copy
-                    ldu       ,s                  restore U
-                    ldx       2,s                 restore X (local mdir entry pointer)
+                    ldu       2,s                 restore U
+                    ldx       ,s                  restore X (local mdir entry pointer)
                     bsr       L0308               D = ptr to local mdir entry
                     pshs      b,a                 save DAT pointer
                     ldx       4,x                 X = MD$MPtr
                     ldd       u10A2+4,u           D = M$Name
                     leax      d,x                 X = system name address
                     puls      b,a                 D = DAT pointer
-                    ldu       ,s                  restore U
+                    ldu       2,s                 restore U
                     leau      u1062,u             U = destination name buffer
                     ldy       #64
                     os9       F$CpyMem
-                    
+                    tfr       u,y                 Y = name buffer pointer (return value)
+                    bra       L02DE_exit
+
 L02DE_done          leay      u1062,u             Y = name buffer pointer (return value)
 L02DE_exit          puls      pc,u,x
 

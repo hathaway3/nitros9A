@@ -106,10 +106,10 @@ start               leay      <linebuff,u get ptr to line buffer
                     clr       <extended
                     clr       <narrow
                     clr       <dircount
+                    pshs      y,x,b,a   save param ptr (X) before clobbering it
                     leax      dirbuf,u
                     stx       <dirbufptr
                     stx       <dirbufend
-                    pshs      y,x,b,a
                     ldd       #$01*256+SS.ScSiz standard output and screen size call
 * Ed13 fix: load X BEFORE calling I$GetStt in case some drivers (like piper) simply return carry clear
 * and do nothing in their I$GetStt routine.
@@ -195,7 +195,7 @@ L01D5               ldd       <bufptr
                     subd      #linebuff           ; D = current column offset
                     tfr       b,a                 ; A = current column offset
                     cmpa      <lastcol
-                    bhi       L022C
+                    bhs       L022C
                     clrb                          ; B = target column offset
 col_loop            addb      <colwidth
                     pshs      b
@@ -342,10 +342,11 @@ L02AB               adda      #'0
 PutSpace            lda       #C$SPAC
 
 * Entry: A = char to put in buffer
-PutNBuf             ldx       <bufptr   get buffer next pointer
+PutNBuf             pshs      x         save caller's X
+                    ldx       <bufptr   get buffer next pointer
                     sta       ,x+       save A
                     stx       <bufptr   and update pointer
-                    rts
+                    puls      pc,x      return
 
 PermMask            fcc       "dsewrewr"
                     fcb       $FF

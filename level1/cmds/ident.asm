@@ -65,8 +65,9 @@ path                rmb       1
 mtype               rmb       1
 modrev              rmb       1
 dskmodln            rmb       2
-dskbase1            rmb       2
-dskbase2            rmb       2
+dskbase1            rmb       2         file position (hi word)
+dskbase2            rmb       2         file position (lo word)
+tmp16               rmb       2         scratch word
 linbuf              rmb       80
 dskbuf              rmb       14
 nambuf              rmb       NAMLEN
@@ -337,7 +338,16 @@ DSKM05              lbsr      ScanForModule ; find next `$87CD` in buffer/file
                     ;         We        found a module!
                     ldx       <buf_curr ; X = start of module in buffer
                     stx       <mod_start
-                    stx       <modptr
+
+                    ;         Copy      header to dskbuf so buffer refills can't clobber it
+                    leay      <dskbuf,u
+                    sty       <modptr
+                    ldb       #14
+hdr_copy_loop       lda       ,x+
+                    sta       ,y+
+                    decb
+                    bne       hdr_copy_loop
+                    ldx       <mod_start
 
                     ;         Load      module size
                     ldd       M$Size,x
@@ -403,6 +413,10 @@ crc_use_y           pshs      y
                     bra       crc_loop
 
 crc_done            ;         Copy      CRC bytes from buf_curr - 3
+                    ldd       <buf_curr
+                    subd      <bufptr
+                    cmpd      #3        ; are all 3 CRC bytes still in the buffer?
+                    lbcs      crc_seek_tail ; no, the tail straddled a refill: reread from disk
                     ldx       <buf_curr
                     lda       -3,x
                     ldb       -2,x
@@ -410,26 +424,50 @@ crc_done            ;         Copy      CRC bytes from buf_curr - 3
                     lda       -1,x
                     sta       <modcrc+2
 
-                    bra       show_module_info
+                    lbra      show_module_info
 
-no_crc_verify       ;         Skip      verify: seek to end of module to get CRC if needed
-                    ;         Actually, if the entire module is in the buffer:
+no_crc_verify       ;         Skip      verify: if the entire module is in the buffer,
+                    ;         take      the CRC bytes straight from it
                     ldd       <dskmodln
                     addd      <mod_start
+                    bcs       crc_not_in_buf ; 16-bit overflow: end is far past the buffer
                     cmpd      <buf_end
-                    bls       crc_in_buf
+                    lbls      crc_in_buf
 
-                    ;         CRC       is outside buffer, seek to dskbase + mod_size - 3
+crc_not_in_buf      ;         delta     from current file position to CRC bytes:
+                    ;         delta     = dskmodln - 3 - (buf_end - mod_start)
+                    ldd       <buf_end
+                    subd      <mod_start
+                    std       <tmp16
                     ldd       <dskmodln
-                    subd      #3        ; D = mod_size - 3
-                    addd      <dskbase2
-                    tfr       d,y       ; Y = low 16 bits of seek offset
-                    ldx       <dskbase1 ; X = dskbase1
-                    bcc       no_verify_seek
-                    leax      1,x
-no_verify_seek      pshs      u
-                    tfr       y,u
+                    subd      #3
+                    subd      <tmp16
+                    bra       seek_crc
+
+crc_seek_tail       ;         delta     = -((buf_end - buf_curr) + 3)
+                    ldd       <buf_end
+                    subd      <buf_curr
+                    addd      #3
+                    pshs      b,a
+                    ldd       #0
+                    subd      ,s++      ; D = negated delta
+
+seek_crc            std       <tmp16    save signed delta
+                    ;         file      position += sign-extended delta = CRC offset
+                    ldd       <dskbase2
+                    addd      <tmp16
+                    std       <dskbase2
+                    ldd       <dskbase1
+                    bcc       seek_nc
+                    addd      #1
+seek_nc             tst       <tmp16    delta negative?
+                    bpl       seek_pos
+                    subd      #1        ..yes, add $FFFF sign extension
+seek_pos            std       <dskbase1
                     lda       <path
+                    ldx       <dskbase1
+                    pshs      u
+                    ldu       <dskbase2
                     os9       I$Seek
                     puls      u
                     lbcs      IDNT99
@@ -440,7 +478,15 @@ no_verify_seek      pshs      u
                     os9       I$Read
                     lbcs      IDNT99
 
-                    ;         Since     we seeked, invalidate buffer pointers
+                    ;         file      position is now CRC offset + 3
+                    ldd       <dskbase2
+                    addd      #3
+                    std       <dskbase2
+                    bcc       seek_nc2
+                    ldd       <dskbase1
+                    addd      #1
+                    std       <dskbase1
+seek_nc2            ;         Since     we seeked, invalidate buffer pointers
                     ldx       <bufptr
                     stx       <buf_curr
                     stx       <buf_end
@@ -459,18 +505,12 @@ crc_in_buf          ldd       <dskmodln
                     stx       <buf_curr
 
 show_module_info    lbsr      SHOMOD
+                    lbra      DSKM05
 
-                    ;         Update    dskbase for next module: dskbase = dskbase + mod_size
-                    ldd       <dskmodln
-                    addd      <dskbase2
-                    std       <dskbase2
-                    bcc       dskbase_ok
-                    ldd       <dskbase1
-                    addd      #1
-                    std       <dskbase1
-dskbase_ok          lbra      DSKM05
-
-DSKM99              clrb
+DSKM99              cmpb      #E$EOF    normal end of file?
+                    bne       DSKM99x   ..no, report the error
+                    clrb
+DSKM99x             lbra      IDNT99
 
 RefillBuffer        lda       <path
                     ldx       <bufptr
@@ -483,8 +523,19 @@ RefillBuffer        lda       <path
                     tfr       y,d
                     addd      <bufptr
                     std       <buf_end
+                    bsr       AdvFilePos
                     andcc     #$FE
                     rts
+
+* Advance 32-bit file position by Y bytes read
+AdvFilePos          tfr       y,d
+                    addd      <dskbase2
+                    std       <dskbase2
+                    bcc       advpos_done
+                    ldd       <dskbase1
+                    addd      #1
+                    std       <dskbase1
+advpos_done         rts
 refill_eof          ldb       #E$EOF
                     orcc      #$01
 refill_err          rts
@@ -525,8 +576,10 @@ ensure_empty        ldd       <buf_end
                     cmpy      #0
                     beq       ensure_eof_pop
 
+                    bsr       AdvFilePos
                     tfr       y,d
-                    addd      ,s+
+                    addd      ,s++
+                    addd      <bufptr
                     std       <buf_end
 
                     ldx       <bufptr
@@ -561,12 +614,12 @@ scan_found          stx       <buf_curr
 scan_refill         lbsr      RefillBuffer
                     bcs       scan_err
                     bra       ScanForModule
-scan_refill_partial ldy       #14
+scan_refill_partial stx       <buf_curr ; sync scan position before shifting the tail
+                    ldy       #14
                     lbsr      EnsureBytes
                     bcs       scan_err
                     bra       ScanForModule
-scan_err            rts                 return no errors
-                    bra       IDNT99
+scan_err            rts                 return with error in B, carry set
 
 ShowHelp            equ       *
                   IFNE    DOHELP

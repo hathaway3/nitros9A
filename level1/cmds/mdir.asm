@@ -41,9 +41,9 @@ strtcol rmb 1 last starting column
  ifne INCLUDE_SCREENSIZE_CODE
 narrow rmb 1
  endc
+outptr rmb 2
 buffer rmb 80
 outbuf rmb 256
-outptr rmb 2
  rmb 200 stack
  rmb 250 parameters
 size equ .
@@ -68,6 +68,8 @@ stitle fcb C$LF
  
 start stx <parmptr
  clr <zflag
+ leax <outbuf,u
+ stx <outptr
  ifne INCLUDE_SCREENSIZE_CODE
  clr <narrow assume wide output
  lda #stdout standard output
@@ -92,8 +94,6 @@ Do32 inc <narrow
  endc
 SetSize
  std <nmwdth
- leax <outbuf,u
- stx <outptr
  leay >tophead,pcr
  leax <buffer,u
  stx <bufptr
@@ -137,7 +137,7 @@ loop ldy MD$MPtr,x
  subd      #buffer             ; D = current column offset
  tfr       b,a                 ; A = current column offset
  cmpa      <strtcol
- bhi       PrtTtl30
+ bhs       PrtTtl30
  clrb                          ; B = target column offset
 col_loop            addb      <nmwdth
  pshs      b
@@ -148,12 +148,12 @@ col_loop            addb      <nmwdth
  pshs      u
  addd      ,s++                ; D = absolute target address
  pshs      d                   ; save 16-bit target address on stack
- ldx       <bufptr
+ ldy       <bufptr             ; use Y: X holds the module dir entry ptr
  lda       #C$SPAC
-space_fill          sta       ,x+
- cmpx      ,s
+space_fill          sta       ,y+
+ cmpy      ,s
  bne       space_fill
- stx       <bufptr
+ sty       <bufptr
  leas      2,s
  bra       PrtTtl40
 PrtTtl30 lbsr PrtBuf
