@@ -752,20 +752,12 @@ KrnSysCallSvc       ldu       <D.SysSvc ; get the system call service vector
                     leau      ,s        ; needed because the TFM is u-, not -u (post, not pre)
                   ELSE
 * Note! R$Size MUST BE an EVEN number of bytes for this to work!
-                    leau      ,s        ; U = start of destination register stack (must land here for R$PC,u/R$CC,u below)
-                    leay      -R$Size,y ; Y = start of source register stack
-                    ldd       ,y        ; unrolled word-at-a-time copy via fixed offsets (cheaper than ,r++ on 6809)
-                    std       ,u
-                    ldd       2,y
-                    std       2,u
-                    ldd       4,y
-                    std       4,u
-                    ldd       6,y
-                    std       6,u
-                    ldd       8,y
-                    std       8,u
-                    ldd       10,y
-                    std       10,u
+                    leau      R$Size,s  ; point to the last byte of the destination register stack
+                    lda       #R$Size/2 ; get the number of words to copy in A
+l@                  ldx       ,--y      ; get the source bytes
+                    stx       ,--u      ; save them in the destination
+                    deca                ; decrement the counter
+                    bne       l@        ; branch until done
                   ENDC
                     andcc     #^IntMasks ; unmask interrupts
 * B = the function code already from calling process: DON'T USE IT!
@@ -820,21 +812,13 @@ AllClr              equ       *         ; define assembler symbol AllClr
                     beq       DoFull    ; branch if zero
 * NOTE: Need to preserve X here - needed for BackTo1 routine
 *   (Currently in fnproc.asm). 145 cycles vs. original 213 cycles
+                    ldb       #R$Size   ; else get the size of the register stack
                     ldy       #Where+SWIStack ; and the stack at the top of memory
                     orcc      #IntMasks ; mask interrupts
-* Note! R$Size MUST BE an EVEN number of bytes for this to work!
-                    ldd       ,u        ; unrolled word-at-a-time copy via fixed offsets (U,Y discarded by BackTo1)
-                    std       ,y
-                    ldd       2,u
-                    std       2,y
-                    ldd       4,u
-                    std       4,y
-                    ldd       6,u
-                    std       6,y
-                    ldd       8,u
-                    std       8,y
-                    ldd       10,u
-                    std       10,y
+l@                  lda       ,u+       ; get the source byte
+                    sta       ,y+       ; save it at the destination
+                    decb                ; decrement the counter
+                    bne       l@        ; branch if not done
                   ENDC
                     lbra      BackTo1   ; return to the user
 
@@ -873,19 +857,11 @@ KrnBlockNumberWhere leau      a,u       ; point to the block number where stack 
                     ldw       #R$Size   ; get the size of register stack
                     tfm       x+,y+     ; copy it
                   ELSE
-* Note! R$Size MUST BE an EVEN number of bytes for this to work!
-                    ldd       ,x        ; unrolled word-at-a-time copy via fixed offsets (X,Y,U all restored from stack below)
-                    std       ,y
-                    ldd       2,x
-                    std       2,y
-                    ldd       4,x
-                    std       4,y
-                    ldd       6,x
-                    std       6,y
-                    ldd       8,x
-                    std       8,y
-                    ldd       10,x
-                    std       10,y
+                    ldb       #R$Size/2 ; get the size of the register stack
+l@                  ldu       ,x++      ; get the source bytes
+                    stu       ,y++      ; and save them in the destination
+                    decb                ; decrement the counter
+                    bne       l@        ; branch if not done
                   ENDC
                     ldx       <D.SysDAT ; get the system DAT pointer
                     lda       $0B,x     ; get the first block we took out
@@ -1098,24 +1074,16 @@ KrnJoin2            equ       *         ; define assembler symbol KrnJoin2
                     tstb                ; is the stack at SWISTACK?
                     bne       MyRTI     ; no, we're doing a system-state rti
                   IFNE    H6309   ; begin conditional assembly for H6309
-                    ldw       #R$Size   ; load 16-bit register W (sets E=0, F=R$Size)
+                    ldf       #R$Size   ; e=0 from call to KrnWeGngBack before
                     ldu       #Where+SWIStack ; point to the stack
                     tfm       u+,y+     ; move the stack from the top of memory to user memory
                   ELSE
+                    ldb       #R$Size/2 ; get the number of bytes to move
                     ldu       #Where+SWIStack ; point to the stack
-* Note! R$Size MUST BE an EVEN number of bytes for this to work!
-                    ldd       ,u        ; unrolled word-at-a-time copy via fixed offsets (U,Y discarded by rti)
-                    std       ,y
-                    ldd       2,u
-                    std       2,y
-                    ldd       4,u
-                    std       4,y
-                    ldd       6,u
-                    std       6,y
-                    ldd       8,u
-                    std       8,y
-                    ldd       10,u
-                    std       10,y
+l@                  ldx       ,u++      ; get the bytes
+                    stx       ,y++      ; and store them in the destination
+                    decb                ; decrement the counter
+                    bne       l@        ; branch if not done
                   ENDC
 MyRTI               rti                 ; return from IRQ
 
