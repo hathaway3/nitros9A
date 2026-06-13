@@ -99,7 +99,7 @@ u004C               rmb       2                   Size of text message
 u004E               rmb       1
 u004F               rmb       1                   0=no pathname in parm line, else IS pathname
 u0050               rmb       2
-u0052               rmb       2                   Current expanded buffer size (max=2048)
+u0052               rmb       2                   Expanded buffer limit ptr (start+2048)
 u0054               rmb       2                   Ptr to current char in wildcard filename we are
 *                               checking
 u0056               rmb       2                   Ptr to current pos in expanded buffer
@@ -779,11 +779,12 @@ L04F0               leay      >L04B4,pc           Point to 'Expanded line too lo
                     sts       <u0050              Save stack ptr
                     leay      >u0E6D,u            Point to fully expanded buffer (2k max)
                     sty       <u0056              Save it
+                    leay      >u0E6D+2048,u       Point past the end of the 2K buffer
+                    sty       <u0052              Save as the buffer limit ptr
                     clra
                     clrb
                     sta       <u0012              No current working DIR path
                     sta       <u004F              Flag no pathname in parm area
-                    std       <u0052              Expanded buffer size=0 bytes
                     bra       L0520               Enter main loop for wildcards
 
 L051D               lbsr      L06FB               Special shell chars handling
@@ -1084,17 +1085,14 @@ L06FB               lda       ,x+                 Get char
 * Add char to expanded line buffer
 * Entry: A=char to append to expanded line buffer
 *        <u0056=Current position in expanded line buffer
-*        <u0052=Current size of expanded line buffer
-* Exit: <u0056 & <u0052 updated
+*        <u0052=Buffer limit ptr (set once at init = start+2048)
+* Exit: <u0056 updated
 L0714               pshs      x,a                 Preserve regs
                     ldx       <u0056              Get current pos in expanded buffer
                     sta       ,x+                 Save char
-                    stx       <u0056              Save updated expanded buffer ptr
-                    ldd       <u0052              Get expanded buffer size
-                    addd      #$0001              Increase by 1
-                    cmpd      #2048               Is it full yet?
+                    cmpx      <u0052              Past the buffer limit?
                     bhi       L0773               Yes, exit with expanded line too long error
-                    std       <u0052              No, save new size
+                    stx       <u0056              Save updated expanded buffer ptr
                     puls      pc,x,a              Restore regs & return
 
 * Close DIR path
@@ -1168,8 +1166,11 @@ L0776               pshs      b,cc                Preserve error code
 
 L0789               lda       #C$CR               Append CR to expanded filenames buffer
                     bsr       L0714
-                    ldy       <u0052              Get expanded buffer size
                     leax      >u0E6D,u            Point to start of expanded buffer
+                    ldd       <u0056              Get current end of expanded buffer
+                    pshs      x
+                    subd      ,s++                Size = end - start
+                    tfr       d,y                 Get expanded buffer size into Y
                     bsr       L072F               Close DIR path
                     lds       <u0050              Get back original stack ptr
 * At this point, expanded buffer is complete and ready to go (either through
@@ -2986,10 +2987,16 @@ L14AF               inc       <u0060              Bump it up
                     ldx       #60                 Max size of group
                     stx       <u0006              Save it
                     ldx       <u0004              Get ptr to module name
+                    ifne      H6309
+                    clra                          A=0 so D = name length (B)
+                    tfr       d,w                 W = # bytes to copy
+                    tfm       x+,y+               Copy the name to buffer @ $422
+                    else
 L14C8               lda       ,x+                 Copy it to buffer @ $422
                     sta       ,y+
                     decb
                     bne       L14C8
+                    endc
                     lda       #C$CR               Append a CR to it
                     sta       ,y+
                     clrb
