@@ -29,6 +29,24 @@ The process environment matches what the kernel provides: U/DP at the
 data area, X pointing at the parameter string (`--params` plus a CR),
 Y at the top of memory, S below the parameters.
 
+### Driving the shell
+
+`--stdin "<script>"` feeds a command script to standard input (use
+`\n` between lines); the script ends in EOF so a script-mode shell
+runs it and exits. Module names passed to `F$Fork` are captured and
+listed in the summary. This is enough to exercise shellplus command
+parsing, variable expansion, and (with a leading `:`) wildcard
+expansion against the synthetic directory tree:
+
+```
+python3 tests/sim6809/sim6809.py level2/coco3/cmds/shellplus --stdin "dir CMDS"
+python3 tests/sim6809/sim6809.py level2/coco3/cmds/shellplus --stdin ":dir *"
+```
+
+A stdin script makes the sim report std input as an RBF file (so the
+shell takes its non-interactive read path instead of waiting on
+keyboard signals).
+
 Output is captured and printed between rulers, with a summary line
 (exit code, step count, number of writes, byte count). Control bytes
 other than CR/LF in the output are flagged — on a real window device
@@ -40,11 +58,17 @@ scripted.
 
 | Request | Behavior |
 |---|---|
-| I$Open / I$Create | succeeds (path 3), consumes the pathname |
-| I$Read / I$ReadLn | feeds a synthetic RBF directory: `..`, `.`, one deleted entry, then the `--files` list (or a built-in mixed-case set) |
+| I$Open / I$Create | directory opens return entries; plain opens of a file return synthetic content; directory-mode opens of a file return E$BMode (ls's not-a-directory fallback) |
+| I$Read / I$ReadLn | std in/out/err serve the `--stdin` script (EOF when spent); opened paths feed the synthetic directory tree / file content |
 | I$Write / I$WritLn | captured |
-| I$Close, I$SetStt | succeed |
-| I$GetStt | SS.Opt (SCF + auto-LF, or untouched with `--pipe`), SS.ScSiz (`--width`, piper-style no-op with `--pipe`), SS.FDInf (canned descriptor: 2026/06/12 15:30, size $1234), SS.EOF |
+| I$Close | succeed |
+| I$SetStt | succeeds, except SS.Relea fails when a `--stdin` script is set (so a shell takes its script-mode path) |
+| I$GetStt | SS.Opt (SCF + auto-LF, or untouched with `--pipe`), SS.ScSiz (`--width`, piper-style no-op with `--pipe`), SS.FDInf (descriptor with the directory attribute from the entry's LSN), SS.EOF |
+| F$Fork | captured (module name logged); fails with E$PNNF so the shell reports and moves on |
+| F$Icpt, F$PErr, F$SUser, F$SPrior, F$UnLink, F$UnLoad, F$Send, F$Sleep, F$Wait, I$Dup | succeed quietly |
+| F$Link / F$Load / F$NMLink / F$NMLoad | return E$PNNF (force the load-from-disk / fork path) |
+| F$PrsNam | parses a pathlist name (X = name start, Y = past name, B = length) |
+| F$CmpNam | case-insensitive name compare |
 | F$Exit | ends the run |
 | F$Time, F$ID | canned values |
 

@@ -257,6 +257,13 @@ class OS9Env:
         self.exit_code = None
         self.width = args.width
         self.pipe = args.pipe
+        self.forks = []                            # captured F$Fork module names
+        self.fork_fail = getattr(args, "fork_fail", True)
+        sin = getattr(args, "stdin", None) or ""
+        self.stdin = sin.replace("\\n", "\r").encode("latin1")
+        if self.stdin and not self.stdin.endswith(b"\r"):
+            self.stdin += b"\r"
+        self.stdin_pos = 0
         # tree: normalized path -> list of (name, is_dir); "" is the root
         if args.files:
             tree = {"": [(n, False) for n in args.files.split(',')]}
@@ -292,6 +299,17 @@ class OS9Env:
         self.nexthandle = 3
 
     @staticmethod
+    def read_cstr(addr, term=(0x0D, 0x20, 0x00)):
+        out = bytearray()
+        for _ in range(256):
+            c = rd8(addr)
+            if c in term:
+                break
+            out.append(c & 0x7F)
+            addr += 1
+        return bytes(out).decode("latin1")
+
+    @staticmethod
     def dirent(nm, lsn):
         e = bytearray(32)
         raw = nm.encode()[:29]
@@ -315,6 +333,13 @@ class OS9Env:
         head, _, base = key.rpartition("/")
         return any(nm == base for nm, isdir in self.tree.get(head, []) if not isdir)
 
+    @staticmethod
+    def file_content(key):
+        # Deterministic synthetic file bytes for plain (non-directory) reads.
+        base = key.rsplit("/", 1)[-1]
+        body = ("== %s ==\r" % base).encode("latin1")
+        return body + bytes(range(16)) * 4
+
     def syscall(self, code):
         if code in (0x84, 0x83, 0x86):            # I$Open / I$Create / I$ChgDir
             x = cpu.x
@@ -322,15 +347,20 @@ class OS9Env:
             while rd8(x) not in (0x0D, 0x20, 0x2C):
                 name.append(rd8(x)); x += 1
             key = self.normpath(bytes(name))
+            dir_mode = (cpu.a & 0x80) != 0        # DIR. bit set => caller wants a directory
             if code != 0x86:
                 if key in self.dirdata:
                     h = self.nexthandle; self.nexthandle += 1
                     self.handles[h] = [self.dirdata[key], 0]
                     cpu.a = h
                 elif self.file_exists(key):
-                    cpu.b = 0xCB                  # E$BMode: not a directory
-                    setf(C, True)
-                    return
+                    if dir_mode:                  # opening a file as a directory
+                        cpu.b = 0xCB              # E$BMode (ls's not-a-directory fallback)
+                        setf(C, True)
+                        return
+                    h = self.nexthandle; self.nexthandle += 1
+                    self.handles[h] = [self.file_content(key), 0]
+                    cpu.a = h
                 else:
                     cpu.b = 0xD8                  # E$PNNF
                     setf(C, True)
@@ -345,6 +375,23 @@ class OS9Env:
             if h: h[1] = min((cpu.x << 16) | cpu.u, len(h[0]))
             setf(C, False)
         elif code in (0x89, 0x8B):                # I$Read / I$ReadLn
+            if cpu.a in (0, 1, 2):                # std in/out/err: serve the script
+                data = self.stdin
+                pos = self.stdin_pos
+                n = min(cpu.y, len(data) - pos)
+                if code == 0x8B and n:
+                    cr = data[pos:pos + n].find(b"\r")
+                    if cr >= 0: n = cr + 1
+                if n == 0:
+                    cpu.b = self.E_EOF
+                    setf(C, True)
+                    return
+                for i in range(n):
+                    wr8(cpu.x + i, data[pos + i])
+                self.stdin_pos = pos + n
+                cpu.y = n
+                setf(C, False)
+                return
             h = self.handles.get(cpu.a)
             if h is None:
                 cpu.b = 0xC9                      # E$BPNum
@@ -377,7 +424,11 @@ class OS9Env:
         elif code == 0x8D:                        # I$GetStt
             self.getstt()
         elif code == 0x8E:                        # I$SetStt
-            setf(C, False)
+            if cpu.b == 0x1B and self.stdin:       # SS.Relea on a script file fails,
+                cpu.b = 0xD0                        # which makes shellplus use script mode
+                setf(C, True)
+            else:
+                setf(C, False)
         elif code == 0x06:                        # F$Exit
             self.exit_code = cpu.b
             cpu.running = False
@@ -387,6 +438,52 @@ class OS9Env:
         elif code == 0x15:                        # F$Time
             for i, v in enumerate((126, 6, 12, 15, 30, 0)):
                 wr8(cpu.x + i, v)
+            setf(C, False)
+        elif code == 0x09:                        # F$Icpt (set intercept)
+            setf(C, False)
+        elif code == 0x03:                        # F$Fork
+            self.forks.append(self.read_cstr(cpu.x))
+            if self.fork_fail:
+                cpu.b = 0xD8                       # E$PNNF: report & move on
+                setf(C, True)
+            else:
+                cpu.a = 0x42                       # fake child PID
+                setf(C, False)
+        elif code == 0x04:                        # F$Wait
+            cpu.a = 0x42; cpu.b = 0                # child exited cleanly
+            setf(C, False)
+        elif code == 0x0F:                        # F$PErr (print error)
+            setf(C, False)
+        elif code == 0x10:                        # F$PrsNam (parse pathlist name)
+            x = cpu.x
+            if rd8(x) == 0x2F:                     # leading '/' is part of a pathlist
+                x += 1
+            nm = x
+            while rd8(x) not in (0x0D, 0x20, 0x2C, 0x2F, 0x00, 0x21, 0x3B):
+                x += 1
+            if x == nm:                            # no name char here -> E$BNam
+                cpu.b = 0xC5
+                cpu.x = nm
+                setf(C, True)
+                return
+            cpu.b = (x - nm) & 0xFF               # B = name length
+            cpu.x = nm                            # X = first char of the name
+            cpu.y = x                             # Y = char past the name
+            cpu.a = rd8(x)                        # A = delimiter
+            setf(C, False)
+        elif code == 0x11:                        # F$CmpNam
+            n = cpu.b
+            a = bytes(rd8(cpu.x + i) & 0x7F for i in range(n)).lower()
+            b = bytes(rd8(cpu.y + i) & 0x7F for i in range(n)).lower()
+            setf(C, a != b.rstrip(b"\r "))
+        elif code in (0x00, 0x01, 0x21, 0x22):    # F$Link/F$Load/F$NMLink/F$NMLoad
+            cpu.b = 0xD8                           # not found: force the fork path
+            setf(C, True)
+        elif code in (0x02, 0x0D, 0x1C, 0x1D, 0x1E,  # UnLink/SPrior/SUser/UnLoad/Alarm
+                      0x07, 0x0A, 0x08, 0x1A):        # Mem/Sleep/Send/GModDr
+            setf(C, False)                         # misc privileged: succeed quietly
+        elif code == 0x82:                        # I$Dup
+            cpu.a = 1
             setf(C, False)
         else:
             raise SimError("unimplemented OS9 request $%02X" % code)
@@ -684,6 +781,8 @@ def main():
     ap.add_argument("--width", type=int, default=80, help="SS.ScSiz width")
     ap.add_argument("--pipe", action="store_true",
                     help="stdout behaves like a pipe (no SS.Opt data, no LF)")
+    ap.add_argument("--stdin", default=None,
+                    help="command script fed to std input (use \\n between lines)")
     ap.add_argument("--files", default=None,
                     help="comma-separated fake directory entries")
     ap.add_argument("--max-steps", type=int, default=5_000_000)
@@ -727,6 +826,10 @@ def main():
     out = b"".join(ENV.out_chunks)
     print("exit=%s  steps=%d  writes=%d  bytes=%d"
           % (ENV.exit_code, n, len(ENV.out_chunks), len(out)))
+    if ENV.forks:
+        print("forks (%d):" % len(ENV.forks))
+        for f in ENV.forks:
+            print("  %r" % f)
     bad = sorted(set(b for b in out if b < 0x20 and b not in (0x0D, 0x0A)))
     if bad:
         print("!! control bytes in output:", ["$%02X" % b for b in bad])
