@@ -250,21 +250,46 @@ def pulu_list(mask):
 
 # ------------------------------------------------------ OS-9 environment
 class OS9Env:
-    """Stubbed kernel: synthetic directory, captured output."""
+    """Stubbed kernel: synthetic directory tree, captured output."""
     E_EOF = 0xD3
     def __init__(self, args):
         self.out_chunks = []
         self.exit_code = None
         self.width = args.width
         self.pipe = args.pipe
-        names = args.files.split(',') if args.files else [
-            "startup", "CMDS", "zebra.txt", "a", "Alphabet", "midfile",
-            "OS9Boot", "SYS", "verylongfilename.bin", "b2", "tmp"]
-        ents = [self.dirent("..", 1), self.dirent(".", 2), b"\x00" * 32]
-        for i, n in enumerate(names):
-            ents.append(self.dirent(n, 0x100 + i))
-        self.readdata = b"".join(ents)
-        self.readpos = 0
+        # tree: normalized path -> list of (name, is_dir); "" is the root
+        if args.files:
+            tree = {"": [(n, False) for n in args.files.split(',')]}
+        else:
+            tree = {
+                "":         [("startup", False), ("zebra.txt", False),
+                             ("CMDS", True), ("SYS", True),
+                             ("OS9Boot", False), ("a", False)],
+                "CMDS":     [("ls", False), ("dir", False), ("attr", False),
+                             ("mdir", False)],
+                "SYS":      [("errmsg", False), ("DEFS", True)],
+                "SYS/DEFS": [("os9.d", False), ("scf.d", False)],
+            }
+        self.lsninfo = {}                          # lsn -> is_dir
+        self.dirdata = {}                          # path -> serialized entries
+        nextlsn = [0x100]
+        pathlsn = {p: i + 2 for i, p in enumerate(tree)}
+        for path, items in tree.items():
+            ents = [self.dirent("..", 1), self.dirent(".", pathlsn[path]),
+                    b"\x00" * 32]
+            self.lsninfo[1] = True
+            self.lsninfo[pathlsn[path]] = True
+            for nm, isdir in items:
+                child = (path + "/" + nm).lstrip("/")
+                lsn = pathlsn.get(child)
+                if lsn is None:
+                    lsn = nextlsn[0]; nextlsn[0] += 1
+                self.lsninfo[lsn] = isdir
+                ents.append(self.dirent(nm, lsn))
+            self.dirdata[path] = b"".join(ents)
+        self.tree = tree
+        self.handles = {}                          # path number -> [data, pos]
+        self.nexthandle = 3
 
     @staticmethod
     def dirent(nm, lsn):
@@ -275,42 +300,68 @@ class OS9Env:
         e[29] = (lsn >> 16) & 0xFF; e[30] = (lsn >> 8) & 0xFF; e[31] = lsn & 0xFF
         return bytes(e)
 
+    @staticmethod
+    def normpath(name):
+        parts = [p for p in name.decode("latin1").split("/") if p not in ("", ".")]
+        out = []
+        for p in parts:
+            if p == "..":
+                if out: out.pop()
+            else:
+                out.append(p)
+        return "/".join(out)
+
+    def file_exists(self, key):
+        head, _, base = key.rpartition("/")
+        return any(nm == base for nm, isdir in self.tree.get(head, []) if not isdir)
+
     def syscall(self, code):
         if code in (0x84, 0x83, 0x86):            # I$Open / I$Create / I$ChgDir
             x = cpu.x
             name = bytearray()
             while rd8(x) not in (0x0D, 0x20, 0x2C):
                 name.append(rd8(x)); x += 1
-            base = bytes(name).split(b"/")[-1]
-            # opening in DIR. mode fails for file-looking names so that
-            # commands' "not a directory" fallbacks can be exercised
-            if code == 0x84 and cpu.a & 0x80 and b"." in base \
-                    and base not in (b".", b".."):
-                cpu.b = 0xCB                      # E$BMode
-                setf(C, True)
-                return
+            key = self.normpath(bytes(name))
             if code != 0x86:
-                cpu.a = 3
+                if key in self.dirdata:
+                    h = self.nexthandle; self.nexthandle += 1
+                    self.handles[h] = [self.dirdata[key], 0]
+                    cpu.a = h
+                elif self.file_exists(key):
+                    cpu.b = 0xCB                  # E$BMode: not a directory
+                    setf(C, True)
+                    return
+                else:
+                    cpu.b = 0xD8                  # E$PNNF
+                    setf(C, True)
+                    return
             cpu.x = x
             setf(C, False)
         elif code == 0x8F:                        # I$Close
+            self.handles.pop(cpu.a, None)
             setf(C, False)
         elif code == 0x88:                        # I$Seek (X:U = position)
-            self.readpos = min(((cpu.x << 16) | cpu.u), len(self.readdata))
+            h = self.handles.get(cpu.a)
+            if h: h[1] = min((cpu.x << 16) | cpu.u, len(h[0]))
             setf(C, False)
         elif code in (0x89, 0x8B):                # I$Read / I$ReadLn
-            n = min(cpu.y, len(self.readdata) - self.readpos)
+            h = self.handles.get(cpu.a)
+            if h is None:
+                cpu.b = 0xC9                      # E$BPNum
+                setf(C, True)
+                return
+            data, pos = h
+            n = min(cpu.y, len(data) - pos)
             if code == 0x8B and n:                # ReadLn stops after CR
-                chunk = self.readdata[self.readpos:self.readpos + n]
-                cr = chunk.find(b"\r")
+                cr = data[pos:pos + n].find(b"\r")
                 if cr >= 0: n = cr + 1
             if n == 0:
                 cpu.b = self.E_EOF
                 setf(C, True)
                 return
             for i in range(n):
-                wr8(cpu.x + i, self.readdata[self.readpos + i])
-            self.readpos += n
+                wr8(cpu.x + i, data[pos + i])
+            h[1] = pos + n
             cpu.y = n
             setf(C, False)
         elif code == 0x8A:                        # I$Write
@@ -355,12 +406,15 @@ class OS9Env:
             cpu.x = self.width
             setf(C, False)
         elif fn == 0x20:                          # SS.FDInf
-            fd = bytes([0x0B, 0, 0, 126, 6, 12, 15, 30, 1, 0, 0, 0x12, 0x34])
+            lsn = ((cpu.y >> 8) << 16) | cpu.u
+            att = 0x8B if self.lsninfo.get(lsn) else 0x0B
+            fd = bytes([att, 0, 0, 126, 6, 12, 15, 30, 1, 0, 0, 0x12, 0x34])
             for i, v in enumerate(fd):
                 wr8(cpu.x + i, v)
             setf(C, False)
         elif fn == 0x06:                          # SS.EOF
-            atend = self.readpos >= len(self.readdata)
+            h = self.handles.get(cpu.a)
+            atend = h is None or h[1] >= len(h[0])
             cpu.b = self.E_EOF if atend else 0
             setf(C, atend)
         else:

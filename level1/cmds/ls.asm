@@ -28,6 +28,7 @@
 ;;; Parameters:
 ;;;     -a  include the . and .. directory entries
 ;;;     -l  long listing (owner, date, attributes, sector, size)
+;;;     -r  recurse into subdirectories (depth first, like ls -R)
 ;;;     -x  list the execution directory
 ;;;
 ;;; The final pathname component may be a pattern: * matches any run
@@ -51,12 +52,22 @@ MAXENT              equ       256       most entries we can sort
 OUTSZ               equ       1024      output buffer size
 OUTMARG             equ       300       worst-case line length headroom
 DBUFSZ              equ       1024      directory read buffer (256-multiple)
+QSZ                 equ       1024      pending-directory path stack (-r)
+MAXPATH             equ       220       longest path we will recurse into
 
                     mod       eom,name,tylg,atrv,start,size
 
                     org       0
 dirpath             rmb       1         directory path number
 lflag               rmb       1         <>0 = long listing (-l)
+rflag               rmb       1         <>0 = recurse (-r)
+skipinit            rmb       1         entries to skip per dir (0 with -a)
+hdrfst              rmb       1         <>0 once the first header is out
+qovfl               rmb       1         <>0 = path stack overflowed
+curplen             rmb       1         current path length
+totcnt              rmb       2         entries listed across all dirs
+qtop                rmb       2         path stack top (next free byte)
+qend                rmb       2         path stack limit
 addmode             rmb       1         extra I$Open mode (-x adds EXEC.)
 alfflg              rmb       1         <>0 = append LF after each CR
 scrwid              rmb       1         screen width
@@ -94,6 +105,8 @@ optbuf              rmb       32        SS.Opt path option buffer
 ptrtbl              rmb       MAXENT*2  sort pointer table
 outbuf              rmb       OUTSZ     output staging buffer
 dirbuf              rmb       DBUFSZ    directory read buffer
+pathq               rmb       QSZ       pending-directory path stack
+curpath             rmb       MAXPATH+12 current directory pathname
 pool                rmb       MAXENT*DIR.SZ entry pool
                     rmb       250       stack
 size                equ       .
@@ -105,19 +118,22 @@ Dot                 fcc       "."
                     fcb       C$CR
 TruncMsg            fcc       "** directory truncated **"
 TruncLen            equ       *-TruncMsg
+DeepMsg             fcc       "** some directories skipped **"
+DeepLen             equ       *-DeepMsg
 PermMask            fcc       "dsewrewr"
                     fcb       $FF
 
 start               clr       <lflag
+                    clr       <rflag
                     clr       <addmode
                     clr       <alfflg
-                    clr       <maxnam
-                    clr       <truncfl
+                    clr       <hdrfst
+                    clr       <qovfl
                     clr       <patflg
                     lda       #2        the first two entries are .. and .
-                    sta       <skipcnt
+                    sta       <skipinit
                     ldd       #0
-                    std       <entcnt
+                    std       <totcnt
                     std       <pathp
                     leay      outbuf,u  set up the output buffer
                     sty       <bufptr
@@ -156,6 +172,8 @@ POpt                lda       ,x+       get the option letter
                     ora       #$20      fold to lower case
                     cmpa      #'l       long listing?
                     beq       SetL
+                    cmpa      #'r       recurse?
+                    beq       SetR
                     cmpa      #'a       show . and .. as well?
                     beq       SetA
                     cmpa      #'x       execution dir?
@@ -165,7 +183,9 @@ POpt                lda       ,x+       get the option letter
                     bra       POpt
 SetL                sta       <lflag
                     bra       POpt
-SetA                clr       <skipcnt
+SetR                sta       <rflag
+                    bra       POpt
+SetA                clr       <skipinit
                     bra       POpt
 BadOpt              ldb       #E$IllArg
 Exit                os9       F$Exit
@@ -176,7 +196,7 @@ ExitOk              clrb
 * options; pipes (piper getstat is a no-op) and errors leave it all
 * zero.  LF is appended only for SCF paths with auto-LF on -- exactly
 * what I$WritLn's line editing would have produced.
-PDone               leax      <optbuf,u
+PDone               leax      optbuf,u
                     ldb       #31       zero the buffer first
                     clra
 zopt                sta       b,x
@@ -204,12 +224,13 @@ NoAlf
                     ldb       #80       0 means nobody answered
 SavWid              stb       <scrwid
 
-* Open the directory, peeling off a trailing wildcard pattern if the
-* token has one (the OS-9 shell does not expand wildcards for us).
+* Work out the starting directory, peeling off a trailing wildcard
+* pattern if the token has one (the OS-9 shell does not expand
+* wildcards for us).
                     ldx       <pathp
                     bne       ScanTok
                     leax      >Dot,pcr  no pathname given: use .
-                    bra       OpenDir
+                    bra       SeedPath
 ScanTok             stx       <tmpd     remember the token start
                     ldd       #0
                     std       <slashp
@@ -231,33 +252,87 @@ scan3               inc       <patflg
                     bra       scan1
 scand               tst       <patflg
                     bne       SplitPat
-* No wildcards: try the token as a directory first.
+* No wildcards: probe whether the token is a directory.
                     ldx       <tmpd
                     lda       #DIR.+READ.
                     ora       <addmode
                     os9       I$Open
-                    bcc       Opened
+                    bcs       NotADir
+                    os9       I$Close   it is; the main loop reopens it
+                    ldx       <tmpd
+                    bra       SeedPath
 * Not a directory: treat the token as an exact-name pattern.
-                    inc       <patflg
+NotADir             inc       <patflg
 SplitPat            ldx       <slashp
                     beq       PatNoDir
                     lda       #C$CR     terminate the directory part
                     sta       ,x
                     leax      1,x       pattern begins after the slash
                     lbsr      CopyPat
-                    ldx       <tmpd     and open the directory part
-                    bra       OpenDir
+                    ldx       <tmpd     and start from the directory part
+                    bra       SeedPath
 PatNoDir            ldx       <tmpd     pattern is the whole token
                     lbsr      CopyPat
                     leax      >Dot,pcr  matched against the current dir
-OpenDir             lda       #DIR.+READ.
+* Copy the delimited starting directory into curpath and prime the
+* pending-directory stack.
+SeedPath            leay      curpath,u
+                    clrb
+seed1               lda       ,x+
+                    cmpa      #C$SPAC
+                    beq       seed2
+                    cmpa      #C$CR
+                    beq       seed2
+                    sta       ,y+
+                    incb
+                    bra       seed1
+seed2               lda       #C$CR
+                    sta       ,y
+                    stb       <curplen
+                    leax      pathq,u
+                    stx       <qtop
+                    leax      pathq+QSZ,u
+                    stx       <qend
+
+*****
+* Process one directory per pass: open, collect, sort, print, then
+* with -r queue its subdirectories and pop the next pending path.
+*****
+DirLoop             leax      curpath,u
+                    lda       #DIR.+READ.
                     ora       <addmode
                     os9       I$Open
                     lbcs      Exit
-Opened              sta       <dirpath
+                    sta       <dirpath
+                    ldd       #0        reset the per-directory state
+                    std       <entcnt
+                    clr       <maxnam
+                    clr       <truncfl
+                    lda       <skipinit
+                    sta       <skipcnt
+                    leay      pool,u
+                    sty       <poolptr
                     leax      dirbuf,u  buffer starts out empty
                     stx       <dbptr
                     stx       <dbend
+* -r names each directory ahead of its contents.
+                    tst       <rflag
+                    beq       Collect
+                    tst       <hdrfst
+                    beq       hdr1      no blank line before the first
+                    lbsr      PutEOL
+hdr1                inc       <hdrfst
+                    leax      curpath,u
+                    ldy       <bufptr
+hdr2                lda       ,x+
+                    cmpa      #C$CR
+                    beq       hdr3
+                    sta       ,y+
+                    bra       hdr2
+hdr3                lda       #':
+                    sta       ,y+
+                    sty       <bufptr
+                    lbsr      PutEOL
 
 *****
 * Collection pass: read the directory in sector-aligned chunks and
@@ -290,7 +365,13 @@ ChkLive             tst       ,x        deleted entry?
                     beq       nofilt
                     lbsr      FoldName  fold the entry name into nmbuf
                     lbsr      Match     does it fit the pattern?
-                    lbcs      Collect   no, skip the entry
+                    bcc       nofilt    it does, keep it
+* No match.  When recursing, a subdirectory still has to be visited
+* so the pattern can be tried against its contents (find-like).
+                    tst       <rflag
+                    lbeq      Collect
+                    lbsr      PushIfDir visit it, but don't list it
+                    lbra      Collect
 nofilt
 * Copy the 32-byte entry into the pool -- fully unrolled.
                     ldy       <poolptr
@@ -352,13 +433,12 @@ nmok                ldy       <poolptr  advance the pool
                     bra       RdDone
 RdEof               cmpb      #E$EOF    real error?
                     lbne      Exit
-RdDone              ldd       <entcnt
-                    bne       RdSome
-                    tst       <patflg   pattern that matched nothing?
-                    lbeq      ExitOk    no, empty directory: nothing to say
-                    ldb       #E$PNNF   yes, report it
-                    lbra      Exit
-RdSome              lslb                entsz2 = entcnt*2
+RdDone              ldd       <totcnt   tally entries across all dirs
+                    addd      <entcnt
+                    std       <totcnt
+                    ldd       <entcnt
+                    lbeq      DirDone   nothing here: on to the next dir
+                    lslb                entsz2 = entcnt*2
                     rola
                     std       <entsz2
                     addd      <tblbase
@@ -542,7 +622,7 @@ RowL                ldd       <rowoff
 RowEnt              ldd       <idxoff
                     leax      ptrtbl,u
                     ldx       d,x       X = entry (name at offset 0)
-                    bsr       PutName   B = characters emitted
+                    lbsr      PutName   B = characters emitted
                     stb       <tmpd     remember the length (ldd below kills B)
                     ldd       <idxoff   step down one column
                     addd      <nrows2
@@ -551,15 +631,15 @@ RowEnt              ldd       <idxoff
                     bhs       RowDone
                     lda       <colw     pad the column with spaces
                     suba      <tmpd
-                    bsr       PutSpaces
+                    lbsr      PutSpaces
                     bra       RowEnt
-RowDone             bsr       PutEOL
+RowDone             lbsr      PutEOL
                     ldd       <rowoff
                     addd      #2
                     std       <rowoff
                     bra       RowL
 OutDone             tst       <truncfl
-                    beq       AllOut
+                    beq       DirDone
                     leax      >TruncMsg,pcr
                     ldy       <bufptr
                     ldb       #TruncLen
@@ -568,8 +648,136 @@ trc                 lda       ,x+
                     decb
                     bne       trc
                     sty       <bufptr
-                    bsr       PutEOL
-AllOut              bsr       FlushOut
+                    lbsr      PutEOL
+
+* Directory finished.  With -r, push its subdirectories (walking the
+* sorted table backward so the pop order is depth-first preorder),
+* then close it and pop the next pending path.
+DirDone             tst       <rflag
+                    lbeq      CloseDir
+                    ldd       <entcnt
+                    lbeq      CloseDir
+                    ldx       <tblend
+qploop              cmpx      <tblbase
+                    bhi       qpbody
+                    lbra      CloseDir
+qpbody              leax      -2,x
+                    stx       <curs
+                    ldx       ,x        X = entry
+                    lbsr      PushIfDir
+                    ldx       <curs
+                    lbra      qploop
+
+* If the directory entry at X is a subdirectory, push curpath + '/' +
+* its name onto the pending stack as a trailer-length record.  The .
+* and .. links are never pushed.  X is preserved.
+PushIfDir           stx       <entp
+                    lda       ,x
+                    cmpa      #'.+$80
+                    beq       pidret
+                    cmpa      #'.
+                    bne       pidchk
+                    lda       1,x
+                    cmpa      #'.+$80
+                    beq       pidret
+pidchk              pshs      u         is the entry a directory?
+                    lda       DIR.FD,x
+                    ldb       #FD.Creat-FD.ATT
+                    tfr       d,y
+                    ldu       DIR.FD+1,x
+                    ldx       ,s
+                    leax      <fdsect,x
+                    lda       <dirpath
+                    ldb       #SS.FDInf
+                    os9       I$GetStt
+                    puls      u
+                    bcs       pidret
+                    lda       <fdsect+FD.ATT
+                    bpl       pidret    a plain file
+* Push curpath + '/' + name, with a trailing length byte.
+                    ldb       <curplen
+                    cmpb      #MAXPATH
+                    bhi       pidfull   path would grow too long
+                    clra
+                    addd      #31       worst case name + slash + trailer
+                    addd      <qtop
+                    cmpd      <qend
+                    bls       pidroom
+pidfull             inc       <qovfl    no room: note it and carry on
+                    bra       pidret
+pidroom             ldy       <qtop
+                    leax      curpath,u
+                    ldb       <curplen
+pidc1               lda       ,x+
+                    sta       ,y+
+                    decb
+                    bne       pidc1
+                    lda       #'/
+                    sta       ,y+
+                    ldx       <entp
+                    ldb       <curplen
+                    incb                count the slash
+pidc2               lda       ,x+
+                    bmi       pidc3
+                    sta       ,y+
+                    incb
+                    bra       pidc2
+pidc3               anda      #$7F
+                    sta       ,y+
+                    incb
+                    stb       ,y+       record trailer = total length
+                    sty       <qtop
+pidret              ldx       <entp
+                    rts
+
+CloseDir            lda       <dirpath
+                    os9       I$Close
+                    tst       <rflag
+                    beq       Finish
+                    ldx       <qtop     anything left to visit?
+                    leay      pathq,u
+                    pshs      y
+                    cmpx      ,s++
+                    beq       Finish
+* Pop the most recently pushed path into curpath.
+                    ldb       -1,x      record length
+                    stb       <curplen
+                    clra
+                    addd      #1        record plus its trailer
+                    pshs      d
+                    ldd       <qtop
+                    subd      ,s++
+                    std       <qtop
+                    tfr       d,x       X = start of the path text
+                    ldb       <curplen
+                    leay      curpath,u
+pop1                lda       ,x+
+                    sta       ,y+
+                    decb
+                    bne       pop1
+                    lda       #C$CR
+                    sta       ,y
+                    lbra      DirLoop
+
+Finish              ldd       <totcnt   anything listed anywhere?
+                    bne       FinOk
+                    tst       <patflg
+                    beq       FinOk
+                    lbsr      FlushOut  pattern matched nothing at all
+                    ldb       #E$PNNF
+                    lbra      Exit
+FinOk               tst       <qovfl
+                    beq       fin2
+                    leax      >DeepMsg,pcr
+                    ldy       <bufptr
+                    ldb       #DeepLen
+finm                lda       ,x+
+                    sta       ,y+
+                    decb
+                    bne       finm
+                    sty       <bufptr
+                    lbsr      PutEOL
+fin2                lbsr      FlushOut
                     lbra      ExitOk
 
 * Append the hi-bit terminated name at X to the output buffer.
