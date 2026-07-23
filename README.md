@@ -40,6 +40,30 @@ make dsk
 
 The result is a number of disk images (ending in .dsk) that can be used on real floppy drives, emulators, and DriveWire.
 
+## Building just the Color Computer 3 disks
+
+Building every port takes a while, so to build only the Tandy Color Computer 3 disk images, set `PORTS` to limit the build to the `coco3` port (or `coco3_6309` for the Hitachi 6309-optimized build):
+
+```
+export NITROS9DIR=$HOME/nitros9
+make PORTS=coco3 dsk
+```
+
+For the 6309 build instead:
+
+```
+make PORTS=coco3_6309 dsk
+```
+
+`make PORTS=coco3 dsk` builds `lib` plus everything under `level2/coco3`, then produces the `.dsk` images directly inside `level2/coco3/` (e.g. `NitrOS9_6809_L2_<version>_coco3_ds40_1.dsk`). To collect the built images into `$NITROS9DIR/dsks` instead of leaving them in the port directory, run `dskcopy` afterward:
+
+```
+make PORTS=coco3 dsk
+make PORTS=coco3 dskcopy
+```
+
+`make PORTS=coco3 clean` removes the built modules, commands, and disk images for just that port.
+
 # Contributing
 
 If you wish to contribute, please fork the repository and submit pull requests.

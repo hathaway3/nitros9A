@@ -1,5 +1,15 @@
 NitrOS-9 V03.02.07 Release Goals TODO
 =====================================
+wildbits FEU (level1/wildbits/feu)
+	- f0.dsk build fails on a clean `make`: "disk is filled to capacity"
+	  copying feu/startup. level1/wildbits/feu/makefile formats f0.dsk
+	  at -t10 -st16 (40KB, fixed by the 5x8KB flash chunking in the
+	  f0.zip target), but $(F0_CMDS) (25 command binaries) plus the
+	  FEU dir (boot.pick, main.pick, startup) no longer fit -- CMDS
+	  alone leaves only ~1.75KB free. Needs someone who knows the
+	  Wildbits flash layout to decide: trim F0_CMDS, shrink a command,
+	  or whether the flash region can grow past 40KB. 2026-07-22.
+
 VTIO
 	- Fix init/term bug (only seen if windowing system is successively
           brought up/torn down).  This a long-standing bug, but doesn't impact
