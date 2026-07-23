@@ -60,6 +60,7 @@ There is no separate lint/test-suite command in the traditional sense; correctne
 - `3rdparty/` — community-contributed drivers, boot loaders, file managers, packages, and work-in-progress code not part of the core distribution.
 - `recipes/` — alternate/custom build recipes for specific configurations (e.g. `recipes/coco3_6309`, `recipes/wildbits`).
 - `scripts/` — build/dev tooling: `asmprettyprint.py`/`format_code.sh` (source formatting), `pre-commit` (git hook that auto-formats staged `.asm`/`.as`/`.d` files), `mkdskindex`, boot list generators, `os9.gdb`.
+- `docs/` — deep-dive research notes on cross-file subsystems that aren't obvious from reading any single source file. Check here before re-deriving architecture that spans multiple modules/levels. Currently: `grfdrv-write-pipeline.md` (CoWin/GRFDRV character-write and scroll performance: the SCF-level write batching in `scf.asm`, the GIME MMU task-flip mechanics in `ccbkrn.asm`, and per-command findings for `ls.asm`/`dump.asm`).
 
 ### Build system
 
