@@ -36,6 +36,23 @@ make -C level2/coco3 dsk
 
 Assembled outputs (modules, commands, drivers) have no file extension and are gitignored implicitly by not being tracked — a working tree after `make` will show large numbers of untracked build artifacts under `cmds/`, `bootfiles/`, `modules/`, etc. This is expected; only `*.dsk`, `*.list`, `*.map`, `*.o`, `.mods/`, `.obj/`, `.lib/` are in `.gitignore`.
 
+Kernel and bootfile variants are named by I/O backend:
+
+| Suffix | Backend |
+|--------|---------|
+| `_1773` | standard WD1773 floppy controller |
+| `_dw` | DriveWire virtual serial |
+| `_becker` | Becker port (bit-banged) |
+| `_cocosdc` | CoCoSDC SD card interface |
+| `_cocolink` | DriveWire over CocoLink |
+| `_arduino` | Arduino-based DriveWire |
+| `_emudsk` | emulated disk |
+| `_ide` | IDE hard disk |
+| `_headless` | no terminal/keyboard (serial console) |
+| `_50hz` | 50 Hz video (PAL) instead of 60 Hz (NTSC) |
+
+When editing kernel code, you typically need to update all variants that share the affected code path.
+
 There is no separate lint/test-suite command in the traditional sense; correctness is verified by assembling cleanly and by the tools in `tests/` (see below).
 
 ## Testing changes
@@ -59,6 +76,12 @@ There is no separate lint/test-suite command in the traditional sense; correctne
   
   6309-only paths (`TFM`, the W register, etc.) and interrupt/cycle-accurate behavior are out of scope for this simulator — a clean run checks logic, not timing, and doesn't replace testing on an emulator or real hardware. Build the command first (`make -C <port>/cmds`), then run it here in each mode it supports (default, options, `--pipe`, narrow `--width`) before copying it to a disk image.
 - **`tests/pr_reviewer/`** — fixture `.asm` files (`case_pass.asm`, `case_fail_*.asm`) used to validate the automated Gemini-based PR reviewer configured in `.github/workflows/gemini-pr-review.yml` / `.github/scripts/analyze_pr.py`. Not something you run locally as a test suite; it's the acceptance set for that CI reviewer.
+- **`os9 ident`** — verify a module's CRC, edition, and type without running it (part of ToolShed):
+  ```sh
+  os9 ident level1/coco1/cmds/ls       # full: CRC, module type, edition, permissions
+  os9 ident -s level1/coco1/cmds/ls    # short form; useful for before/after binary-identical diffs
+  os9 ident -s before/ls after/ls      # should match when refactoring without behavior changes
+  ```
 
 ## Architecture
 
@@ -67,6 +90,8 @@ There is no separate lint/test-suite command in the traditional sense; correctne
 - `lib/` — shared, port-independent code built into static archives (`.a` files via `lwar`) that command/module makefiles link against: `libalib.a` (common subroutines), `libcoco.a`/`libcoco3.a`/`libatari.a`/etc. (per-machine support code), `libnos9<cpu><level>.a` (kernel-level shared code), `libnet.a`.
 - `level1/`, `level2/`, `level3/` — the three OS-9 "levels" (roughly: Level 1 = non-banked 64K memory model, Level 2 = banked/MMU memory model with more drivers, Level 3 = experimental). Each contains one subdirectory per hardware **port** (`coco1`, `coco2`, `coco3`, `coco3_6309`, `dragon`-family (`d64`/`dalpha`/`tano`), `atari`, `corsham`, `wildbits`, `mc09`, etc.) plus a shared `cmds/`, `modules/`, `defs/` at the level root.
 - Inside a port directory: `cmds/` (user commands, e.g. `ls`, `dir`, `copy`), `modules/` (kernel, drivers, device descriptors, file managers), `sys/` (startup scripts, system config), `bootfiles/`, `bootlists/`, `bootroms/`, `defs/` (port-specific `.d` include files), `port.mak` (per-port make variables consumed by `rules.mak` and the port's `makefile`).
+
+Commands in `<port>/cmds/` override or specialize port-specific behavior; commands in `<level>/cmds/` are shared across all ports at that level. The build system picks up both, with the port-level command taking precedence.
 - `defs/` — shared OS-9/RBF/SCF/hardware definition files (`.d`) included by assembly source across all ports via `--includedir`.
 - `3rdparty/` — community-contributed drivers, boot loaders, file managers, packages, and work-in-progress code not part of the core distribution.
 - `recipes/` — alternate/custom build recipes for specific configurations (e.g. `recipes/coco3_6309`, `recipes/wildbits`).
@@ -77,7 +102,11 @@ There is no separate lint/test-suite command in the traditional sense; correctne
 
 - `rules.mak` (included by every `makefile`) defines all tool invocations (`AS`, `ASM`, `LINKER`, `LWAR`, `OS9FORMAT*`, etc.), directory variables (`LEVEL1`, `LEVEL2`, `NOSLIB`, `DSKDIR`, ...), and the suffix rules mapping source extensions to OS-9 module types: `.mn` (file manager), `.dr` (device driver), `.dd` (device descriptor), `.sb` (subroutine module), `.dw`/`.dt` (window/terminal descriptors), `.io` (I/O subroutines), extensionless (general command/module).
 - The top-level `makefile` fans out to `lib`, `level1`, `level2`, `3rdparty` (each has its own `makefile` that fans out further to individual ports). `PORTS=` filters which port subdirectories get built at any level.
-- The 6809 cross-assembler is invoked as `lwasm --6309 --format=os9 --pragma=... --includedir=$(DEFSDIR)`; `--format=raw`/`--format=decb`/`--format=obj` variants exist for ROM images, DECB binaries, and relocatable object files (for C-compiled code via the `c3` compiler / `lwlink`).
+- The 6809 cross-assembler is invoked as `lwasm --6309 --format=os9 --pragma=...`; `--format=raw`/`--format=decb`/`--format=obj` variants exist for ROM images, DECB binaries, and relocatable object files (for C-compiled code via the `c3` compiler / `lwlink`).
+- Important lwasm pragmas (set in `rules.mak`) that affect how source is read and written:
+  - `condundefzero` — undefined symbols silently evaluate to 0 instead of erroring. A misspelled constant can pass assembly cleanly.
+  - `dollarnotlocal` — `$` in labels is literal, not a local-label prefix (unlike some other 6809 assemblers).
+  - `undefextern` — unresolved externals don't fail the link step (lwlink still catches them).
 - `NITROS9DIR` is the one environment variable that matters for a build; everything else derives from it via `rules.mak`.
 
 ### Assembly source conventions
