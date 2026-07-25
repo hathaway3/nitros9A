@@ -42,10 +42,21 @@ There is no separate lint/test-suite command in the traditional sense; correctne
 
 - **`tests/sim6809/sim6809.py`** — a host-side 6809 interpreter that runs an assembled OS-9 command module with OS-9 service calls stubbed out, to catch logic bugs (wild pointers, bad loop bounds, wrong addressing modes) before putting a command on a disk image or real hardware.
   ```sh
+  # basic: just run a command
   python3 tests/sim6809/sim6809.py level1/coco1/cmds/ls
-  python3 tests/sim6809/sim6809.py level1/coco1/cmds/ls --params=-l
-  python3 tests/sim6809/sim6809.py level2/coco3/cmds/shellplus --stdin "dir CMDS"
+  # with params, pipe mode, custom width
+  python3 tests/sim6809/sim6809.py level1/coco1/cmds/ls --params="-l /dd/cmds" --pipe --width 40
+  # feed stdin (lines separated by \n); check fork log in output
+  python3 tests/sim6809/sim6809.py level2/coco3/cmds/shellplus --stdin "dir CMDS\nexit\n"
+  # custom fake directory listing (comma-separated)
+  python3 tests/sim6809/sim6809.py level2/coco3/cmds/dir --files "foo,bar,baz.txt"
+  # fork capture (shellplus forks a sub-shell for each pipe)
+  python3 tests/sim6809/sim6809.py level2/coco3/cmds/shellplus --stdin 'fork:shellplus\ndir CMDS\nexit\n'
   ```
+  CLI flags: `--params` (command-line args, default `""`), `--width` (SS.ScSiz, default 80), `--pipe` (no SS.Opt terminal data, no appended LF), `--stdin` (script fed to ReadLn; `\\n` between lines), `--files` (comma-separated fake directory entries, default canned tree), `--max-steps` (default 5M), `--raw` (dump raw captured output bytes).
+  
+  The simulator logs forked module names in its output (`forks (N):`) and fake-forks succeed with a dummy child PID. Use `--stdin` with a `fork:`-prefixed name to test fork + stdin capture in shellplus.
+  
   6309-only paths (`TFM`, the W register, etc.) and interrupt/cycle-accurate behavior are out of scope for this simulator — a clean run checks logic, not timing, and doesn't replace testing on an emulator or real hardware. Build the command first (`make -C <port>/cmds`), then run it here in each mode it supports (default, options, `--pipe`, narrow `--width`) before copying it to a disk image.
 - **`tests/pr_reviewer/`** — fixture `.asm` files (`case_pass.asm`, `case_fail_*.asm`) used to validate the automated Gemini-based PR reviewer configured in `.github/workflows/gemini-pr-review.yml` / `.github/scripts/analyze_pr.py`. Not something you run locally as a test suite; it's the acceptance set for that CI reviewer.
 
@@ -91,4 +102,4 @@ These govern 6809/6309 data-movement (buffer copy) code specifically and are als
 
 ### Skills in this repo
 
-`.claude/skills/annotate-asm` (also mirrored under `.agents/skills` for other tools) is a project skill for annotating disassembled 6809/6309 source: renaming generic disassembler labels (`L0047`, `u0100`) to meaningful names and adding an inline comment to every instruction, with binary-identical verification (assemble before/after and diff, or compare `os9 ident` output) at each checkpoint. Invoke with `/6809-annotate <path/to/file.asm>`.
+`.claude/skills/annotate-asm` (also mirrored under `.agents/skills` for other tools) is a project skill for annotating disassembled 6809/6309 source: renaming generic disassembler labels (`L0047`, `u0100`) to meaningful names and adding an inline comment to every instruction, with binary-identical verification (assemble before/after and diff, or compare `os9 ident` output) at each checkpoint. Invoke with `/annotate-asm <path/to/file.asm>`.
