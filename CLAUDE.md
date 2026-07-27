@@ -53,7 +53,9 @@ Kernel and bootfile variants are named by I/O backend:
 
 When editing kernel code, you typically need to update all variants that share the affected code path.
 
-There is no separate lint/test-suite command in the traditional sense; correctness is verified by assembling cleanly and by the tools in `tests/` (see below).
+## CI
+
+GitHub Actions (`.github/workflows/build.yml`) runs `make && make dsk` on every push and pull request, installing lwtools 4.24 and ToolShed from the `nitros9project/toolshed` releases. A green build means every port assembles and every disk image builds. There is no separate lint/test-suite command in the traditional sense; correctness is verified by assembling cleanly and by the tools in `tests/` (see below). A second workflow (`gemini-pr-review.yml`) runs an automated Gemini-based code review on PRs, checking the data-movement rules below against the diff.
 
 ## Testing changes
 
