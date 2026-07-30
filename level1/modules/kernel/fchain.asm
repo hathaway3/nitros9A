@@ -200,6 +200,20 @@ FChainNewDescriptor ldu       2,s       ; get new descriptor pointer
 FChainThem          stu       ,y++      ; do all of them
                     deca                ; decrement A
                     bne       FChainThem ; branch if zero is clear to FChainThem
+* Slot 7 is always the kernel block (physical page KrnBlk) -- same invariant
+* F$AllPrc's fix (fallprc.asm) protects, applied unconditionally for the
+* same reason (see that file's comment): this loop marks only a process's
+* *unused* DAT slots free, but since a real process almost always uses
+* fewer than all 8 blocks, slot 7 falls in that range and gets DAT.Free
+* written over it on every F$Chain call with nothing to restore it --
+* found live via RPI-Nine's own BACKLOG.md #4 DAT-slot-7 invariant trap
+* (tests/boot_rig.c in that project): a process correctly seeded by
+* F$AllPrc, which later calls F$Chain (the ordinary shell "run this
+* program instead" path), has its kernel/vector page silently freed here
+* and reassigned to real memory by a later, unrelated allocation --
+* crashing the instant its task is next switched in.
+                    ldu       #KrnBlk   ; 2-byte entry: high=$00, low=KrnBlk
+                    stu       -(DAT.ImSz/DAT.BlCt),y ; re-assert slot 7 (Y is past end, same as fallprc.asm's fix)
                     ldu       2,s       ; get new process descriptor pointer
                     stu       <D.Proc   ; make it the new process
                     ldu       4,s       ; load U from 4,s

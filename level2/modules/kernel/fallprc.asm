@@ -82,6 +82,17 @@ LChinese            stx       ,y++      ; 8 \                Clear 2 bytes
 FAllprcTarget       stx       ,y++      ; store X at ,y++
                     decb                ; done?
                     bne       FAllprcTarget ; no, keep going
+* Slot 7 is always the kernel block (physical page KrnBlk), so system calls
+* and interrupt vectors stay reachable no matter what the process has
+* mapped into slots 0-6. Applied unconditionally (not gated on a picothing/
+* coco3 build flag, unlike the equivalent fix in the RPI-Nine nitros9_repo
+* checkout) because this recipe tree doesn't define any such flag for its
+* coco3 port -- an IFNE guard here would silently never fire. KrnBlk itself
+* is already per-port (each port's own defs file, e.g. coco.d/wildbits.d/
+* mc09.d, defines its own value), so this is safe and correct for every
+* port that shares this file, not just coco3.
+                    ldx       #KrnBlk   ; 2-byte entry: high=$00, low=KrnBlk
+                    stx       -(DAT.ImSz/DAT.BlCt),y ; store in slot 7 (Y is past end)
                     clrb                ; clear carry
 FAllprcReturn2      rts                 ; return
 
