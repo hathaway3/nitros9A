@@ -10,6 +10,12 @@ DSK_POST_COPY = $(MAKE) copy-sysgo-root DSKIMAGE=$@
 BASIC09_CMDS = basic09 runb gfx2 gfx inkey syscall
 BASIC09_SAMPLES ?= $(wildcard $(3RDPARTY)/packages/basic09/samples/*)
 CMDS_EXTRA += $(BASIC09_CMDS)
+
+MAME ?= 0
+ifeq ($(MAME),1)
+STARTUP = startup.mame
+endif
+
 include ../coco3.mak
 
 MAME_BINARY  ?= mame
@@ -24,12 +30,6 @@ copy-sysgo-root:
 	$(OS9ATTR_EXEC) $(DSKIMAGE),sysgo
 
 .PHONY: copy-sysgo-root run
-
-MAME ?= 0
-ifeq ($(MAME),1)
-STARTUP = startup.mame
-endif
-include ../coco3.mak
 
 ifeq ($(MAME),1)
 startup.mame: $(NITROS9DIR)/level2/$(PORT)/startup
