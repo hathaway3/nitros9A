@@ -296,6 +296,15 @@ L00A9               clr       ,x                  Set first block # used (A=0 fr
                     std       <$93
                     std       <$95
                     ENDC
+* GrfDrv's DAT image slot 7 ($95) must always hold KrnBlk, not the free
+* marker above, so kernel/interrupt vectors stay reachable whenever GrfDrv
+* is task-switched into hardware task 1 -- otherwise the next task-1
+* dispatch loads a dead block into slot 7 and the CPU wild-jumps as soon
+* as an interrupt or syscall tries to reach the kernel through it. Same
+* bug class as F$Chain/F$AllPrc's slot-7 fix, but this hand-rolled image
+* build never had one.
+                    ldd       #KrnBlk
+                    std       <$95
 * New code to find GrfDrv in memory and setup DAT - BN
                     lda       #Systm+Objct        Get module type
                     IFNE      H6309
