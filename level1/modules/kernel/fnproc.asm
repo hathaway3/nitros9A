@@ -140,7 +140,7 @@ FNprocUsrsSysCall   ldu       <D.UsrSvc ; get current User's system call service
                     lslb                ; 2 bytes per entry in D.TskIpt
                     ldy       P$SP,x    ; get stack pointer
                     lbsr      KrnWeGngBack ; re-map the DAT image, if necessary
-                    ldb       <D.Quick  ; get quick return flag
+                    ldb       #$00      ; force it: D.Quick reflects an unrelated process, not this one
                     bra       KrnJoin2  ; go switch GIME over to new process & run
 
 * Process a signal (process had no signal trap)
