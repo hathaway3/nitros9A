@@ -831,7 +831,7 @@ CpUsrStkTo          pshs      cc,x,y,u  ; preserve registers
                     ldb       P$Task,x  ; get the task #
                     ldx       P$SP,x    ; and the stack pointer
                     lbsr      FMoveLater ; calculate the block offset (only affects A&X)
-                    leax      -$6000,x  ; adjust the pointer to where the memory map will be
+                    leax      -$4000,x  ; alias into page 6, not page 5 -- see krnblocknumberwhere, this keeps it off the kernel-scratch endpoint's own page so the two can never share a bank register
                     bra       KrnBlockNumberWhere ; go copy it
 
 * Copy the register stack from system to user.
@@ -841,7 +841,7 @@ CpSysStkTo          pshs      cc,x,y,u  ; preserve registers
                     ldb       P$Task,x  ; get the task # of destination
                     ldx       P$SP,x    ; and the stack pointer
                     lbsr      FMoveLater ; calculate the block offset (only affects A&X)
-                    leax      -$6000,x  ; adjust the pointer to where the memory map will be
+                    leax      -$4000,x  ; alias into page 6, not page 5 -- see krnblocknumberwhere, this keeps it off the kernel-scratch endpoint's own page so the two can never share a bank register
                     exg       x,y       ; swap pointers & copy
 
 * Copy a register stack.
@@ -850,11 +850,20 @@ CpSysStkTo          pshs      cc,x,y,u  ; preserve registers
 *        Y = The destination register stack.
 *        A = The offset into the DAT image of stack.
 *        B = The task number.
+*
+* One of X/Y is always this process's own P$SP-derived stack (aliased by
+* the callers above into page 6, $C000-$DFFF); the other is always kernel-
+* internal scratch memory in the process descriptor, reachable at its own
+* natural page under the CPU's ordinary, never-remapped mapping. Mapping
+* only bank 6 here -- never bank 5 -- means the scratch endpoint's page is
+* never touched, so the two endpoints can't ever collide on one shared
+* bank register no matter which one is the copy's source vs destination.
+* (P$SP values are always within page 0, so a 12-byte frame aliased into
+* page 6 can never straddle into page 7 either -- no second bank needed.)
 KrnBlockNumberWhere leau      a,u       ; point to the block number where stack is
-                    lda       1,u       ; get the first block
-                    ldb       3,u       ; get a second just in case of overlap
+                    lda       1,u       ; get the block for the page-6-aliased side
                     orcc      #IntMasks ; shutdown interrupts while we do this
-                    std       >DAT.Regs+5 ; map in the blocks
+                    sta       >DAT.Regs+6 ; map it into bank 6 alone
                   IFNE    H6309   ; begin conditional assembly for H6309
                     ldw       #R$Size   ; get the size of register stack
                     tfm       x+,y+     ; copy it
@@ -866,10 +875,16 @@ l@                  ldu       ,x++      ; get the source bytes
                     bne       l@        ; branch if not done
                   ENDC
                     ldx       <D.SysDAT ; get the system DAT pointer
-                    lda       $0B,x     ; get the first block we took out
-                    ldb       $0D,x     ; and the second
-                    std       >DAT.Regs+5 ; and restore the DAT
+                    ldb       $0D,x     ; get bank 6's original block back
+                    stb       >DAT.Regs+6 ; and restore just that one
                     puls      cc,x,y,u,pc ; restore & return
+
+* krnblocknumberwhere's fix reads 4 bytes smaller than the routine it
+* replaced; pad back to the original size so everything from here on --
+* especially the fixed $fe00-page vector table this project's own
+* src/main.c hardcodes absolute redirect addresses for -- keeps landing
+* at the exact offsets it always has.
+                    fill      $12,4     ; nop x4
 
 * Process software interrupts from system state.
 *
