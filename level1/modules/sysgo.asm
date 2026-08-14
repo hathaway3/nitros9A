@@ -214,15 +214,15 @@ CopyLoop            lda       ,x+
                     bne       CopyLoop
                     else
                     os9       F$ID                get process ID
-                    lbcs      L01A9               fail
+                    lbcs      SkipBasicSetup      fail -- optional, see below
                     leax      ,u
                     os9       F$GPrDsc            get process descriptor copy
-                    lbcs      L01A9               fail
+                    lbcs      SkipBasicSetup      fail -- optional, see below
                     leay      ,u
                     ldx       #$0000
                     ldb       #$01
                     os9       F$MapBlk
-                    bcs       L01A9
+                    bcs       SkipBasicSetup      fail -- optional, see below
 
                     lda       #$55                set flag for Color BASIC
                     sta       <D.CBStrt,u
@@ -238,6 +238,23 @@ L0151               lda       b,y
                     bpl       L0151
                     endc
                     endc
+
+* This whole F$ID/F$GPrDsc/F$MapBlk sequence above exists purely for
+* RESET-button compatibility with real Color BASIC ROM hardware (setting
+* <D.CBStrt so a warm-start can jump back into BASIC) -- it has no bearing
+* on whether NitrOS-9 itself boots. F$MapBlk in particular can legitimately
+* fail here: it looks for a free slot in *this* process's own 8-entry DAT
+* image specifically (not a function of total system RAM -- confirmed by
+* testing at 4x this project's normal RAM size with no change), and a
+* build with a larger boot-time module footprint can leave SysGo's
+* inherited image already full. Previously any failure in this block fell
+* through into a fatal `jmp <D.Crash` (unsafe besides: see the real Crash:
+* label below, direct-page addressing from non-task-0 context never
+* reliably reaches it) and halted the whole boot over an optional feature
+* this project's emulated hardware has no use for anyway (no real BASIC
+* ROM, no RESET button). Skip straight to the normal startup/autoex/shell
+* sequence instead.
+SkipBasicSetup      equ       *
 
                     ifeq      ROM
 * Fork shell startup here
@@ -287,12 +304,23 @@ L0190               lda       ,x+
                     ldb       #$06                it did! Fatal. Load error code
                     bra       Crash
 
-L01A9               ldb       #$04                error code
 Crash
                     ifne      coco
                     clr       >DPort+$08          turn off disk motor
                     endc
-                    jmp       <D.Crash            fatal error
+* jmp <D.Crash (direct-page addressing) is only safe from task-0 context --
+* SysGo runs as an ordinary user process, on whatever task it was assigned,
+* so a real fatal error here executes with that task hardware-active, not
+* task 0. <D.Crash resolves through the *active* task's own DAT slot 0,
+* which is a different physical block than task 0's (each task gets its
+* own private low-memory area) -- so this jump doesn't reliably reach
+* D.Crash's real, task-0-initialized content at all; it reads whatever
+* garbage/zero happens to sit in this task's own slot 0 instead, and a
+* zero read there means "jump into unwritten memory" instead of "halt."
+* Halt directly instead: correct regardless of which task is active, and
+* SysGo hitting this path (F$MapBlk legitimately out of DAT-image room)
+* doesn't need D.Crash's customizable-crash-routine indirection anyway.
+                    bra       *                   fatal error -- halt
                     else
                     os9       F$Fork              Level 1.
                     bcs       DeadEnd             Fatal.

@@ -45,10 +45,30 @@ BOOTMODS = krnp2 init ioman \
 	$(CLOCK) \
 	$(BOOTMODS_EXTRA)
 else
-BOOTMODS = krnp2 ioman init \
-	$(RBF) \
-	$(SCF) \
-	$(PIPE) \
+# Same docs/OS9Boot order.md #1 layer requirement as MINIMAL=1 above
+# (Kernel -> Init -> IOMan -> FileMgrs -> Drivers -> Descriptors ->
+# SysGo), and the same reason it needs pulling apart here: concatenating
+# $(RBF)/$(SCF)/$(PIPE) whole (coco3.mak) interleaves each bundle's own
+# manager+driver+descriptor(s), so RBF's descriptors land before SCF's
+# own manager, out of order. Regroup by layer instead -- exact same
+# modules $(RBF)/$(SCF)/$(PIPE) provide (coco3.mak), just reordered;
+# not editing coco3.mak itself since sierra/dw/other recipes share those
+# variables. scripts/validate_disk_image.py's own layer classifier
+# (OS9Boot order.md #1) only tracks named Init/IOMan/KrnP2/SysGo plus
+# each module's real type/language byte (filemgr/driver/descriptor) --
+# snddrv_cc3.sb/joydrv_joy.sb/clock_60hz/clock2_soft aren't any of those,
+# so their exact position among the drivers/after the descriptors is a
+# functional choice (grouped with the other real drivers below), not
+# something the layer check itself constrains.
+BOOTFILE_MANAGERS = rbf.mn scf.mn pipeman.mn
+BOOTFILE_DRIVERS  = rb1773.dr vtio.dr $(TERM_IO) snddrv_cc3.sb joydrv_joy.sb piper.dr
+BOOTFILE_DESCS    = ddd0_40d.dd d0_40d.dd d1_40d.dd d2_40d.dd \
+	$(TERM_WIN_DT) w.dw w1.dw w2.dw w3.dw w4.dw w5.dw w6.dw w7.dw \
+	w8.dw w9.dw w10.dw w11.dw w12.dw w13.dw w14.dw w15.dw pipe.dd
+BOOTMODS = krnp2 init ioman \
+	$(BOOTFILE_MANAGERS) \
+	$(BOOTFILE_DRIVERS) \
+	$(BOOTFILE_DESCS) \
 	$(CLOCK) \
 	$(BOOTMODS_EXTRA)
 endif

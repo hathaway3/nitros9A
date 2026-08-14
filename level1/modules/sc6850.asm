@@ -247,12 +247,19 @@ Term                clrb                          default to no error...
                     tfr       u,d
                     tfr       a,dp
                     endc
-                    ifeq      Level-1
+* V.LPRC ("last active process ID") is what IRQSvc's Chk.Intr/Chk.Quit ->
+* SendSig path later hands to F$Send when a V.INTR/V.QUIT character (Ctrl-C/
+* Ctrl-E) arrives -- Shell+'s history-recall signal delivery depends on it.
+* This used to be Level-1-only (`ifeq Level-1`); on a Level 2 system V.LPRC
+* and V.BUSY were never populated, so F$Send always targeted process ID 0,
+* silently going nowhere (F$Send's result isn't checked) and the receiving
+* process's blocked read never got interrupted. D.Proc/P$ID are valid at
+* this same offset on both levels (see os9.d, and this driver's own other
+* D.Proc-based Level 2 paths just below), so this now runs unconditionally.
                     ldx       >D.Proc
                     lda       P$ID,x
                     sta       <V.BUSY
                     sta       <V.LPRC
-                    endc
                     ldx       <V.PORT
                     lda       0,x                 get current status
 

@@ -183,6 +183,23 @@ done                puls      b         ; restore task #
 
 krnp2               lda       #'2       ; debug: signal that we made it into krnp2
                     jsr       <D.BtBug  ; call routine at <D.BtBug
+* <D.Crash is documented (os9.d) as "Pointer to CC Crash Routine" and has
+* real call sites (Krnp2ControlDcrash below, sysgo.asm's own Crash: label)
+* but nothing in this kernel ever initializes it -- only the wildbits
+* port's own cold-start code does that (see krn.asm), and krnp2.asm has
+* no equivalent. Any legitimate fatal-error path that jumps through an
+* uninitialized <D.Crash executes whatever zeroed memory happens to be
+* there instead of halting cleanly -- e.g. sysgo.asm's Crash: label, taken
+* when F$MapBlk legitimately runs out of free slots in a process's own
+* 8-entry DAT image (not a function of total system RAM -- a process can
+* hit this on a fully-loaded module set regardless of how much memory is
+* installed). Point it at a minimal, safe halt: never corrupts anything
+* further, and a CPU stuck looping at one fixed, known address is
+* trivially distinguishable from a wild jump in any trace or monitor.
+                    ldb       #$7E      ; JMP extended opcode
+                    stb       <D.Crash
+                    leax      Krnp2CrashHalt,pcr
+                    stx       <D.Crash+1
                   IFNE    H6309   ; begin conditional assembly for H6309
                     leay      <SvcTab,pc ; install system calls
                   ELSE
@@ -255,6 +272,8 @@ Krnp2LetTakeOver    os9       F$NProc   ; let it take over
 Krnp2Target         fcs       /krnp3/
 
 Krnp2ControlDcrash  jmp       <D.Crash  ; transfer control to <D.Crash
+
+Krnp2CrashHalt      bra       *         ; <D.Crash's default target -- halt, nothing more can safely happen
 
 svctab              fcb       F$UnLink  ; define byte value(s) F$UnLink
                     fdb       FUnLink-*-2 ; define word value(s) FUnLink-*-2
