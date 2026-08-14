@@ -52,24 +52,33 @@ jobs:
         key: lwtools-4.24
 
 #
-# Fetch latest toolshed from the official repo.
+# Fetch latest toolshed from the official repo. The upstream release used
+# to ship a toolshed-unix*.tgz tarball; as of DiskShed-v0.9.0 the Linux
+# asset is an AppImage instead (toolshed-unix*.tgz no longer exists in any
+# release asset, which silently broke this whole job -- every run failed
+# in this one step, before ever reaching the actual nitros9 build).
 #
     - name: Fetch Toolshed
       uses: robinraju/release-downloader@v1
       with:
         repository: nitros9project/toolshed
-        fileName: toolshed-unix*.tgz
+        fileName: "*-linux-x86_64.AppImage"
         latest: true
         extract: false
         out-file-path: toolshed
 
 #
-# Unzip fetched toolshed binaries directly into /usr/local/bin
+# AppImages bundle their own squashfs payload; --appimage-extract unpacks
+# it into ./squashfs-root without needing FUSE (which GitHub-hosted
+# runners don't have) -- this only works run *as* the AppImage itself, on
+# the matching Linux platform, which is exactly what this runner is.
 #
-
     - name: Install Toolshed
       run: |
-        sudo tar xvf toolshed/toolshed-unix*.tgz --strip-components=1 -C /usr/local/bin
+        chmod +x toolshed/*-linux-x86_64.AppImage
+        ( cd toolshed && ./*-linux-x86_64.AppImage --appimage-extract )
+        find toolshed/squashfs-root/usr/bin -maxdepth 1 -type f
+        sudo cp -a toolshed/squashfs-root/usr/bin/. /usr/local/bin/
 
 #
 # If LwTools was cached last time, we can skip this step.
