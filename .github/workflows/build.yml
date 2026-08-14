@@ -52,33 +52,32 @@ jobs:
         key: lwtools-4.24
 
 #
-# Fetch latest toolshed from the official repo. The upstream release used
-# to ship a toolshed-unix*.tgz tarball; as of DiskShed-v0.9.0 the Linux
-# asset is an AppImage instead (toolshed-unix*.tgz no longer exists in any
-# release asset, which silently broke this whole job -- every run failed
-# in this one step, before ever reaching the actual nitros9 build).
+# Fetch toolshed from the official repo. `latest: true` used to correctly
+# resolve to the CLI toolset release (the only kind that used to exist),
+# but nitros9project/toolshed now also publishes a separate "DiskShed" GUI
+# app as its own release -- DiskShed-v0.9.0 was published a couple hours
+# after the real CLI release (v2.6.0) on the same day, so GitHub's own
+# "latest" release pointer moved to DiskShed, which packages only a
+# DiskShed GUI binary (no os9/dcheck/rbfformat/etc. at all) and doesn't
+# even publish a toolshed-unix*.tgz asset. Pin to the known-good CLI
+# release explicitly instead of trusting "latest" to mean what it used
+# to; same reasoning as this workflow's own LwTools version pin below.
 #
     - name: Fetch Toolshed
       uses: robinraju/release-downloader@v1
       with:
         repository: nitros9project/toolshed
-        fileName: "*-linux-x86_64.AppImage"
-        latest: true
-        extract: false
+        tag: v2.6.0
+        fileName: toolshed-unix*.tgz
         out-file-path: toolshed
 
 #
-# AppImages bundle their own squashfs payload; --appimage-extract unpacks
-# it into ./squashfs-root without needing FUSE (which GitHub-hosted
-# runners don't have) -- this only works run *as* the AppImage itself, on
-# the matching Linux platform, which is exactly what this runner is.
+# Unzip fetched toolshed binaries directly into /usr/local/bin
 #
+
     - name: Install Toolshed
       run: |
-        chmod +x toolshed/*-linux-x86_64.AppImage
-        ( cd toolshed && ./*-linux-x86_64.AppImage --appimage-extract )
-        find toolshed/squashfs-root/usr/bin -maxdepth 1 -type f
-        sudo cp -a toolshed/squashfs-root/usr/bin/. /usr/local/bin/
+        sudo tar xvf toolshed/toolshed-unix*.tgz --strip-components=1 -C /usr/local/bin
 
 #
 # If LwTools was cached last time, we can skip this step.
