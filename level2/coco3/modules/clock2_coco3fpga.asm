@@ -68,6 +68,13 @@ GetTime             ldx       M$Mem,pcr           get RTC base address from fake
                     bsr       rdreg
                     lda       1,x                 get year
                     bsr       bcd2hex
+* RPI-Nine fix: a real DS3231's year register is only 2 BCD digits (00-99);
+* this driver discards the chip's own century bit (month register bit 7,
+* masked off below by "anda #%11111") and stored the raw 0-99 value into
+* D.Year directly, which OS-9's year-since-1900 convention would render as
+* 1900-1999 for any date since 2000. Bias to the 2000s explicitly instead --
+* correct for any date this driver will realistically ever see.
+                    adda      #100                assume the 2000s, not the 1900s
                     sta       <D.Year
                     ldb       #5                  month register address
                     bsr       rdreg
@@ -133,6 +140,9 @@ SetTime             pshs      cc                  save interrupt status
                     sta       2,x
                     ldy       #D.Time             point [Y] to time variables in DP
                     lda       ,y+                 get year
+* RPI-Nine fix: undo GetTime's +100 century bias (D.Year is 100-199 for
+* 2000-2099) before re-encoding to the RTC's 2-digit BCD year register.
+                    suba      #100                assume the 2000s, not the 1900s
                     bsr       hex2bcd
                     sta       1,x
                     bsr       rdreg
