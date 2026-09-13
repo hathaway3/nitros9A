@@ -11,11 +11,11 @@ BOOTFILE	= bootfiles/bootfile
 DIRS		= cmds modules defs sys bootfiles
 
 
-CMDS		= $(shell $(CD) cmds; make --no-print-directory showobjs)
-CMDS_DEMO = $(shell $(CD) cmds; make --no-print-directory showobjs_demo)
-SYSTEXT		= $(shell $(CD) sys; make --no-print-directory showtextfiles)
-SYSBIN		= $(shell $(CD) sys; make --no-print-directory showbinfiles)
-DEFS		= $(shell $(CD) defs; make --no-print-directory showobjs)
+CMDS		:= $(shell $(CD) cmds; make --no-print-directory showobjs)
+CMDS_DEMO	:= $(shell $(CD) cmds; make --no-print-directory showobjs_demo)
+SYSTEXT		:= $(shell $(CD) sys; make --no-print-directory showtextfiles)
+SYSBIN		:= $(shell $(CD) sys; make --no-print-directory showbinfiles)
+DEFS		:= $(shell $(CD) defs; make --no-print-directory showobjs)
 STARTUP		= startup
 
 DSK		= $(DISTROVER).dsk
@@ -38,7 +38,8 @@ clean:	dskclean
 dskclean:
 	$(RM) $(DSKS)
 
-dsk: all $(DSKS)
+$(DSKS): | all
+dsk: $(DSKS)
 
 copyToSDAndEject: $(DSK)
 	$(CP) $(DSK) /Volumes/CORSHAM/NOS9.DSK
@@ -51,9 +52,7 @@ $(DSK):
 	$(RM) $@
 	$(OS9FORMAT_DW) -e -q $@ -n"NitrOS-9/$(CPU) Level 1"
 	$(OS9GEN) $@ -b=$(BOOTFILE)
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/$(WHICHSHELL) shell

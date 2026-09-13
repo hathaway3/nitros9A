@@ -2,30 +2,28 @@ include $(NITROS9DIR)/rules.mak
 
 dirs	=  6809l2
  
-# Make all components
-all:
-	@$(ECHO) "**************************************************"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "*                OS-9 LEVEL 2 BBS                *"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "**************************************************"
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) &&) :
+.PHONY: all clean dsk dskcopy dskclean info $(dirs)
 
-# Clean all components
-clean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make clean);)
+all: $(dirs)
 
-# Make DSK images
-dsk:	all
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dsk);)
+$(dirs):
+	$(MAKE) -C $@
 
-# Copy DSK images
-dskcopy:	all
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dskcopy);)
+clean: $(addsuffix -clean,$(dirs))
+%-clean:
+	$(MAKE) -C $* clean
 
-# Clean DSK images
-dskclean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dskclean);)
+dsk: $(addsuffix -dsk,$(dirs))
+%-dsk:
+	$(MAKE) -C $* dsk
+
+dskcopy: $(addsuffix -dskcopy,$(dirs))
+%-dskcopy:
+	$(MAKE) -C $* dskcopy
+
+dskclean: $(addsuffix -dskclean,$(dirs))
+%-dskclean:
+	$(MAKE) -C $* dskclean
 
 info:
 	@$(foreach dir, $(dirs), $(MAKE) -C $(dir) info;)

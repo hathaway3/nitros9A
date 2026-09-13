@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 include ../../../../rules.mak
 
 vpath %.asm ../objs
@@ -79,11 +81,15 @@ all:	$(ALLOBJS)
 clean:	dskclean
 	$(RM) $(ALLOBJS) *.list *.map
 
+$(DSKS): | all $(LEVEL2)/coco3
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $(LEVEL2)/coco3
+
 dsk:	all $(DSKS)
 
 $(DISK_1_40D):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_DS40) -q $@ -n$(DISK_1_40D_NAME)
 	$(MERGE) $(OS9BOOT_40D)>os9boot
 	$(MERGE) $(KERNEL)>kernel
@@ -116,7 +122,6 @@ $(DISK_3_40D):
 
 $(DISK_DW):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_DW) -q $@ -n$(DISK_DW_NAME)
 	$(MERGE) $(OS9BOOT_DW)>os9boot
 	$(MERGE) $(KERNEL_DW)>kernel
@@ -139,7 +144,6 @@ $(DISK_DW):
 
 $(DISK_DW_BECKER):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_DW) -q $@ -n$(DISK_DW_NAME)
 	$(MERGE) $(OS9BOOT_DW_BECKER)>os9boot
 	$(MERGE) $(KERNEL_DW_BECKER)>kernel

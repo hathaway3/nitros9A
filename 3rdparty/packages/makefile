@@ -1,32 +1,30 @@
 include $(NITROS9DIR)/rules.mak
 
-dirs	= arcadepak basic09 bf cpm deskmate3 ccompiler flightsim2 koronis kyumgai mmission multivue os9l2bbs pacos9 rescueof rogue sierra subsim uucpbb #raakatu
+# raakatu
+dirs	= arcadepak basic09 bf cpm deskmate3 ccompiler flightsim2 koronis kyumgai mmission multivue os9l2bbs pacos9 rescueof rogue sierra subsim uucpbb
 
-# Make all components
-all:
-	@$(ECHO) "**************************************************"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "*               3rd Party Packages               *"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "**************************************************"
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) &&) :
+.PHONY: all clean dsk dskcopy dskclean info $(dirs)
 
-# Clean all components
-clean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make clean);)
+all: $(dirs)
 
-# Create dsk images
-dsk:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dsk &&) :
+$(dirs):
+	$(MAKE) -C $@
 
-# Copy dsk images
-dskcopy:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dskcopy &&) :
+clean: $(addsuffix -clean,$(dirs))
+%-clean:
+	$(MAKE) -C $* clean
 
-# Clean dsk images
-dskclean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dskclean);)
+dsk: $(addsuffix -dsk,$(dirs))
+%-dsk:
+	$(MAKE) -C $* dsk
 
-# Info
+dskcopy: $(addsuffix -dskcopy,$(dirs))
+%-dskcopy:
+	$(MAKE) -C $* dskcopy
+
+dskclean: $(addsuffix -dskclean,$(dirs))
+%-dskclean:
+	$(MAKE) -C $* dskclean
+
 info:
 	@$(foreach dir, $(dirs), $(MAKE) -C $(dir) info; $(ECHO);)

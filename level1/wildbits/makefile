@@ -5,20 +5,20 @@ DISTRONAME	= NOS9_$(CPU)_L$(LEVEL)
 DISTROVER	= $(DISTRONAME)_$(NITROS9VER)_$(PORT)
 DIRS		= defs libs cmds modules sys sys/fonts sys/backgrounds bootfiles wwwroot feu
 
-CMDS		= $(shell $(CD) cmds; make --no-print-directory showobjs)
-KERNEL		= $(shell $(CD) modules; make --no-print-directory showkernel)
-SYSMODS		= $(shell $(CD) modules; make --no-print-directory showsysmods)
-CLOCKS		= $(shell $(CD) modules; make --no-print-directory showclocks)
-RBF		= $(shell $(CD) modules; make --no-print-directory showrbf)
-SCF		= $(shell $(CD) modules; make --no-print-directory showscf)
-PIPE		= $(shell $(CD) modules; make --no-print-directory showpipe)
+CMDS		:= $(shell $(CD) cmds; make --no-print-directory showobjs)
+KERNEL		:= $(shell $(CD) modules; make --no-print-directory showkernel)
+SYSMODS		:= $(shell $(CD) modules; make --no-print-directory showsysmods)
+CLOCKS		:= $(shell $(CD) modules; make --no-print-directory showclocks)
+RBF		:= $(shell $(CD) modules; make --no-print-directory showrbf)
+SCF		:= $(shell $(CD) modules; make --no-print-directory showscf)
+PIPE		:= $(shell $(CD) modules; make --no-print-directory showpipe)
 
-DEFS		= $(shell $(CD) defs; make --no-print-directory showobjs)
-SYSBIN		= $(shell $(CD) sys; make --no-print-directory showbinfiles)
-SYSTEXT		= $(shell $(CD) sys; make --no-print-directory showtextfiles)
+DEFS		:= $(shell $(CD) defs; make --no-print-directory showobjs)
+SYSBIN		:= $(shell $(CD) sys; make --no-print-directory showbinfiles)
+SYSTEXT		:= $(shell $(CD) sys; make --no-print-directory showtextfiles)
 STARTUP		= startup
-SCRIPTS	    = $(shell $(CD) scripts; echo *)
-TESTS	    = $(shell $(CD) tests; echo *)
+SCRIPTS	    := $(shell $(CD) scripts; echo *)
+TESTS	    := $(shell $(CD) tests; echo *)
 SYSGO		= sysgo
 
 DSKSD_K2		= $(DISTROVER)k2_sd.dsk
@@ -52,7 +52,8 @@ dskclean:
 redisk:
 	osascript -e 'tell application "DriveWire"' -e 'tell server of first document' -e 'reload drive 0' -e 'end tell' -e 'end tell'
 
-dsk: all $(DSKS)
+$(DSKS): | all
+dsk: $(DSKS)
 
 dskcopy: $(DSKS)
 	$(CP) $(DSKS) $(DSKDIR)
@@ -68,9 +69,7 @@ $(DSKSD_K2):
 	$(RM) $@
 	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_sd_k2 $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS $@,BASIC09 $@,BF $@,SOUNDS $@,SCRIPTS $@,TESTS
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
@@ -83,24 +82,25 @@ $(DSKSD_K2):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
 	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
 	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
 	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
+
+$(DSKSD_K): $(DSKSD_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_sd_k $@,OS9Boot
+
+$(DSKSD_JR): $(DSKSD_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_sd_jr $@,OS9Boot
 
 $(DSKDW_K2):
 	$(RM) $@
 	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_dw_k2 $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS $@,BASIC09 $@,BF $@,SOUNDS $@,SCRIPTS $@,TESTS
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
@@ -113,136 +113,19 @@ $(DSKDW_K2):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
 	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
 	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
 	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
 
-$(DSKSD_K):
-	$(RM) $@
-	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_sd_k $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shellplus ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSTEXT),$@,SYS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
-	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
-	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
+$(DSKDW_K): $(DSKDW_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_dw_k $@,OS9Boot
 
-$(DSKDW_K):
-	$(RM) $@
-	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_dw_k $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shellplus ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSTEXT),$@,SYS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
-	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
-	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
-
-$(DSKSD_JR):
-	$(RM) $@
-	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_sd_jr $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shellplus ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSTEXT),$@,SYS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
-	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
-	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
-
-$(DSKDW_JR):
-	$(RM) $@
-	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_dw_jr $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shellplus ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSTEXT),$@,SYS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	$(MAKDIR) $@,SCRIPTS
-	$(CD) scripts; $(CPL) $(SCRIPTS) ../$@,SCRIPTS
-	$(MAKDIR) $@,TESTS
-	$(CD) tests; $(CPL) $(TESTS) ../$@,TESTS
+$(DSKDW_JR): $(DSKDW_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_dw_jr $@,OS9Boot
 
 info:
 	@$(ECHO) "*** NitrOS-9/$(CPU) Level $(LEVEL) for the $(MACHINE) ***"

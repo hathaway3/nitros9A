@@ -1,13 +1,13 @@
-include ../../../rules.mak
+include $(NITROS9DIR)/rules.mak
 
 DISK68	= uucpbb21_6809.dsk
 DISK63	= uucpbb21_6309.dsk
-CMDS68		= $(shell $(MAKE) -C cmds_6809 --no-print-directory showobjs)
-CMDS68TCAP	= $(shell $(MAKE) -C cmds_6809 --no-print-directory showtcapobjs) $(CMDS68)
-CMDS68WIN	= $(shell $(MAKE) -C cmds_6809 --no-print-directory showwinobjs) $(CMDS68)
-CMDS63		= $(shell $(MAKE) -C cmds_6309 --no-print-directory showobjs)
-CMDS63TCAP	= $(shell $(MAKE) -C cmds_6309 --no-print-directory showtcapobjs) $(CMDS63)
-CMDS63WIN	= $(shell $(MAKE) -C cmds_6309 --no-print-directory showwinobjs) $(CMDS63)
+CMDS68		:= $(shell $(MAKE) -C cmds_6809 --no-print-directory showobjs)
+CMDS68TCAP	:= $(shell $(MAKE) -C cmds_6809 --no-print-directory showtcapobjs) $(CMDS68)
+CMDS68WIN	:= $(shell $(MAKE) -C cmds_6809 --no-print-directory showwinobjs) $(CMDS68)
+CMDS63		:= $(shell $(MAKE) -C cmds_6309 --no-print-directory showobjs)
+CMDS63TCAP	:= $(shell $(MAKE) -C cmds_6309 --no-print-directory showtcapobjs) $(CMDS63)
+CMDS63WIN	:= $(shell $(MAKE) -C cmds_6309 --no-print-directory showwinobjs) $(CMDS63)
 CONFIG	= Devices FileServ.help Systems bin.list Dialers Parameters active distributions
 DOCS	= adduser.man aliases.doc chown.man cnvrtmail.man fileserv.man fixtext.man login.man mailrc.doc mailx.man parameters.doc postnews.man profile.doc readnews.man rmail.man rnews.man signature.doc subscribe.man uucico.man uuclean.man uucp.man uucpbb.doc uulog.man uuxqt.man whoami.man
 
@@ -33,20 +33,7 @@ dsk: $(DSKS)
 $(DISK68): all
 	$(RM) $@
 	$(OS9FORMAT) -l10000 $@ -q -n"UUCPbb v2.1 6809"
-	$(MAKDIR) $@,LOG
-	$(MAKDIR) $@,UUCP
-	$(MAKDIR) $@,UUCP/CMDS_WIN
-	$(MAKDIR) $@,UUCP/CMDS_TCAP
-	$(MAKDIR) $@,UUCP/DOC
-	$(MAKDIR) $@,UUCP/SPOOL
-	$(MAKDIR) $@,UUCP/SPOOL/MAIL
-	$(MAKDIR) $@,UUCP/SPOOL/NEWS
-	$(MAKDIR) $@,UUCP/SPOOL/UUCP
-	$(MAKDIR) $@,UUCP/SPOOL/UUCP/REDHAT
-	$(MAKDIR) $@,UUCP/SPOOL/UUCPPUBLIC
-	$(MAKDIR) $@,UUCP/SPOOL/REDHAT
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/UUCP
+	$(MAKDIR) $@,LOG $@,UUCP $@,UUCP/CMDS_WIN $@,UUCP/CMDS_TCAP $@,UUCP/DOC $@,UUCP/SPOOL $@,UUCP/SPOOL/MAIL $@,UUCP/SPOOL/NEWS $@,UUCP/SPOOL/UUCP $@,UUCP/SPOOL/UUCP/REDHAT $@,UUCP/SPOOL/UUCPPUBLIC $@,UUCP/SPOOL/REDHAT $@,SYS $@,SYS/UUCP
 	$(CD) sample_config; $(CPL) $(CONFIG) ../$@,SYS/UUCP
 	$(CPL) profile $@,SYS
 	$(CD) cmds_6809; $(OS9COPY) $(CMDS68TCAP) ../$@,UUCP/CMDS_TCAP
@@ -59,20 +46,7 @@ $(DISK68): all
 $(DISK63): all
 	$(RM) $@
 	$(OS9FORMAT) -l10000 $@ -q -n"UUCPbb v2.1 6309"
-	$(MAKDIR) $@,LOG
-	$(MAKDIR) $@,UUCP
-	$(MAKDIR) $@,UUCP/DOC
-	$(MAKDIR) $@,UUCP/CMDS_WIN
-	$(MAKDIR) $@,UUCP/CMDS_TCAP
-	$(MAKDIR) $@,UUCP/SPOOL
-	$(MAKDIR) $@,UUCP/SPOOL/MAIL
-	$(MAKDIR) $@,UUCP/SPOOL/NEWS
-	$(MAKDIR) $@,UUCP/SPOOL/UUCP
-	$(MAKDIR) $@,UUCP/SPOOL/UUCP/REDHAT
-	$(MAKDIR) $@,UUCP/SPOOL/UUCPPUBLIC
-	$(MAKDIR) $@,UUCP/SPOOL/REDHAT
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/UUCP
+	$(MAKDIR) $@,LOG $@,UUCP $@,UUCP/DOC $@,UUCP/CMDS_WIN $@,UUCP/CMDS_TCAP $@,UUCP/SPOOL $@,UUCP/SPOOL/MAIL $@,UUCP/SPOOL/NEWS $@,UUCP/SPOOL/UUCP $@,UUCP/SPOOL/UUCP/REDHAT $@,UUCP/SPOOL/UUCPPUBLIC $@,UUCP/SPOOL/REDHAT $@,SYS $@,SYS/UUCP
 	$(CD) sample_config; $(CPL) $(CONFIG) ../$@,SYS/UUCP
 	$(CPL) profile $@,SYS
 	$(CD) cmds_6309; $(OS9COPY) $(CMDS63TCAP) ../$@,UUCP/CMDS_TCAP

@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 include ../../../../rules.mak
 
 vpath %.asm ../objs
@@ -78,11 +80,15 @@ all:	$(ALLOBJS)
 clean:	dskclean
 	$(RM) $(ALLOBJS) *.list *.map
 
+$(DSKS): | all $(LEVEL2)/coco3
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $(LEVEL2)/coco3
+
 dsk:	all $(DSKS)
 
 $(DISK_1_80D):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_DS80) -q $@ -n$(DISK_1_80D_NAME)
 	$(MERGE) $(OS9BOOT_80D)>os9boot
 	$(MERGE) $(KERNEL)>kernel

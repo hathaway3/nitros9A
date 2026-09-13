@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 include ../../../../rules.mak
 
 vpath %.asm ../objs
@@ -86,7 +88,6 @@ clean:	dskclean
 
 $(DISK_1_40D): all
 	$(RM) $@
-	$(MAKE) -C $(LEVEL2)/coco3
 	$(OS9FORMAT_DS40) -q $@ -n$(DISK_1_40D_NAME)
 	$(MERGE) $(BOOTFILE_40D)>os9boot
 	$(MERGE) $(KERNEL_FLOPPY)>kernel
@@ -114,7 +115,6 @@ $(DISK_2_40D): all
 
 $(DISK_80D): all
 	$(RM) $@
-	$(MAKE) -C $(LEVEL2)/coco3
 	$(OS9FORMAT_DS80) -q $@ -n$(DISK_80D_NAME)
 	$(MERGE) $(BOOTFILE_80D)>os9boot
 	$(MERGE) $(KERNEL_FLOPPY)>kernel
@@ -137,7 +137,6 @@ $(DISK_80D): all
 
 $(DSK_DW): all
 	$(RM) $@
-	$(MAKE) -C $(LEVEL2)/coco3
 	$(OS9FORMAT_DW) -q $@ -n$(DSK_DW_NAME)
 	$(MERGE) $(BOOTFILE_DW)>os9boot
 	$(MERGE) $(KERNEL_DW)>kernel
@@ -160,7 +159,6 @@ $(DSK_DW): all
 
 $(DSK_DW_BECKER): all
 	$(RM) $@
-	$(MAKE) -C $(LEVEL2)/coco3
 	$(OS9FORMAT_DW) -q $@ -n$(DSK_DW_NAME)
 	$(MERGE) $(BOOTFILE_DW_BECKER)>os9boot
 	$(MERGE) $(KERNEL_DW_BECKER)>kernel
@@ -181,6 +179,11 @@ $(DSK_DW_BECKER): all
 	tocgen $@,tOC.txt $@,tOC
 	$(MOVE) toctmp tocgen
 
+
+$(DSKS): | all $(LEVEL2)/coco3
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $(LEVEL2)/coco3
 
 dsk: $(DSKS)
 

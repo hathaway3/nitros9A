@@ -10,12 +10,12 @@ DISTROVER	= $(DISTRONAME)_$(NITROS9VER)_$(PORT)
 BOOTFILE	= bootfiles/bootfile
 DIRS		= cmds modules defs sys bootfiles wwwroot
 
-CMDS		= $(shell $(CD) cmds; make --no-print-directory showobjs_dw)
-CMDS_DEMO = $(shell $(CD) cmds; make --no-print-directory showobjs_demo)
-SYSTEXT		= $(shell $(CD) sys; make --no-print-directory showtextfiles)
-SYSBIN		= $(shell $(CD) sys; make --no-print-directory showbinfiles)
-WWWROOT		= $(shell $(CD) wwwroot; make --no-print-directory showobjs)
-DEFS		= $(shell $(CD) defs; make --no-print-directory showobjs)
+CMDS		:= $(shell $(CD) cmds; make --no-print-directory showobjs_dw)
+CMDS_DEMO	:= $(shell $(CD) cmds; make --no-print-directory showobjs_demo)
+SYSTEXT		:= $(shell $(CD) sys; make --no-print-directory showtextfiles)
+SYSBIN		:= $(shell $(CD) sys; make --no-print-directory showbinfiles)
+WWWROOT		:= $(shell $(CD) wwwroot; make --no-print-directory showobjs)
+DEFS		:= $(shell $(CD) defs; make --no-print-directory showobjs)
 STARTUP		= startup
 
 BASIC09_FILES = $(foreach file,$(3RDPARTY)/packages/basic09/samples/*,$(file))
@@ -42,7 +42,8 @@ clean:	dskclean
 dskclean:
 	$(RM) $(DSKS)
 
-dsk: all $(DSKS)
+$(DSKS): | all
+dsk: $(DSKS)
 
 dskcopy: $(DSKS)
 	$(CP) $(DSKS) $(DSKDIR)
@@ -51,10 +52,7 @@ $(DSK):
 	$(RM) $@
 	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level 1"
 	$(OS9GEN) $@ -b=$(BOOTFILE)	
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
-	$(MAKDIR) $@,WWWROOT
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS $@,WWWROOT $@,BASIC09 $@,BF
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/$(WHICHSHELL) shell
@@ -67,9 +65,7 @@ $(DSK):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
 
 $(DSK_DEMO):

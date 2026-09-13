@@ -12,3 +12,5 @@ clean:
 dsk:
 
 dskcopy:
+
+dskclean:

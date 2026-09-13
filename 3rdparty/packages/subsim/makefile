@@ -51,16 +51,19 @@ all:	$(ALLOBJS)
 clean:	dskclean
 	$(RM) $(ALLOBJS) *.list *.map
 
-dsk:	all $(DSKS)
+$(DSKS): | all $(LEVEL2)/coco3
+dsk:	$(DSKS)
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $@
 
 $(DSK_FLOPPY):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_DS40) $@ -n"Sub Battle Simulator"
-	$(MERGE) $(BOOTFILE_FLOPPY)>os9boot
-	$(MERGE) $(KERNEL_FLOPPY)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_FLOPPY)>os9boot.$@
+	$(MERGE) $(KERNEL_FLOPPY)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS $@,SUB
 	$(OS9COPY) $(CMDS) $@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
@@ -74,12 +77,11 @@ $(DSK_FLOPPY):
 
 $(DSK_DW):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_SS80) $@ -n"Sub Battle Simulator"
-	$(MERGE) $(BOOTFILE_DW)>os9boot
-	$(MERGE) $(KERNEL_DW)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_DW)>os9boot.$@
+	$(MERGE) $(KERNEL_DW)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS $@,SUB
 	$(OS9COPY) $(CMDS) $@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
@@ -93,12 +95,11 @@ $(DSK_DW):
 
 $(DSK_DW_BECKER):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_SS80) $@ -n"Sub Battle Simulator"
-	$(MERGE) $(BOOTFILE_DW_BECKER)>os9boot
-	$(MERGE) $(KERNEL_DW_BECKER)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_DW_BECKER)>os9boot.$@
+	$(MERGE) $(KERNEL_DW_BECKER)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS $@,SUB
 	$(OS9COPY) $(CMDS) $@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))

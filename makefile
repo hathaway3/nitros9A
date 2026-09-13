@@ -14,37 +14,56 @@ dirs = $(NOSLIB)
 dirs += $(filter $(foreach p,$(PORTS),$(LEVEL1)/$(p) $(LEVEL2)/$(p)),$(wildcard $(LEVEL1)/* $(LEVEL2)/*))
 endif
 
+.PHONY: all clean dsk dskcopy dskclean info $(dirs)
+.NOTPARALLEL: $(NOSLIB)
+
 # Make all components
-all:
-	@$(ECHO) "**************************************************"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "*              THE NITROS-9 PROJECT              *"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "**************************************************"
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) &&) :
+all: $(dirs)
+
+$(dirs):
+	$(MAKE) -C $@
+
+# Dependency ordering: level1, level2, 3rdparty depend on lib (NOSLIB)
+$(filter $(LEVEL1) $(LEVEL2) $(LEVEL1)/% $(LEVEL2)/%,$(dirs)): $(NOSLIB)
+$(filter $(3RDPARTY) $(3RDPARTY)/%,$(dirs)): $(filter $(LEVEL2) $(LEVEL2)/coco3,$(dirs)) $(NOSLIB)
 
 # Clean all components
-clean:
+clean: $(addsuffix -clean,$(dirs))
 	$(RM) nitros9project.zip
 	$(RM) $(DSKDIR)/*.dsk $(DSKDIR)/*.DSK $(DSKDIR)/*.img
 	$(RM) $(DSKDIR)/ReadMe
 	$(RM) $(DSKDIR)/index.html $(DSKDIR)/index.shtml
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) clean &&) :
 	$(RM) defs/buildinfo
 
+%-clean:
+	$(MAKE) -C $* clean
+
 # Make DSK images
-dsk:	all
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dsk &&) :
+dsk: $(addsuffix -dsk,$(dirs))
+
+%-dsk:
+	$(MAKE) -C $* dsk
+
+$(filter $(addsuffix -dsk,$(LEVEL1) $(LEVEL2) $(LEVEL1)/% $(LEVEL2)/%),$(addsuffix -dsk,$(dirs))): $(NOSLIB)
+$(filter $(addsuffix -dsk,$(3RDPARTY) $(3RDPARTY)/%),$(addsuffix -dsk,$(dirs))): $(filter $(addsuffix -dsk,$(LEVEL2) $(LEVEL2)/coco3),$(addsuffix -dsk,$(dirs))) $(NOSLIB)
 
 # Copy DSK images
-dskcopy:	all
-	mkdir -p $(DSKDIR)
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dskcopy &&) :
+$(DSKDIR):
+	mkdir -p $@
+
+dskcopy: $(DSKDIR) $(addsuffix -dskcopy,$(dirs))
 	$(MKDSKINDEX) $(DSKDIR) > $(DSKDIR)/index.html
 
+$(addsuffix -dskcopy,$(dirs)): | $(DSKDIR)
+
+%-dskcopy:
+	$(MAKE) -C $* dskcopy
+
 # Clean DSK images
-dskclean:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dskclean &&) :
+dskclean: $(addsuffix -dskclean,$(dirs))
+
+%-dskclean:
+	$(MAKE) -C $* dskclean
 
 info:
 	@$(foreach dir,$(dirs), $(MAKE) --no-print-directory -C $(dir) info &&) :

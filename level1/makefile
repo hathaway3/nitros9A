@@ -7,30 +7,33 @@ ifdef PORTS
 dirs	= $(PORTS)
 endif
 
+.PHONY: all clean dsk dskcopy dskclean info $(dirs)
+
 # Make all components
-all:
-	@$(ECHO) "**************************************************"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "*             NitrOS-9 Level 1 Ports             *"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "**************************************************"
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) &&) :
+all: $(dirs)
+
+$(dirs):
+	$(MAKE) -C $@
 
 # Clean all components
-clean:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) clean &&) :
+clean: $(addsuffix -clean,$(dirs))
+%-clean:
+	$(MAKE) -C $* clean
 
 # Make DSK images
-dsk:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dsk &&) :
+dsk: $(addsuffix -dsk,$(dirs))
+%-dsk:
+	$(MAKE) -C $* dsk
 
 # Copy DSK images
-dskcopy:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dskcopy &&) :
+dskcopy: $(addsuffix -dskcopy,$(dirs))
+%-dskcopy:
+	$(MAKE) -C $* dskcopy
 
 # Clean DSK images
-dskclean:
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) dskclean &&) :
+dskclean: $(addsuffix -dskclean,$(dirs))
+%-dskclean:
+	$(MAKE) -C $* dskclean
 
 # Info
 info:

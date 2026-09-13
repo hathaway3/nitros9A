@@ -3,26 +3,26 @@ include port.mak
 DISTRO		= $(CPU)L$(LEVEL)
 DISTRONAME	= NOS9_$(CPU)_L$(LEVEL)
 DISTROVER	= $(DISTRONAME)_$(NITROS9VER)_$(PORT)
-DIRS		= defs libs cmds modules sys sys/fonts sys/backgrounds bootfiles wwwroot
+DIRS		= defs libs cmds modules sys sys/fonts sys/backgrounds bootfiles wwwroot $(3RDPARTY)/packages/rogue
 
-CMDS		= $(shell $(CD) cmds; make --no-print-directory showobjs)
-CMDS_DW		= $(shell $(CD) cmds; make --no-print-directory showobjs_dw)
-CMDS_CART	= $(shell $(CD) cmds; make --no-print-directory showobjs_cart)
-KERNEL		= $(shell $(CD) modules; make --no-print-directory showkernel)
-SYSMODS		= $(shell $(CD) modules; make --no-print-directory showsysmods)
-CLOCKS		= $(shell $(CD) modules; make --no-print-directory showclocks)
-RBF		= $(shell $(CD) modules; make --no-print-directory showrbf)
-SCF		= $(shell $(CD) modules; make --no-print-directory showscf)
-PIPE		= $(shell $(CD) modules; make --no-print-directory showpipe)
+CMDS		:= $(shell $(CD) cmds; make --no-print-directory showobjs)
+CMDS_DW		:= $(shell $(CD) cmds; make --no-print-directory showobjs_dw)
+CMDS_CART	:= $(shell $(CD) cmds; make --no-print-directory showobjs_cart)
+KERNEL		:= $(shell $(CD) modules; make --no-print-directory showkernel)
+SYSMODS		:= $(shell $(CD) modules; make --no-print-directory showsysmods)
+CLOCKS		:= $(shell $(CD) modules; make --no-print-directory showclocks)
+RBF		:= $(shell $(CD) modules; make --no-print-directory showrbf)
+SCF		:= $(shell $(CD) modules; make --no-print-directory showscf)
+PIPE		:= $(shell $(CD) modules; make --no-print-directory showpipe)
 
-DEFS		= $(shell $(CD) defs; make --no-print-directory showobjs)
-SYSBIN		= $(shell $(CD) sys; make --no-print-directory showbinobjs)
-SYSTEXT		= $(shell $(CD) sys; make --no-print-directory showtextobjs)
-FONTS		= $(shell $(CD) sys/fonts; make --no-print-directory showobjs)
-BACKGROUNDS	= $(shell $(CD) sys/backgrounds; make --no-print-directory showobjs)
+DEFS		:= $(shell $(CD) defs; make --no-print-directory showobjs)
+SYSBIN		:= $(shell $(CD) sys; make --no-print-directory showbinobjs)
+SYSTEXT		:= $(shell $(CD) sys; make --no-print-directory showtextobjs)
+FONTS		:= $(shell $(CD) sys/fonts; make --no-print-directory showobjs)
+BACKGROUNDS	:= $(shell $(CD) sys/backgrounds; make --no-print-directory showobjs)
 STARTUP		= startup
-SCRIPTS	    = $(shell $(CD) ../../level1/wildbits/scripts; echo *)
-TESTS	    = $(shell $(CD) ../../level1/wildbits/tests; echo *)
+SCRIPTS	    := $(shell $(CD) ../../level1/wildbits/scripts; echo *)
+TESTS	    := $(shell $(CD) ../../level1/wildbits/tests; echo *)
 SYSGO		= sysgo
 
 DSKSD_K2		= $(DISTROVER)k2_sd.dsk
@@ -52,7 +52,8 @@ clean: dskclean
 dskclean:
 	$(RM) $(DSKS) $(LDSKS)
 
-dsk: all $(DSKS)
+$(DSKS): | all
+dsk: $(DSKS)
 
 jrcart: all $(DSKCART_JR)
 
@@ -65,8 +66,8 @@ reload:
 	osascript -e 'tell application "DriveWire"' -e 'tell server of every document' -e 'reload drive 0' -e 'end tell' -e 'end tell'
 
 BASIC09_FILES = $(foreach file,$(3RDPARTY)/packages/basic09/samples/*,$(file))
-ROGUE_OBJS = $(shell $(CD) $(3RDPARTY)/packages/rogue; make --no-print-directory showobjs)
-ROGUE_FILES = $(shell $(CD) $(3RDPARTY)/packages/rogue; make --no-print-directory showfiles)
+ROGUE_OBJS := $(shell $(CD) $(3RDPARTY)/packages/rogue; make --no-print-directory showobjs)
+ROGUE_FILES := $(shell $(CD) $(3RDPARTY)/packages/rogue; make --no-print-directory showfiles)
 BF_FILES = $(foreach file,$(3RDPARTY)/packages/bf/*.bf,$(file))
 CPM_FILES = $(3RDPARTY)/packages/cpm/software
 SOUND_FILES = $(foreach file,$(LEVEL1)/wildbits/sound/*,$(file))
@@ -75,11 +76,8 @@ $(DSKSD_K2):
 	$(RM) $@
 	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_sd_k2 $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,SYS/FONTS $@,SYS/BACKGROUNDS $@,DEFS \
+		$@,BASIC09 $@,ROGUE $@,BF $@,SOUNDS $@,SCRIPTS $@,TESTS $@,FEU
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
@@ -97,33 +95,23 @@ $(DSKSD_K2):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
 	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
 	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
 	os9 dsave -e $(CPM_FILES) $@,CPM
-	$(MAKDIR) $@,SCRIPTS
 	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
 	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
 	$(OS9COPY) -l FEU/startup_s0 $@,FEU/startup
 
 $(DSKDW_K2):
 	$(RM) $@
 	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_dw_k2 $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,SYS/FONTS $@,SYS/BACKGROUNDS $@,DEFS \
+		$@,BASIC09 $@,ROGUE $@,BF $@,SOUNDS $@,SCRIPTS $@,TESTS $@,FEU
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS_DW) ../$@,CMDS
@@ -141,121 +129,31 @@ $(DSKDW_K2):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
 	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
 	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
 	os9 dsave -e $(CPM_FILES) $@,CPM	
-	$(MAKDIR) $@,SCRIPTS
 	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
 	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
 	$(OS9COPY) -l FEU/startup_x0 $@,FEU/startup
 
-$(DSKSD_K):
-	$(RM) $@
-	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_sd_k $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shell ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSBIN),$@,SYS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(notdir $(SYSTEXT)),$@,SYS/$(file))
-	$(CD) sys/fonts; $(OS9COPY) $(FONTS) ../../$@,SYS/FONTS
-	$(OS9ATTR_EXEC) $(foreach file,$(FONTS),$@,SYS/FONTS/$(file))
-	$(CD) sys/backgrounds; $(OS9COPY) $(BACKGROUNDS) ../../$@,SYS/BACKGROUNDS
-	$(OS9ATTR_EXEC) $(foreach file,$(BACKGROUNDS),$@,SYS/BACKGROUNDS/$(file))
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
-	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	os9 dsave -e $(CPM_FILES) $@,CPM
-	$(MAKDIR) $@,SCRIPTS
-	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
-	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
-	$(OS9COPY) -l FEU/startup_s0 $@,FEU/startup
+$(DSKSD_K): $(DSKSD_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_sd_k $@,OS9Boot
 
-$(DSKDW_K):
-	$(RM) $@
-	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_dw_k $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS_DW) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shell ../$@,CMDS/shell
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS_DW),$@,CMDS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSBIN),$@,SYS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(notdir $(SYSTEXT)),$@,SYS/$(file))
-	$(CD) sys/fonts; $(OS9COPY) $(FONTS) ../../$@,SYS/FONTS
-	$(OS9ATTR_EXEC) $(foreach file,$(FONTS),$@,SYS/FONTS/$(file))
-	$(CD) sys/backgrounds; $(OS9COPY) $(BACKGROUNDS) ../../$@,SYS/BACKGROUNDS
-	$(OS9ATTR_EXEC) $(foreach file,$(BACKGROUNDS),$@,SYS/BACKGROUNDS/$(file))
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
-	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	os9 dsave -e $(CPM_FILES) $@,CPM	
-	$(MAKDIR) $@,SCRIPTS
-	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
-	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
-	$(OS9COPY) -l FEU/startup_x0 $@,FEU/startup
+$(DSKDW_K): $(DSKDW_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_dw_k $@,OS9Boot
 
 $(DSKSD_JR):
 	$(RM) $@
 	$(OS9FORMAT_SD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_sd_jr $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,SYS/FONTS $@,SYS/BACKGROUNDS $@,DEFS \
+		$@,BASIC09 $@,ROGUE $@,BF $@,SOUNDS $@,SCRIPTS $@,TESTS $@,FEU
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
@@ -274,75 +172,27 @@ $(DSKSD_JR):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
 	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
 	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
 	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
 	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
 #	os9 dsave -e $(CPM_FILES) $@,CPM
-	$(MAKDIR) $@,SCRIPTS
 	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
 	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
 	$(OS9COPY) -l FEU/startup_s0 $@,FEU/startup
 	
-$(DSKDW_JR):
-	$(RM) $@
-	$(OS9FORMAT_DW) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
-	$(OS9COPY) bootfiles/bootfile_dw_jr $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,SYS/FONTS
-	$(MAKDIR) $@,SYS/BACKGROUNDS
-	$(MAKDIR) $@,DEFS
-	$(OS9COPY) modules/$(SYSGO) $@,sysgo
-	$(OS9ATTR_EXEC) $@,sysgo
-	$(CD) cmds; $(OS9COPY) $(CMDS_DW) ../$@,CMDS
-	$(CD) cmds; $(OS9COPY) -r shell ../$@,CMDS/shell
+$(DSKDW_JR): $(DSKDW_K2)
+	$(CP) $< $@
+	$(OS9COPY) -r bootfiles/bootfile_dw_jr $@,OS9Boot
 	$(CD) cmds; $(OS9COPY) -l wizfitool.b09 ../$@,CMDS/wizfitool.b09
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS_DW),$@,CMDS/$(file))
-	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(SYSBIN),$@,SYS/$(file))
-	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
-	$(OS9ATTR_TEXT) $(foreach file,$(notdir $(SYSTEXT)),$@,SYS/$(file))
-	$(CD) sys/fonts; $(OS9COPY) $(FONTS) ../../$@,SYS/FONTS
-	$(OS9ATTR_EXEC) $(foreach file,$(FONTS),$@,SYS/FONTS/$(file))
-	$(CD) sys/backgrounds; $(OS9COPY) $(BACKGROUNDS) ../../$@,SYS/BACKGROUNDS
-	$(OS9ATTR_EXEC) $(foreach file,$(BACKGROUNDS),$@,SYS/BACKGROUNDS/$(file))
-	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
-	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
-	$(CPL) $(STARTUP) $@,startup
-	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,BASIC09
-	$(CPL) $(BASIC09_FILES) $@,BASIC09
-	$(MAKDIR) $@,ROGUE
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_OBJS) ../../../level2/wildbits/$@,CMDS
-	$(CD) $(3RDPARTY)/packages/rogue; $(OS9COPY) $(ROGUE_FILES) ../../../level2/wildbits/$@,ROGUE
-	$(OS9ATTR_EXEC) $(foreach file,$(ROGUE_OBJS),$@,CMDS/$(file))
-	$(MAKDIR) $@,BF
-	$(CPL) $(BF_FILES) $@,BF
-	$(MAKDIR) $@,SOUNDS
-	$(OS9COPY) $(SOUND_FILES) $@,SOUNDS
-	os9 dsave -e $(CPM_FILES) $@,CPM	
-	$(MAKDIR) $@,SCRIPTS
-	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,TESTS
-	$(foreach file,$(TESTS),$(CPL) ../../level1/wildbits/tests/$(file) $@,TESTS;)
-	$(MAKDIR) $@,FEU
-	$(OS9COPY) -l FEU/startup_x0 $@,FEU/startup
 
 $(DSKCART_JR):
 	$(RM) $@
 	$(OS9FORMAT_CART) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9COPY) bootfiles/bootfile_cart_jr $@,OS9Boot
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
+	$(MAKDIR) $@,CMDS $@,SYS $@,SCRIPTS $@,FEU
 	$(OS9COPY) modules/$(SYSGO) $@,sysgo
 	$(OS9ATTR_EXEC) $@,sysgo
 	$(CD) cmds; $(OS9COPY) $(CMDS_CART) ../$@,CMDS
@@ -352,9 +202,7 @@ $(DSKCART_JR):
 	$(OS9ATTR_TEXT) $(foreach file,$(notdir $(SYSTEXT)),$@,SYS/$(file))
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
-	$(MAKDIR) $@,SCRIPTS
 	$(foreach file,$(SCRIPTS),$(CPL) ../../level1/wildbits/scripts/$(file) $@,SCRIPTS;)
-	$(MAKDIR) $@,FEU
 	$(OS9COPY) -l FEU/startup_c0 $@,FEU/startup
 
 info:

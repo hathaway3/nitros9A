@@ -5,32 +5,29 @@ dirs	= blackcauldron christmas86 goldrush \
 	leisuresuitlarry manhunter1 manhunter2 \
 	policequest1 spacequest0 spacequest1 spacequest2
 
-# Make all components
-all:
-	@$(ECHO) "**************************************************"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "*             Sierra Adventure Games             *"
-	@$(ECHO) "*                                                *"
-	@$(ECHO) "**************************************************"
-	$(foreach dir,$(dirs),$(MAKE) -C $(dir) &&) :
+.PHONY: all clean dsk dskcopy dskclean info $(dirs)
 
-# Clean all components
-clean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make clean);)
+all: $(dirs)
 
-# Create dsk images
-dsk:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dsk);)
+$(dirs):
+	$(MAKE) -C $@
 
-# Copy dsk images
-dskcopy:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dskcopy);)
+clean: $(addsuffix -clean,$(dirs))
+%-clean:
+	$(MAKE) -C $* clean
 
-# Clean dsk images
-dskclean:
-	$(foreach dir, $(dirs), ($(CD) $(dir); make dskclean);)
+dsk: $(addsuffix -dsk,$(dirs))
+%-dsk:
+	$(MAKE) -C $* dsk
 
-# Info
+dskcopy: $(addsuffix -dskcopy,$(dirs))
+%-dskcopy:
+	$(MAKE) -C $* dskcopy
+
+dskclean: $(addsuffix -dskclean,$(dirs))
+%-dskclean:
+	$(MAKE) -C $* dskclean
+
 info:
 	@$(foreach dir, $(dirs), $(MAKE) -C $(dir) info; $(ECHO);)
 

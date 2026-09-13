@@ -11,15 +11,15 @@ DISK_BECKER	= ArcadePack_becker.dsk
 CMDS		= grfdrv runb
 SHELLMODS	= $(CMD)/shell_21 $(CMD)/dir $(CMD)/echo $(CMD)/link $(CMD)/load $(CMD)/mdir
 		
-SMASHCMDS	= $(shell $(CD) smash; make --no-print-directory showobjs)
-SMASHSYS	= $(shell $(CD) smash; make --no-print-directory showsys)
-SMASHROOT	= $(shell $(CD) smash; make --no-print-directory showroot)
-THEXCMDS	= $(shell $(CD) thexder; make --no-print-directory showobjs)
-THEXSYS		= $(shell $(CD) thexder; make --no-print-directory showsys)
-THEXROOT	= $(shell $(CD) thexder; make --no-print-directory showroot)
-SHANGCMDS	= $(shell $(CD) shanghai; make --no-print-directory showobjs)
-SHANGSYS	= $(shell $(CD) shanghai; make --no-print-directory showsys)
-SHANGROOT	= $(shell $(CD) shanghai; make --no-print-directory showroot)
+SMASHCMDS	:= $(shell $(CD) smash; make --no-print-directory showobjs)
+SMASHSYS	:= $(shell $(CD) smash; make --no-print-directory showsys)
+SMASHROOT	:= $(shell $(CD) smash; make --no-print-directory showroot)
+THEXCMDS	:= $(shell $(CD) thexder; make --no-print-directory showobjs)
+THEXSYS		:= $(shell $(CD) thexder; make --no-print-directory showsys)
+THEXROOT	:= $(shell $(CD) thexder; make --no-print-directory showroot)
+SHANGCMDS	:= $(shell $(CD) shanghai; make --no-print-directory showobjs)
+SHANGSYS	:= $(shell $(CD) shanghai; make --no-print-directory showsys)
+SHANGROOT	:= $(shell $(CD) shanghai; make --no-print-directory showroot)
 MD		= $(6809L2)/modules
 
 # We make our own bootfile and kernel track
@@ -84,121 +84,66 @@ shell:	$(DEPENDS)
 	@ls -l $@
 	@$(ECHO) ""
 
-$(DISK_40D): all
+$(DSKS): | all $(6809L2)
+
+$(6809L2):
+	$(MAKE) -C $(6809L2)
+
+$(DISK_40D):
 	$(RM) $@
-	$(CD) $(6809L2); make
 	$(OS9FORMAT_DS40) $@ -n"NitrOS-9 Arcade Pack"
-	$(MERGE) $(OS9BOOT_40D)>os9boot
-	$(MERGE) $(KERNEL)>kernel_1773
-	$(OS9GEN) $@ -b=os9boot -t=kernel_1773
-	$(RM) os9boot kernel_1773
-	$(MAKDIR) $@,CMDS
-	$(OS9COPY) shell $@,CMDS
-	$(OS9ATTR_EXEC) $@,CMDS/shell
-	$(OS9COPY) $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SMASHCMDS),smash/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(THEXCMDS),thexder/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(THEXCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(MAKDIR) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $@,SYS
+	$(MERGE) $(OS9BOOT_40D)>os9boot.$@
+	$(MERGE) $(KERNEL)>kernel_1773.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel_1773.$@
+	$(RM) os9boot.$@ kernel_1773.$@
+	$(MAKDIR) $@,CMDS $@,SYS
+	$(OS9COPY) shell $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $(foreach file,$(SMASHCMDS),smash/$(file)) $(foreach file,$(THEXCMDS),thexder/$(file)) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
+	$(OS9ATTR_EXEC) $@,CMDS/shell $(foreach file,$(CMDS),$@,CMDS/$(file)) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file)) $(foreach file,$(THEXCMDS),$@,CMDS/$(file)) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
+	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
 	$(OS9COPY) -r $(foreach file,$(THEXSYS),thexder/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(THEXROOT),thexder/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(SHANGROOT),shanghai/$(file)) $@,
-	$(CPL) startup $@,
+	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $(foreach file,$(THEXROOT),thexder/$(file)) $(foreach file,$(SHANGROOT),shanghai/$(file)) startup $@,
 
-$(DISK_80D): all
+$(DISK_80D):
 	$(RM) $@
-	$(CD) $(6809L2); make
 	$(OS9FORMAT_DS80) $@ -n"NitrOS-9 Arcade Pack"
-	$(MERGE) $(OS9BOOT_80D)>os9boot
-	$(MERGE) $(KERNEL)>kernel_1773
-	$(OS9GEN) $@ -b=os9boot -t=kernel_1773
-	$(RM) os9boot kernel_1773
-	$(MAKDIR) $@,CMDS
-	$(OS9COPY) shell $@,CMDS/shell
-	$(OS9ATTR_EXEC) $@,CMDS/shell
-	$(OS9COPY) $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SMASHCMDS),smash/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(THEXCMDS),thexder/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(THEXCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(MAKDIR) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $@,SYS
+	$(MERGE) $(OS9BOOT_80D)>os9boot.$@
+	$(MERGE) $(KERNEL)>kernel_1773.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel_1773.$@
+	$(RM) os9boot.$@ kernel_1773.$@
+	$(MAKDIR) $@,CMDS $@,SYS
+	$(OS9COPY) shell $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $(foreach file,$(SMASHCMDS),smash/$(file)) $(foreach file,$(THEXCMDS),thexder/$(file)) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
+	$(OS9ATTR_EXEC) $@,CMDS/shell $(foreach file,$(CMDS),$@,CMDS/$(file)) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file)) $(foreach file,$(THEXCMDS),$@,CMDS/$(file)) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
+	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
 	$(OS9COPY) -r $(foreach file,$(THEXSYS),thexder/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(THEXROOT),thexder/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(SHANGROOT),shanghai/$(file)) $@,
-	$(CPL) startup $@,
+	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $(foreach file,$(THEXROOT),thexder/$(file)) $(foreach file,$(SHANGROOT),shanghai/$(file)) startup $@,
 
-$(DISK_DW): all
+$(DISK_DW):
 	$(RM) $@
-	$(CD) $(6809L2); make
 	$(OS9FORMAT_DW) $@ -n"NitrOS-9 Arcade Pack"
-	$(MERGE) $(OS9BOOT_DW)>os9boot
-	$(MERGE) $(KERNEL_DW)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(OS9COPY) shell $@,CMDS/shell
-	$(OS9ATTR_EXEC) $@,CMDS/shell
-	$(OS9COPY) $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SMASHCMDS),smash/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(THEXCMDS),thexder/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(THEXCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(MAKDIR) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $@,SYS
+	$(MERGE) $(OS9BOOT_DW)>os9boot.$@
+	$(MERGE) $(KERNEL_DW)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,SYS
+	$(OS9COPY) shell $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $(foreach file,$(SMASHCMDS),smash/$(file)) $(foreach file,$(THEXCMDS),thexder/$(file)) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
+	$(OS9ATTR_EXEC) $@,CMDS/shell $(foreach file,$(CMDS),$@,CMDS/$(file)) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file)) $(foreach file,$(THEXCMDS),$@,CMDS/$(file)) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
+	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
 	$(OS9COPY) -r $(foreach file,$(THEXSYS),thexder/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(THEXROOT),thexder/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(SHANGROOT),shanghai/$(file)) $@,
-	$(CPL) startup $@,
+	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $(foreach file,$(THEXROOT),thexder/$(file)) $(foreach file,$(SHANGROOT),shanghai/$(file)) startup $@,
 
-$(DISK_BECKER): all
+$(DISK_BECKER):
 	$(RM) $@
-	$(CD) $(6809L2); make
 	$(OS9FORMAT_DW) $@ -n"NitrOS-9 Arcade Pack"
-	$(MERGE) $(OS9BOOT_BECKER)>os9boot
-	$(MERGE) $(KERNEL_BECKER)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(OS9COPY) shell $@,CMDS/shell
-	$(OS9ATTR_EXEC) $@,CMDS/shell
-	$(OS9COPY) $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SMASHCMDS),smash/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(THEXCMDS),thexder/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(THEXCMDS),$@,CMDS/$(file))
-	$(OS9COPY) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
-	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
-	$(MAKDIR) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $@,SYS
+	$(MERGE) $(OS9BOOT_BECKER)>os9boot.$@
+	$(MERGE) $(KERNEL_BECKER)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,SYS
+	$(OS9COPY) shell $(foreach file,$(CMDS),$(6809L2)/cmds/$(file)) $(foreach file,$(SMASHCMDS),smash/$(file)) $(foreach file,$(THEXCMDS),thexder/$(file)) $(foreach file,$(SHANGCMDS),shanghai/$(file)) $@,CMDS
+	$(OS9ATTR_EXEC) $@,CMDS/shell $(foreach file,$(CMDS),$@,CMDS/$(file)) $(foreach file,$(SMASHCMDS),$@,CMDS/$(file)) $(foreach file,$(THEXCMDS),$@,CMDS/$(file)) $(foreach file,$(SHANGCMDS),$@,CMDS/$(file))
+	$(OS9COPY) $(foreach file,$(SMASHSYS),smash/$(file)) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
 	$(OS9COPY) -r $(foreach file,$(THEXSYS),thexder/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SHANGSYS),shanghai/$(file)) $@,SYS
-	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(THEXROOT),thexder/$(file)) $@,
-	$(OS9COPY) $(foreach file,$(SHANGROOT),shanghai/$(file)) $@,
-	$(CPL) startup $@,
+	$(OS9COPY) $(foreach file,$(SMASHROOT),smash/$(file)) $(foreach file,$(THEXROOT),thexder/$(file)) $(foreach file,$(SHANGROOT),shanghai/$(file)) startup $@,
 
 clean:	dskclean
 	$(RM) shell *.list *.map

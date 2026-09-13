@@ -7,11 +7,11 @@ DSK63_DW	= MultiVue_6309_dw.dsk
 DSK68_DW_BECKER	= MultiVue_6809_becker.dsk
 DSK63_DW_BECKER	= MultiVue_6309_becker.dsk
 
-CMDS68	= $(shell $(CD) cmds_6809; make --no-print-directory showobjs)
-CMDS63	= $(shell $(CD) cmds_6309; make --no-print-directory showobjs)
+CMDS68	:= $(shell $(CD) cmds_6809; make --no-print-directory showobjs)
+CMDS63	:= $(shell $(CD) cmds_6309; make --no-print-directory showobjs)
 ICONS	= icon.demo
-SYSBIN	= $(shell $(CD) sys; make --no-print-directory showbinobjs)
-SYSTEXT	= $(shell $(CD) sys; make --no-print-directory showtextobjs)
+SYSBIN	:= $(shell $(CD) sys; make --no-print-directory showbinobjs)
+SYSTEXT	:= $(shell $(CD) sys; make --no-print-directory showtextobjs)
 DEMO	= aif.dmo
 ROOTFILES = startup
 
@@ -112,24 +112,29 @@ all:
 
 # Clean all components
 clean:	dskclean
-	$(RM) os9boot *.list *.map
-	$(CD) cmds_6809; make clean
-	$(CD) cmds_6309; make clean
-	$(CD) sys; make clean
+	$(RM) os9boot* kernel* *.list *.map
+	$(CD) cmds_6809; $(MAKE) clean
+	$(CD) cmds_6309; $(MAKE) clean
+	$(CD) sys; $(MAKE) clean
 
 dsk:	all $(DSKS)
+
+$(DSKS): | all $(LEVEL2)/coco3 $(LEVEL2)/coco3_6309
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $(LEVEL2)/coco3
+
+$(LEVEL2)/coco3_6309:
+	$(MAKE) -C $(LEVEL2)/coco3_6309
 
 $(DSK68_FLOPPY):
 	$(RM) $@
 	$(OS9FORMAT_DS40) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE68_FLOPPY)>os9boot
-	$(MERGE) $(KERNEL68_FLOPPY)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE68_FLOPPY)>os9boot.$@
+	$(MERGE) $(KERNEL68_FLOPPY)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6809; $(OS9COPY) $(CMDS68) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS68)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx
@@ -147,14 +152,11 @@ $(DSK68_FLOPPY):
 $(DSK63_FLOPPY):
 	$(RM) $@
 	$(OS9FORMAT_DS40) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE63_FLOPPY)>os9boot
-	$(MERGE) $(KERNEL63_FLOPPY)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE63_FLOPPY)>os9boot.$@
+	$(MERGE) $(KERNEL63_FLOPPY)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6309; $(OS9COPY) $(CMDS63) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS63)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx
@@ -172,14 +174,11 @@ $(DSK63_FLOPPY):
 $(DSK68_DW):
 	$(RM) $@
 	$(OS9FORMAT_SS80) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE68_DW)>os9boot
-	$(MERGE) $(KERNEL68_DW)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE68_DW)>os9boot.$@
+	$(MERGE) $(KERNEL68_DW)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6809; $(OS9COPY) $(CMDS68) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS68)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx
@@ -197,14 +196,11 @@ $(DSK68_DW):
 $(DSK68_DW_BECKER):
 	$(RM) $@
 	$(OS9FORMAT_SS80) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE68_DW_BECKER)>os9boot
-	$(MERGE) $(KERNEL68_DW_BECKER)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE68_DW_BECKER)>os9boot.$@
+	$(MERGE) $(KERNEL68_DW_BECKER)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6809; $(OS9COPY) $(CMDS68) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS68)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx
@@ -222,14 +218,11 @@ $(DSK68_DW_BECKER):
 $(DSK63_DW):
 	$(RM) $@
 	$(OS9FORMAT_SS80) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE63_DW)>os9boot
-	$(MERGE) $(KERNEL63_DW)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE63_DW)>os9boot.$@
+	$(MERGE) $(KERNEL63_DW)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6309; $(OS9COPY) $(CMDS63) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS63)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx
@@ -247,14 +240,11 @@ $(DSK63_DW):
 $(DSK63_DW_BECKER):
 	$(RM) $@
 	$(OS9FORMAT_SS80) $@ -q -n"Multi-Vue"
-	$(MERGE) $(BOOTFILE63_DW_BECKER)>os9boot
-	$(MERGE) $(KERNEL63_DW_BECKER)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,CMDS/ICONS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEMO
+	$(MERGE) $(BOOTFILE63_DW_BECKER)>os9boot.$@
+	$(MERGE) $(KERNEL63_DW_BECKER)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
+	$(MAKDIR) $@,CMDS $@,CMDS/ICONS $@,SYS $@,DEMO
 	$(CD) cmds_6309; $(OS9COPY) $(CMDS63) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS63)),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/gshell AutoEx

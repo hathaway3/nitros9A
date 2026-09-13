@@ -71,21 +71,21 @@ DIRS		= cmds modules defs sys bootfiles
 #modules bootfiles
 #DDIRS		= modules bootfiles defs
 
-CMDS		= $(shell $(CD) cmds; make --no-print-directory showdragonobjs)
-CMDS525		= $(shell $(CD) cmds; make --no-print-directory showdragon525objs)
-CMDS525_2	= $(shell $(CD) cmds; make --no-print-directory showdragon525objs2)
-BOOTTRACK	= $(shell $(CD) modules; make --no-print-directory showboottrack)
-KERNEL		= $(shell $(CD) modules; make --no-print-directory showkernel)
-SYSMODS		= $(shell $(CD) modules; make --no-print-directory showsysmods)
-CLOCKS		= $(shell $(CD) modules; make --no-print-directory showclocks)
-RBF		= $(shell $(CD) modules; make --no-print-directory showrbf)
-SCF		= $(shell $(CD) modules; make --no-print-directory showscf)
-PIPE		= $(shell $(CD) modules; make --no-print-directory showpipe)
+CMDS		:= $(shell $(CD) cmds; make --no-print-directory showdragonobjs)
+CMDS525		:= $(shell $(CD) cmds; make --no-print-directory showdragon525objs)
+CMDS525_2	:= $(shell $(CD) cmds; make --no-print-directory showdragon525objs2)
+BOOTTRACK	:= $(shell $(CD) modules; make --no-print-directory showboottrack)
+KERNEL		:= $(shell $(CD) modules; make --no-print-directory showkernel)
+SYSMODS		:= $(shell $(CD) modules; make --no-print-directory showsysmods)
+CLOCKS		:= $(shell $(CD) modules; make --no-print-directory showclocks)
+RBF		:= $(shell $(CD) modules; make --no-print-directory showrbf)
+SCF		:= $(shell $(CD) modules; make --no-print-directory showscf)
+PIPE		:= $(shell $(CD) modules; make --no-print-directory showpipe)
 MODULECMDS	= $(WHICHSHELL) del echo format makdir merge os9gen prompt tmode
 
-SYSTEXT		= $(shell $(CD) sys; make --no-print-directory showtextfiles)
-SYSBIN		= $(shell $(CD) sys; make --no-print-directory showbinfiles)
-DEFS		= $(shell $(CD) defs; make --no-print-directory showobjs)
+SYSTEXT		:= $(shell $(CD) sys; make --no-print-directory showtextfiles)
+SYSBIN		:= $(shell $(CD) sys; make --no-print-directory showbinfiles)
+DEFS		:= $(shell $(CD) defs; make --no-print-directory showobjs)
 ROOTFILES	= startup
 
 DSK360K_1       = $(DISTROVER)_40d_1.dsk
@@ -117,7 +117,8 @@ clean:	dskclean
 dskclean:
 	$(RM) $(DSKS) $(LDSKS)
 
-dsk: all $(DSKS)
+$(DSKS): | all
+dsk: $(DSKS)
 
 dskcopy: $(DSKS)
 	$(CP) $(DSKS) $(DSKDIR)
@@ -128,15 +129,13 @@ $(DSK360K_1):
 	$(RM) $@
 	$(OS9FORMAT_DS40) -q -dr $@ -n"NitrOS-9/$(CPU) $(MACHINE) #1"
 	$(OS9GEN) $@ -d -b=$(BOOTFILE_DS40) -t=$(KERNELFILE)
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/$(WHICHSHELL) shell
 	$(CD) sys; $(CPL) $(SYSTEXT) ../$@,SYS
 	$(OS9ATTR_TEXT) $(foreach file,$(SYSTEXT),$@,SYS/$(file))
 	$(CD) sys; $(OS9COPY) $(SYSBIN) ../$@,SYS
-	$(MAKDIR) $@,DEFS
 	$(CD) defs; $(CPL) $(DEFS) ../$@,DEFS
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(ROOTFILES) $@,.
@@ -147,37 +146,30 @@ $(DSK360K_1):
 $(DSK360K_2):
 	$(RM) $@
 	$(OS9FORMAT_DS40) -q -dr $@ -n"NitrOS-9/$(CPU) $(MACHINE) #2"
-	$(MAKDIR) $@,NITROS9
-	$(MAKDIR) $@,NITROS9/6809L1
-	$(MAKDIR) $@,NITROS9/6809L1/CMDS
+	$(MAKDIR) $@,NITROS9 $@,NITROS9/6809L1 $@,NITROS9/6809L1/CMDS \
+		$@,NITROS9/6809L1/MODULES $@,NITROS9/6809L1/MODULES/BOOTTRACK \
+		$@,NITROS9/6809L1/MODULES/KERNEL $@,NITROS9/6809L1/MODULES/SYSMODS \
+		$@,NITROS9/6809L1/MODULES/CLOCKS $@,NITROS9/6809L1/MODULES/RBF \
+		$@,NITROS9/6809L1/MODULES/SCF $@,NITROS9/6809L1/MODULES/PIPE \
+		$@,NITROS9/6809L1/BOOTLISTS $@,NITROS9/6809L1/SCRIPTS
 	$(CD) cmds; $(OS9COPY) $(MODULECMDS) ../$@,NITROS9/6809L1/CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(MODULECMDS),$@,NITROS9/6809L1/CMDS/$(file))
 	$(OS9RENAME) $@,NITROS9/6809L1/CMDS//$(WHICHSHELL) shell
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/BOOTTRACK
 	$(CD) modules; $(OS9COPY) $(BOOTTRACK) ../$@,NITROS9/6809L1/MODULES/BOOTTRACK
 	$(OS9ATTR_EXEC) $(foreach file,$(BOOTTRACK),$@,NITROS9/6809L1/MODULES/BOOTTRACK/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/KERNEL
 	$(CD) modules; $(OS9COPY) $(KERNEL) ../$@,NITROS9/6809L1/MODULES/KERNEL
 	$(OS9ATTR_EXEC) $(foreach file,$(KERNEL),$@,NITROS9/6809L1/MODULES/KERNEL/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/SYSMODS
 	$(CD) modules; $(OS9COPY) $(SYSMODS) ../$@,NITROS9/6809L1/MODULES/SYSMODS
 	$(OS9ATTR_EXEC) $(foreach file,$(SYSMODS),$@,NITROS9/6809L1/MODULES/SYSMODS/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/CLOCKS
 	$(CD) modules; $(OS9COPY) $(CLOCKS) ../$@,NITROS9/6809L1/MODULES/CLOCKS
 	$(OS9ATTR_EXEC) $(foreach file,$(CLOCKS),$@,NITROS9/6809L1/MODULES/CLOCKS/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/RBF
 	$(CD) modules; $(OS9COPY) $(RBF) ../$@,NITROS9/6809L1/MODULES/RBF
 	$(OS9ATTR_EXEC) $(foreach file,$(RBF),$@,NITROS9/6809L1/MODULES/RBF/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/SCF
 	$(CD) modules; $(OS9COPY) $(SCF) ../$@,NITROS9/6809L1/MODULES/SCF
 	$(OS9ATTR_EXEC) $(foreach file,$(SCF),$@,NITROS9/6809L1/MODULES/SCF/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/PIPE
 	$(CD) modules; $(OS9COPY) $(PIPE) ../$@,NITROS9/6809L1/MODULES/PIPE
 	$(OS9ATTR_EXEC) $(foreach file,$(PIPE),$@,NITROS9/6809L1/MODULES/PIPE/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/BOOTLISTS
 	$(CD) bootlists; $(CPL) *.bl ../$@,NITROS9/6809L1/BOOTLISTS
-	$(MAKDIR) $@,NITROS9/6809L1/SCRIPTS
 	$(CD) scripts; $(CPL) mb* ../$@,NITROS9/6809L1/SCRIPTS
 	$(RM) $(LDSK360K_2)
 	$(SOFTLINK) $@ $(LDSK360K_2)
@@ -186,9 +178,12 @@ $(DSK720K):
 	$(RM) $@
 	$(OS9FORMAT_DS80) -q -dr -c2 $@ -n"NitrOS-9/$(CPU) $(MACHINE)"
 	$(OS9GEN) $@ -d -b=$(BOOTFILE_DS80) -t=$(KERNELFILE)
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
-	$(MAKDIR) $@,DEFS
+	$(MAKDIR) $@,CMDS $@,SYS $@,DEFS $@,NITROS9 $@,NITROS9/6809L1 \
+		$@,NITROS9/6809L1/CMDS $@,NITROS9/6809L1/MODULES \
+		$@,NITROS9/6809L1/MODULES/BOOTTRACK $@,NITROS9/6809L1/MODULES/KERNEL \
+		$@,NITROS9/6809L1/MODULES/SYSMODS $@,NITROS9/6809L1/MODULES/CLOCKS \
+		$@,NITROS9/6809L1/MODULES/RBF $@,NITROS9/6809L1/MODULES/SCF \
+		$@,NITROS9/6809L1/MODULES/PIPE $@,NITROS9/6809L1/BOOTLISTS $@,NITROS9/6809L1/SCRIPTS
 	$(CD) cmds; $(OS9COPY) $(CMDS) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
 	$(OS9RENAME) $@,CMDS/$(WHICHSHELL) shell
@@ -199,48 +194,33 @@ $(DSK720K):
 	$(OS9ATTR_TEXT) $(foreach file,$(DEFS),$@,DEFS/$(file))
 	$(CPL) $(ROOTFILES) $@,.
 	$(OS9ATTR_TEXT) $(foreach file,$(ROOTFILES),$@,$(file))
-	$(MAKDIR) $@,NITROS9
-	$(MAKDIR) $@,NITROS9/6809L1
-	$(MAKDIR) $@,NITROS9/6809L1/CMDS
 	$(CD) cmds; $(OS9COPY) $(MODULECMDS) ../$@,NITROS9/6809L1/CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(MODULECMDS),$@,NITROS9/6809L1/CMDS/$(file))
 	$(OS9RENAME) $@,NITROS9/6809L1/CMDS/$(WHICHSHELL) shell
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/BOOTTRACK
 	$(CD) modules; $(OS9COPY) $(BOOTTRACK) ../$@,NITROS9/6809L1/MODULES/BOOTTRACK
 	$(OS9ATTR_EXEC) $(foreach file,$(BOOTTRACK),$@,NITROS9/6809L1/MODULES/BOOTTRACK/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/KERNEL
 	$(CD) modules; $(OS9COPY) $(KERNEL) ../$@,NITROS9/6809L1/MODULES/KERNEL
 	$(OS9ATTR_EXEC) $(foreach file,$(KERNEL),$@,NITROS9/6809L1/MODULES/KERNEL/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/SYSMODS
 	$(CD) modules; $(OS9COPY) $(SYSMODS) ../$@,NITROS9/6809L1/MODULES/SYSMODS
 	$(OS9ATTR_EXEC) $(foreach file,$(SYSMODS),$@,NITROS9/6809L1/MODULES/SYSMODS/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/CLOCKS
 	$(CD) modules; $(OS9COPY) $(CLOCKS) ../$@,NITROS9/6809L1/MODULES/CLOCKS
 	$(OS9ATTR_EXEC) $(foreach file,$(CLOCKS),$@,NITROS9/6809L1/MODULES/CLOCKS/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/RBF
 	$(CD) modules; $(OS9COPY) $(RBF) ../$@,NITROS9/6809L1/MODULES/RBF
 	$(OS9ATTR_EXEC) $(foreach file,$(RBF),$@,NITROS9/6809L1/MODULES/RBF/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/SCF
 	$(CD) modules; $(OS9COPY) $(SCF) ../$@,NITROS9/6809L1/MODULES/SCF
 	$(OS9ATTR_EXEC) $(foreach file,$(SCF),$@,NITROS9/6809L1/MODULES/SCF/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/MODULES/PIPE
 	$(CD) modules; $(OS9COPY) $(PIPE) ../$@,NITROS9/6809L1/MODULES/PIPE
 	$(OS9ATTR_EXEC) $(foreach file,$(PIPE),$@,NITROS9/6809L1/MODULES/PIPE/$(file))
-	$(MAKDIR) $@,NITROS9/6809L1/BOOTLISTS
 	$(CD) bootlists; $(CPL) *.bl ../$@,NITROS9/6809L1/BOOTLISTS
-	$(MAKDIR) $@,NITROS9/6809L1/SCRIPTS
 	$(CD) scripts; $(CPL) mb* ../$@,NITROS9/6809L1/SCRIPTS
 	$(RM) $(LDSK720K)
 	$(SOFTLINK) $@ $(LDSK720K)
-
 
 $(DSK180K_1):
 	$(RM) $@
 	$(OS9FORMAT_SS40) -e -dr -q $@ -n"NitrOS-9/$(CPU) $(MACHINE) #1"
 	$(OS9GEN) $@ -d -b=$(BOOTFILE_SS40) -t=$(KERNELFILE)
-	$(MAKDIR) $@,CMDS
-	$(MAKDIR) $@,SYS
+	$(MAKDIR) $@,CMDS $@,SYS
 	$(CD) cmds; $(OS9COPY) $(CMDS525) ../$@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS525),$@,CMDS/$(file))
 	# put all commands on the first disk because we can

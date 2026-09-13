@@ -39,22 +39,21 @@ clean:	dskclean
 
 dsk: $(DSK)
 
-$(DSK): all
+$(DSK): | all $(LEVEL2)/coco3
 	$(RM) $@
 	$(OS9FORMAT_DS40) $@ -q -n"DeskMate 3"
-	$(MERGE) $(OS9BOOT68)>os9boot
-	$(MERGE) $(KERNEL68)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(OS9BOOT68)>os9boot.$@
+	$(MERGE) $(KERNEL68)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS
-	$(OS9COPY) $(UTILS) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(UTILS)),$@,CMDS/$(file))
-	$(OS9COPY) $(CMDS) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(CMDS)),$@,CMDS/$(file))
-	$(CPL) $(HELP) $@,CMDS
-	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(HELP)),$@,CMDS/$(file))
+	$(OS9COPY) $(UTILS) $(CMDS) $(HELP) $@,CMDS
+	$(OS9ATTR_EXEC) $(foreach file,$(notdir $(UTILS) $(CMDS) $(HELP)),$@,CMDS/$(file))
 	$(OS9COPY) $(ROOTFILES) $@,.
 	$(OS9ATTR_TEXT) $(foreach file,$(ROOTFILES),$@,$(file))
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $(LEVEL2)/coco3
 
 dskcopy: $(DSK)
 	$(CP) $(DSK) $(DSKDIR)

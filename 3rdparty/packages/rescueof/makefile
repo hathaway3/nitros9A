@@ -49,16 +49,19 @@ all:	$(ALLOBJS)
 clean:	dskclean
 	$(RM) $(ALLOBJS) *.list *.map
 
-dsk:	all $(DSKS)
+$(DSKS): | all $(LEVEL2)/coco3
+dsk:	$(DSKS)
+
+$(LEVEL2)/coco3:
+	$(MAKE) -C $@
 
 $(DSK_FLOPPY):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_SS35) -q $@ -n"Rescue on Fractalus"
-	$(MERGE) $(BOOTFILE_FLOPPY)>os9boot
-	$(MERGE) $(KERNEL_FLOPPY)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_FLOPPY)>os9boot.$@
+	$(MERGE) $(KERNEL_FLOPPY)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS
 	$(OS9COPY) $(LEVEL2)/coco3/cmds/shell_21 $@,CMDS/shell
 	$(OS9ATTR_EXEC) $@,CMDS/shell
@@ -70,12 +73,11 @@ $(DSK_FLOPPY):
 
 $(DSK_DW):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_SS35) -q $@ -n"Rescue on Fractalus"
-	$(MERGE) $(BOOTFILE_DW)>os9boot
-	$(MERGE) $(KERNEL_DW)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_DW)>os9boot.$@
+	$(MERGE) $(KERNEL_DW)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS
 	$(OS9COPY) $(LEVEL2)/coco3/cmds/shell_21 $@,CMDS/shell
 	$(OS9ATTR_EXEC) $@,CMDS/shell
@@ -87,12 +89,11 @@ $(DSK_DW):
 
 $(DSK_DW_BECKER):
 	$(RM) $@
-	$(CD) $(LEVEL2)/coco3; make
 	$(OS9FORMAT_SS35) -q $@ -n"Rescue on Fractalus"
-	$(MERGE) $(BOOTFILE_DW_BECKER)>os9boot
-	$(MERGE) $(KERNEL_DW_BECKER)>kernel
-	$(OS9GEN) $@ -b=os9boot -t=kernel
-	$(RM) os9boot kernel
+	$(MERGE) $(BOOTFILE_DW_BECKER)>os9boot.$@
+	$(MERGE) $(KERNEL_DW_BECKER)>kernel.$@
+	$(OS9GEN) $@ -b=os9boot.$@ -t=kernel.$@
+	$(RM) os9boot.$@ kernel.$@
 	$(MAKDIR) $@,CMDS
 	$(OS9COPY) $(LEVEL2)/coco3/cmds/shell_21 $@,CMDS/shell
 	$(OS9ATTR_EXEC) $@,CMDS/shell
