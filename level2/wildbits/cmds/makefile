@@ -37,7 +37,7 @@ CMDS_CART      = asm attr backup bawk binex build cmp copy \
 		makdir mdir merge modem mfree minted mmap more padrom park \
 		pmap proc procs prompt pwd pxd rename save setime \
 		sleep smap tee tmode touch tsmon unlink verify xmode \
-		bootos9 wbinfo wbreset fstatus fcfg xtclut play wild
+		bootos9 wbinfo wbreset gfxstatus scfg xtclut play wild
 
 SHELLMODS	= shellplus echo iniz link load save unlink
 
