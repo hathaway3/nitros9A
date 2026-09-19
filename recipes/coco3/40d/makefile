@@ -5,9 +5,31 @@ BASIC09_CMDS = basic09 runb gfx2 gfx inkey syscall
 BASIC09_SAMPLES ?= $(wildcard $(3RDPARTY)/packages/basic09/samples/*)
 CMDS_EXTRA += $(BASIC09_CMDS) ls
 
+THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
+
 MAME ?= 0
 ifeq ($(MAME),1)
 STARTUP = startup.mame
+endif
+
+# SERIAL_T1=1 (default) ADDS a 6850 ACIA serial terminal, /T1, alongside the
+# normal console: sc6850.dr in the driver group, the T1 descriptor in the
+# descriptor group, and (via STARTUP below) a `shell i=/t1&` line at the end
+# of the startup script. The Term descriptor and the vtio/GrfDrv windowed
+# console are untouched -- /T1 is purely additional. HwBASE=$FF68 is where
+# RPI-Nine emulates the ACIA (include/config.h's ACIA_BASE). Ignored when
+# MINIMAL=1, which already makes the 6850 the one and only console.
+SERIAL_T1 ?= 1
+
+# STARTUP must be set BEFORE include ../coco3.mak: that file's rule for the
+# disk image expands $(STARTUP) into its prerequisite list at parse time.
+# (MAME=1 keeps its own startup.mame; MINIMAL=1 has no /T1 to start.)
+ifeq ($(SERIAL_T1),1)
+ifneq ($(MAME),1)
+ifneq ($(MINIMAL),1)
+STARTUP = startup.t1
+endif
+endif
 endif
 
 # MINIMAL=1 swaps the CoCo3 windowed video console (vtio.dr/cowin.io/
@@ -65,6 +87,10 @@ BOOTFILE_DRIVERS  = rb1773.dr vtio.dr $(TERM_IO) snddrv_cc3.sb joydrv_joy.sb pip
 BOOTFILE_DESCS    = ddd0_40d.dd d0_40d.dd d1_40d.dd d2_40d.dd \
 	$(TERM_WIN_DT) w.dw w1.dw w2.dw w3.dw w4.dw w5.dw w6.dw w7.dw \
 	w8.dw w9.dw w10.dw w11.dw w12.dw w13.dw w14.dw w15.dw pipe.dd
+ifeq ($(SERIAL_T1),1)
+BOOTFILE_DRIVERS += sc6850.dr
+BOOTFILE_DESCS   += t1_sc6850.dt
+endif
 BOOTMODS = krnp2 init ioman \
 	$(BOOTFILE_MANAGERS) \
 	$(BOOTFILE_DRIVERS) \
@@ -74,6 +100,26 @@ BOOTMODS = krnp2 init ioman \
 endif
 
 include ../coco3.mak
+
+# /T1: the stock term_sc6850.asm, built with TNum=1 so the descriptor is
+# named T1 (not Term) and at the ACIA's address. Same source the MINIMAL=1
+# console descriptor uses, so its IT.* options (echo, auto-LF, 80x25, XON/
+# XOFF, 9600 8N1 -- baud is cosmetic here) are the tested ones.
+ifeq ($(SERIAL_T1),1)
+vpath %.asm $(NITROS9DIR)/level1/modules
+$(MODDIR)/t1_sc6850.dt: term_sc6850.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DHwBASE=0xFF68 -DTNum=1
+
+# Startup: the stock script unchanged, plus one line that starts a shell on
+# /T1. Generated (like startup.mame below) rather than editing
+# level2/coco3/startup, which every other recipe shares. The line goes right
+# after `load utilpak1` and BEFORE `setime </1`: setime waits for a keypress
+# on the windowed console, and a headless user on /T1 (no browser, no GIME
+# keyboard) could never get past it. If the stock script ever loses its
+# `load utilpak1` line the shell line is appended at the end instead.
+startup.t1: $(NITROS9DIR)/level2/$(PORT)/startup $(THIS_MAKEFILE)
+	awk 'BEGIN{d=0} {print} /^load utilpak1/ && !d {print "shell i=/t1&"; d=1} END{if(!d) print "shell i=/t1&"}' $< >$@
+endif
 
 ifeq ($(MINIMAL),1)
 vpath %.asm $(NITROS9DIR)/level1/modules
