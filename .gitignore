@@ -18,6 +18,8 @@ buildinfo
 bootfile
 kerneltrack
 *.dsk
+startup.t1
+startup.mame
 
 # Python cache
 __pycache__/

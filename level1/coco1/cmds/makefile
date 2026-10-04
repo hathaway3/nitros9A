@@ -10,7 +10,7 @@ AFLAGS		+= -I$(3RDPARTY)/packages/basic09
 AFLAGS		+= -I.
 LFLAGS		+= -L $(NITROS9DIR)/lib -lnet -lcoco -lalib
 
-CMDS		= asm attr backup bawk binex build calldbg cmp cobbler copy cputype \
+CMDS		= asm attr backup bawk binex build calldbg cmp cobbler copy cputype cpuspeed \
 		date dcheck debug ded deiniz del deldir devs dir dirsort disasm \
 		display dmode dsave dump echo edit error exbin format \
 		free grep grfdrv help ident iniz irqs keyrpt link list load login ls makdir \

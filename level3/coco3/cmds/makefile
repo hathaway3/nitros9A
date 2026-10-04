@@ -7,7 +7,7 @@ DEPENDS		= ./makefile
 AFLAGS		+= --includedir=$(3RDPARTY)/packages/basic09
 AFLAGS		+= --includedir=../defs
 
-CMDS		= asm attr backup bawk binex build cmp cobbler copy cputype \
+CMDS		= asm attr backup bawk binex build cmp cobbler copy cputype cpuspeed \
 		date dcheck debug ded deiniz del deldir devs dir dirsort disasm \
 		display dmem dmode dsave dump echo edit error exbin \
 		format free grep grfdrv help ident iniz irqs link list load login \

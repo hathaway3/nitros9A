@@ -228,7 +228,7 @@ buildinfo:
 	BRANCHNAME="$$(git branch --show-current)"; \
 	echo " fcc !$${BUILDDATE} ($${COMMITHASH} - $${BRANCHNAME})!" > buildinfo;
 
-STDCMDS = asm attr backup bawk binex build cmp copy date dcheck debug \
+STDCMDS = asm attr backup bawk binex build cmp copy cpuspeed date dcheck debug \
 	ded deiniz del deldir devs dir dirsort disasm display dmode dsave \
 	dump echo edit error exbin format free grep help ident iniz irqs keyrpt \
 	link list load login makdir megaread mdir merge mfree more \
