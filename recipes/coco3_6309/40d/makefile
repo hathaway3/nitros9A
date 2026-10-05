@@ -2,8 +2,8 @@ LEVEL = 2
 DSK_EXTRA_DEPS = $(MODDIR)/sysgo_dd
 DSK_POST_COPY = $(MAKE) copy-sysgo-root DSKIMAGE=$@
 BASIC09_CMDS = basic09 runb gfx2 gfx inkey syscall
-BASIC09_SAMPLES ?= $(wildcard $(3RDPARTY)/packages/basic09/samples/*)
-CMDS_EXTRA += $(BASIC09_CMDS) ls
+BASIC09_SAMPLES ?= $(filter-out %/unittest,$(wildcard $(3RDPARTY)/packages/basic09/samples/*))
+CMDS_EXTRA += $(BASIC09_CMDS) ls memstress
 
 THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
 
