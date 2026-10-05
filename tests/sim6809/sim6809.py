@@ -31,6 +31,7 @@ It found three real bugs in ls.asm the day it was written; run your
 command here before you bother a real CoCo with it.
 """
 import argparse
+import re
 import sys
 
 MEM = bytearray(65536)
@@ -778,6 +779,8 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("module", help="assembled OS-9 program module")
     ap.add_argument("--params", default="", help="command line parameters")
+    ap.add_argument("--mem", default=None,
+                    help="data area memory size override (e.g. 32k or 32768)")
     ap.add_argument("--width", type=int, default=80, help="SS.ScSiz width")
     ap.add_argument("--pipe", action="store_true",
                     help="stdout behaves like a pipe (no SS.Opt data, no LF)")
@@ -797,7 +800,30 @@ def main():
 
     MEM[MODBASE:MODBASE + len(mod)] = mod
     datsz = (mod[11] << 8) | mod[12]
-    pb = (args.params + "\r").encode()
+    params = args.params
+    # Emulate OS-9 shell '#nnnK' memory modifier: parse and expand datsz, strip from params
+    m = re.search(r'(?:^|\s)#(\d+)([kK]?)(?:\s|$)', params)
+    if m:
+        val = int(m.group(1))
+        if m.group(2).lower() == 'k':
+            val *= 1024
+        else:
+            val *= 256
+        if val > datsz:
+            datsz = val
+        params = params[:m.start()] + (" " if m.start() > 0 and m.end() < len(params) else "") + params[m.end():]
+        params = params.strip()
+    if args.mem:
+        mm = re.match(r'^(\d+)([kK]?)$', args.mem.strip())
+        if mm:
+            val = int(mm.group(1))
+            if mm.group(2).lower() == 'k':
+                val *= 1024
+            else:
+                val *= 256
+            if val > datsz:
+                datsz = val
+    pb = (params + "\r").encode()
     parbase = DATBASE + datsz
     MEM[parbase:parbase + len(pb)] = pb
     cpu.u = DATBASE; cpu.dp = DATBASE >> 8

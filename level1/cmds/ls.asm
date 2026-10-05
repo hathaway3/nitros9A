@@ -20,16 +20,23 @@
 * ------------------------------------------------------------------
 *   1      2026/06/12  Jim Hathaway
 * Created.
+*
+*   2      2026/10/05  Jim Hathaway
+* Reduced default data memory size to match other utilities like dir
+* (~1.8 KB, fitting in a single 8KB MMU block on Level 2), and dynamically
+* size the entry pool and pointer table at startup from available RAM (up to
+* 768 entries on #32k).
 
 ;;; ls
 ;;;
-;;; Syntax:	ls [<opts>] [<path>][<pattern>]
+;;; Syntax:	ls [<opts>] [<path>][<pattern>] [#<mem>[k]]
 ;;; Usage:	Displays a sorted list of the file names in a directory
 ;;; Parameters:
 ;;;     -a  include the . and .. directory entries
 ;;;     -l  long listing (owner, date, attributes, sector, size)
 ;;;     -r  recurse into subdirectories (depth first, like ls -R)
 ;;;     -x  list the execution directory
+;;;     #nK specify data memory size (e.g. #32k to sort large directories)
 ;;;
 ;;; The final pathname component may be a pattern: * matches any run
 ;;; of characters, ? matches any single character, case-insensitive
@@ -46,16 +53,20 @@
 tylg                set       Prgrm+Objct
 atrv                set       ReEnt+rev
 rev                 set       $00
-edition             set       1
+edition             set       2
 
-MAXENT              equ       256       most entries we can sort
-OUTSZ               equ       1024      output buffer size
-OUTMARG             equ       300       worst-case line length headroom
-DBUFSZ              equ       1024      directory read buffer (256-multiple)
-QSZ                 equ       1024      pending-directory path stack (-r)
+MIN_ENTRIES         equ       16        floor: guaranteed entry capacity in default allocation
+MAX_ENTRIES         equ       768       ceiling: maximum entries sorted on huge #nnnK allocations
+ENTRY_MEM           equ       DIR.SZ+2  34 bytes per entry (32-byte pool entry + 2-byte sort ptr)
+
+OUTSZ               equ       256       output buffer size (flushed per line when past threshold)
+OUTMARG             equ       100       worst-case line length headroom (80 cols + CR/LF)
+DBUFSZ              equ       256       directory read buffer (1 RBF sector, 256 bytes)
+QSZ                 equ       256       pending-directory path stack (-r recursion)
 MAXPATH             equ       220       longest path we will recurse into
+STACKSZ             equ       200       private hardware stack size
 
-                    mod       eom,name,tylg,atrv,start,size
+                    mod       eom,name,tylg,atrv,start,MemSize
 
                     org       0
 dirpath             rmb       1         directory path number
@@ -75,7 +86,7 @@ colw                rmb       1         column width (maxnam+2)
 maxnam              rmb       1         longest name seen
 skipcnt             rmb       1         leading entries to skip (. and ..)
 zsup                rmb       1         hex leading-zero suppress state
-truncfl             rmb       1         <>0 = directory had > MAXENT entries
+truncfl             rmb       1         <>0 = directory had > maxents entries
 entcnt              rmb       2         number of entries collected
 entsz2              rmb       2         entcnt*2 (pointer table size)
 bufptr              rmb       2         output buffer position
@@ -83,6 +94,7 @@ outtop              rmb       2         output buffer flush threshold
 dbptr               rmb       2         directory buffer position
 dbend               rmb       2         directory buffer end
 poolptr             rmb       2         next free entry pool slot
+poolbase            rmb       2         entry pool base address
 tblbase             rmb       2         pointer table base address
 tblend              rmb       2         pointer table end address
 keyptr              rmb       2         sort: key entry pointer
@@ -94,22 +106,26 @@ rowoff              rmb       2         current row table offset
 idxoff              rmb       2         current entry table offset
 pathp               rmb       2         pathname pointer from cmd line
 tmpd                rmb       2         scratch word
+maxents             rmb       2         max entries sorted this run
 patflg              rmb       1         <>0 = filtering with a pattern
 slashp              rmb       2         last '/' in the token (0 = none)
 mstar               rmb       2         matcher: position after last *
 mss                 rmb       2         matcher: name restart position
+fdsect              rmb       FD.Creat-FD.ATT file descriptor head (-l)
 patbuf              rmb       30        folded NUL-terminated pattern
 nmbuf               rmb       30        folded NUL-terminated name
-fdsect              rmb       FD.Creat-FD.ATT file descriptor head (-l)
 optbuf              rmb       32        SS.Opt path option buffer
-ptrtbl              rmb       MAXENT*2  sort pointer table
+curpath             rmb       MAXPATH+12 current directory pathname
 outbuf              rmb       OUTSZ     output staging buffer
 dirbuf              rmb       DBUFSZ    directory read buffer
 pathq               rmb       QSZ       pending-directory path stack
-curpath             rmb       MAXPATH+12 current directory pathname
-pool                rmb       MAXENT*DIR.SZ entry pool
-                    rmb       250       stack
-size                equ       .
+                    rmb       STACKSZ   private hardware stack
+stack               equ       .
+fixed_size          equ       .
+
+* Default memory allocated when no #nnnK override is given: fixed structures
+* plus guaranteed room for at least MIN_ENTRIES.
+MemSize             equ       fixed_size+(MIN_ENTRIES*ENTRY_MEM)
 
 name                fcs       /ls/
                     fcb       edition
@@ -123,7 +139,54 @@ DeepLen             equ       *-DeepMsg
 PermMask            fcc       "dsewrewr"
                     fcb       $FF
 
-start               clr       <lflag
+start               leas      stack,u   relocate hardware stack to private stack
+                    pshs      x         save parameter line pointer
+                    pshs      d         save parameter line length (from initial D)
+                    pshs      u         save data area base
+                    tfr       u,d       D = data area base
+                    tfr       a,dp      DP = high byte of data area
+
+* Derive runtime entry capacity from available memory (whichever is larger of
+* module header MemSize or shell's #nnnK override, passed in Y).
+* Available bytes = Y - U - param_len - fixed_size.
+                    tfr       y,d
+                    subd      ,s++      - data area base U
+                    subd      ,s++      - parameter length
+                    subd      #fixed_size - fixed engine structures
+                    bcc       mem_ok
+                    ldd       #0        underflow protection
+mem_ok
+* Divide available bytes D by ENTRY_MEM (34) to calculate entry capacity,
+* clamped to [MIN_ENTRIES, MAX_ENTRIES].
+                    ldx       #0        quotient counter
+div34               cmpd      #ENTRY_MEM
+                    blo       div34_done
+                    subd      #ENTRY_MEM
+                    leax      1,x
+                    cmpx      #MAX_ENTRIES
+                    blo       div34
+div34_done          tfr       x,d
+                    cmpd      #MIN_ENTRIES floor: at least MIN_ENTRIES
+                    bhs       floor_ok
+                    ldd       #MIN_ENTRIES
+floor_ok            std       <maxents
+
+* Dynamically place pointer table and entry pool:
+*   tblbase  = fixed_size,u
+*   poolbase = tblbase + maxents*2
+                    leay      fixed_size,u
+                    sty       <tblbase
+                    ldd       <maxents
+                    lslb
+                    rola
+                    leay      d,y
+                    sty       <poolbase
+
+* Recover parameter line pointer X
+                    puls      x
+
+* Initialize direct-page state and output buffer
+                    clr       <lflag
                     clr       <rflag
                     clr       <addmode
                     clr       <alfflg
@@ -139,10 +202,8 @@ start               clr       <lflag
                     sty       <bufptr
                     leay      outbuf+OUTSZ-OUTMARG,u
                     sty       <outtop
-                    leay      pool,u    and the entry pool
+                    ldy       <poolbase and the entry pool
                     sty       <poolptr
-                    leay      ptrtbl,u  and the pointer table
-                    sty       <tblbase
 
 * Parse the command line.  X = parameter pointer.
 Parse               lda       ,x+       get a character
@@ -310,7 +371,7 @@ DirLoop             leax      curpath,u
                     clr       <truncfl
                     lda       <skipinit
                     sta       <skipcnt
-                    leay      pool,u
+                    ldy       <poolbase
                     sty       <poolptr
                     leax      dirbuf,u  buffer starts out empty
                     stx       <dbptr
@@ -411,7 +472,7 @@ nofilt
                     ldd       <entcnt
                     lslb                entcnt*2 = table offset
                     rola
-                    leax      ptrtbl,u
+                    ldx       <tblbase
                     leax      d,x
                     sty       ,x
                     clrb                measure the name
@@ -427,7 +488,7 @@ nmok                ldy       <poolptr  advance the pool
                     ldd       <entcnt
                     addd      #1
                     std       <entcnt
-                    cmpd      #MAXENT   out of room to sort?
+                    cmpd      <maxents  out of room to sort?
                     lblo      Collect
                     inc       <truncfl  note it and stop collecting
                     bra       RdDone
@@ -620,7 +681,7 @@ RowL                ldd       <rowoff
                     bhs       OutDone
                     std       <idxoff
 RowEnt              ldd       <idxoff
-                    leax      ptrtbl,u
+                    ldx       <tblbase
                     ldx       d,x       X = entry (name at offset 0)
                     lbsr      PutName   B = characters emitted
                     stb       <tmpd     remember the length (ldd below kills B)
@@ -686,7 +747,7 @@ pidchk              pshs      u         is the entry a directory?
                     tfr       d,y
                     ldu       DIR.FD+1,x
                     ldx       ,s
-                    leax      <fdsect,x
+                    leax      fdsect,x
                     lda       <dirpath
                     ldb       #SS.FDInf
                     os9       I$GetStt
@@ -842,7 +903,7 @@ LongList            ldd       #0
 LL1                 ldd       <idxoff
                     cmpd      <entsz2
                     lbhs      LLdone
-                    leax      ptrtbl,u
+                    ldx       <tblbase
                     ldx       d,x       X = entry
                     stx       <entp
 * Fetch the file descriptor head via SS.FDInf.
@@ -852,7 +913,7 @@ LL1                 ldd       <idxoff
                     tfr       d,y
                     ldu       DIR.FD+1,x LSN bits 0-15 (before X moves!)
                     ldx       ,s        caller's U
-                    leax      <fdsect,x
+                    leax      fdsect,x
                     lda       <dirpath
                     ldb       #SS.FDInf
                     os9       I$GetStt
@@ -864,7 +925,7 @@ LL1                 ldd       <idxoff
                     lbsr      PHexW
                     bsr       PutSp
 * modified date and time
-                    leax      <fdsect+FD.DAT,u
+                    leax      fdsect+FD.DAT,u
                     bsr       PYear
                     bsr       PSlash
                     bsr       PSlash
