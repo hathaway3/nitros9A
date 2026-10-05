@@ -5,6 +5,7 @@ include ../../rules.mak
 RECIPE ?= coco3_6309
 -include recipe.mak
 vpath %.asm $(LEVEL1)/coco1/modules
+vpath %.asm $(3RDPARTY)/packages/basic09
 
 AFLAGS += -DH6309=1
 
@@ -30,9 +31,13 @@ TERM_ALTCOLOR_FLAGS =
 endif
 
 DSKIMAGE ?= l$(LEVEL)_$(RECIPE).dsk
+DSK_EXTRA_DEPS ?=
+DSK_POST_COPY ?= @:
 OS9FORMAT_CMD ?= $(OS9FORMAT_DS40)
 
 AFLAGS += -I.
+AFLAGS += -I$(3RDPARTY)/packages/basic09
+AFLAGS += -I$(L2PD)/defs
 AFLAGS += -I$(L2MD)/kernel -I$(L2PMD)
 AFLAGS += -I$(L1MD)/kernel -I$(L1MD)
 AFLAGS += $(AFLAGS_EXTRA)
@@ -65,8 +70,12 @@ UTILPAK1 = attr build copy del deldir dir display list makdir mdir merge mfree p
 CMDS_BASE ?= $(STDCMDS) grfdrv shell utilpak1
 CMDS += $(CMDS_BASE) \
 	$(CMDS_EXTRA)
+BASIC09_SAMPLES ?=
 
-all: libs $(DSKIMAGE)
+all: libs coco3vtio.d $(DSKIMAGE)
+
+coco3vtio.d: $(DEFSDIR)/cocovtio.d
+	$(AS) $(AFLAGS) --preprocess -DLevel=2 -DCOCOVTIO.D=0 $< > $@
 
 LIB_NAMES = libnos96309l2.a libnet.a libalib.a libcoco3_6309.a
 include ../../libs.mak
@@ -77,7 +86,7 @@ kernelfile: $(addprefix $(MODDIR)/,$(KERNEL_TRACK))
 bootfile: $(addprefix $(MODDIR)/,$(BOOTMODS))
 	$(MERGE) $(addprefix $(MODDIR)/,$(BOOTMODS))>$@
 
-$(DSKIMAGE): kernelfile bootfile $(addprefix $(MODDIR)/,$(CMDS)) $(STARTUP)
+$(DSKIMAGE): kernelfile bootfile $(addprefix $(MODDIR)/,$(CMDS)) $(STARTUP) $(DSK_EXTRA_DEPS) $(BASIC09_SAMPLES)
 	$(RM) $@
 	$(OS9FORMAT_CMD) -q $@ -n"NitrOS-9/$(CPU) Level $(LEVEL)"
 	$(OS9GEN) $@ -b=bootfile -t=$(KERNELFILE)
@@ -86,8 +95,14 @@ $(DSKIMAGE): kernelfile bootfile $(addprefix $(MODDIR)/,$(CMDS)) $(STARTUP)
 	$(MAKDIR) $@,DEFS
 	$(OS9COPY) $(addprefix $(MODDIR)/,$(CMDS)) $@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
+ifneq ($(strip $(BASIC09_SAMPLES)),)
+	$(MAKDIR) $@,BASIC09
+	$(CPL) $(BASIC09_SAMPLES) $@,BASIC09
+	$(OS9ATTR_TEXT) $(foreach file,$(notdir $(BASIC09_SAMPLES)),$@,BASIC09/$(file))
+endif
 	$(CPL) $(STARTUP) $@,startup
 	$(OS9ATTR_TEXT) $@,startup
+	$(DSK_POST_COPY)
 
 # /TERM window descriptors — column count and colors controlled by TERM_COLS and TERM_ALTCOLOR
 $(MODDIR)/term_win40.dt: term_win40.asm | $(MODDIR)
@@ -112,6 +127,9 @@ $(MODDIR)/xmode: xmode.asm | $(MODDIR)
 
 $(MODDIR)/tmode: xmode.asm | $(MODDIR)
 	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DTMODE=1
+
+$(MODDIR)/runb: runb.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@
 
 $(MODDIR)/shell: $(addprefix $(MODDIR)/,$(SHELLMODS)) | $(MODDIR)
 	$(MERGE) $(addprefix $(MODDIR)/,$(SHELLMODS)) >$@
@@ -194,7 +212,7 @@ $(MODDIR)/n5_scdwv.dd: scdwvdesc.asm | $(MODDIR)
 	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DAddr=5
 
 clean:
-	$(RM) *.list *.map bootfile $(KERNELFILE) *.dsk buildinfo
+	$(RM) *.list *.map bootfile $(KERNELFILE) *.dsk buildinfo coco3vtio.d
 	-rm -rf $(OBJDIR) $(LIBDIR) $(MODDIR)
 
 .PHONY: all clean libs

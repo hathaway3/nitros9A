@@ -20,6 +20,7 @@ kerneltrack
 *.dsk
 startup.t1
 startup.mame
+coco3vtio.d
 
 # Python cache
 __pycache__/
