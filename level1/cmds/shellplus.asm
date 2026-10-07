@@ -563,10 +563,14 @@ CmdList             fdb       L0B87-*
                     fcs       'SETPR'
                     fdb       CmdIEq-*
                     fcs       'I='
+                    fdb       CmdIEq-*
+                    fcs       '-I='
                     fdb       CmdREq-*
                     fcs       'R='
                     fdb       CmdZEq-*
                     fcs       'Z='
+                    fdb       CmdZEq-*
+                    fcs       '-Z='
                     fdb       CmdSEMI-*
                     fcs       ';'
                     fdb       CmdPWD-*
