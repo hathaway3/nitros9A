@@ -95,6 +95,12 @@ $(DSKIMAGE): kernelfile bootfile $(addprefix $(MODDIR)/,$(CMDS)) $(STARTUP) $(DS
 	$(MAKDIR) $@,DEFS
 	$(OS9COPY) $(addprefix $(MODDIR)/,$(CMDS)) $@,CMDS
 	$(OS9ATTR_EXEC) $(foreach file,$(CMDS),$@,CMDS/$(file))
+	$(CPL) $(NITROS9DIR)/level1/sys/password $@,SYS/password
+	$(OS9ATTR_TEXT) $@,SYS/password
+	$(CPL) $(NITROS9DIR)/level2/sys/motd $@,SYS/motd
+	$(OS9ATTR_TEXT) $@,SYS/motd
+	$(CPL) $(NITROS9DIR)/level1/sys/errmsg $@,SYS/errmsg
+	$(OS9ATTR_TEXT) $@,SYS/errmsg
 ifneq ($(strip $(BASIC09_SAMPLES)),)
 	$(MAKDIR) $@,BASIC09
 	$(CPL) $(BASIC09_SAMPLES) $@,BASIC09
