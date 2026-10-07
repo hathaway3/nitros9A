@@ -56,6 +56,13 @@ ifeq ($(SERIAL_T1),1)
 BOOTFILE_DRIVERS += sc6850.dr
 BOOTFILE_DESCS   += t1_sc6850.dt
 endif
+# Wi-Fi Virtual Serial Ports (/N0 - /N3)
+VPORT ?= 1
+ifeq ($(VPORT),1)
+BOOTFILE_DRIVERS += netscf.dr
+BOOTFILE_DESCS   += n0.dt n1.dt n2.dt n3.dt
+CMDS_EXTRA       += netscf n0 n1 n2 n3
+endif
 BOOTMODS = krnp2 init ioman \
 	$(BOOTFILE_MANAGERS) \
 	$(BOOTFILE_DRIVERS) \
@@ -104,3 +111,38 @@ $(MODDIR)/basic09: basic09.asm | $(MODDIR)
 
 $(MODDIR)/runb: runb.asm | $(MODDIR)
 	$(AS) $(AFLAGS) $< $(ASOUT)$@
+
+ifeq ($(VPORT),1)
+vpath term_net.asm $(NITROS9DIR)/level1/modules
+vpath netscf.asm $(NITROS9DIR)/level1/modules
+
+$(MODDIR)/netscf.dr: netscf.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@
+
+$(MODDIR)/n0.dt: term_net.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DPORT_NUM=0
+
+$(MODDIR)/n1.dt: term_net.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DPORT_NUM=1
+
+$(MODDIR)/n2.dt: term_net.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DPORT_NUM=2
+
+$(MODDIR)/n3.dt: term_net.asm | $(MODDIR)
+	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DPORT_NUM=3
+
+$(MODDIR)/netscf: $(MODDIR)/netscf.dr
+	$(CP) $< $@
+
+$(MODDIR)/n0: $(MODDIR)/n0.dt
+	$(CP) $< $@
+
+$(MODDIR)/n1: $(MODDIR)/n1.dt
+	$(CP) $< $@
+
+$(MODDIR)/n2: $(MODDIR)/n2.dt
+	$(CP) $< $@
+
+$(MODDIR)/n3: $(MODDIR)/n3.dt
+	$(CP) $< $@
+endif
