@@ -2,7 +2,7 @@
 * netscf - Multiplexed Wi-Fi Virtual Serial SCF Driver
 * For RPI-Nine Pico 2W Virtual Hardware
 *
-* Edition: 3
+* Edition: 4
 *
 * Edt/Rev  Comment
 * ------------------------------------------------------------------
@@ -12,6 +12,8 @@
 *          the way vtio and sc6850 do, so Ctrl-C and BREAK send
 *          S$Intrpt/S$Abort to the last process that used the port
 *          even while it is busy and not reading
+*   4      GetStat answers SS.ScSiz from the descriptor's IT.COL/IT.ROW and
+*          returns E$UnkSvc for calls it does not support, as sc6850 does
 ********************************************************************
                     nam       netscf
                     ttl       Wi-Fi Virtual Serial SCF Driver
@@ -21,7 +23,7 @@
                     endc
 
 rev                 set       0
-edition             set       3
+edition             set       4
 
                     ifndef    VPORT_BASE
 VPORT_BASE          equ       $FF70
@@ -303,7 +305,7 @@ RxDrop              rts
 GetStat             cmpa      #SS.EOF             End of file?
                     beq       GS.Ok               SCF never returns EOF
                     cmpa      #SS.Ready           Is data ready?
-                    bne       GetStatCD
+                    bne       GetStatSz
                     ldb       <V.RxCnt,u          how many bytes are waiting?
                     beq       GS.NRdy             none, not ready
                     ldx       PD.RGS,y            point to the caller's registers
@@ -312,6 +314,21 @@ GS.Ok               clrb
                     rts
 GS.NRdy             comb                          Carry set = not ready
                     ldb       #E$NotRdy
+                    rts
+
+* screen size comes from the descriptor (IT.COL/IT.ROW), as sc6850 does;
+* without it mdir laid out its columns from whatever was left in x
+GetStatSz           cmpa      #SS.ScSiz           Screen size?
+                    bne       GetStatCD           no, check carrier detect
+                    ldx       PD.RGS,y            point to the caller's registers
+                    ldu       PD.DEV,y            get the device table entry
+                    ldu       V$DESC,u            get the device descriptor
+                    clra                          sizes are one byte
+                    ldb       IT.COL,u            get the number of columns
+                    std       R$X,x               return them in the caller's x
+                    ldb       IT.ROW,u            get the number of rows
+                    std       R$Y,x               return them in the caller's y
+                    clrb                          no error
                     rts
 
 GetStatCD           cmpa      #SS.CDSta           Carrier Detect status?
@@ -328,7 +345,10 @@ GS.CDOn             lda       #1                  Carrier up
                     clrb
                     rts
 
-GetStatPass         clrb
+* anything else is unsupported: say so instead of returning success with
+* the caller's registers untouched, as sc6850 does
+GetStatPass         comb                          set carry for the error
+                    ldb       #E$UnkSvc           unknown service request
                     rts
 
 ********************************************************************
