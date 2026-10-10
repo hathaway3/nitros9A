@@ -6,6 +6,8 @@
 * ------------------------------------------------------------------
 *   1      2026/10/03  Jim Hathaway
 * Started. Synchronizes to 60 Hz clock and benchmarks CPU performance.
+*   2      2026/10/10  Jim Hathaway
+* Robust elapsed second tracking; prevent hang on minute rollover or clock jitter.
 
                     nam       CPUSpeed
                     ttl       CPU Speed Benchmark for NitrOS-9
@@ -17,12 +19,12 @@
 tylg                set       Prgrm+Objct
 atrv                set       ReEnt+Rev
 rev                 set       $00
-edition             set       1
+edition             set       2
 
                     org       0
 time_buf            rmb       6                   ; F$Time buffer (yr, mo, day, hr, min, sec)
-start_sec           rmb       1
-end_sec             rmb       1
+prev_sec            rmb       1                   ; Previous second sampled (0..59)
+sec_count           rmb       1                   ; Elapsed seconds counter
 batch_count         rmb       2                   ; 16-bit batch counter
 out_buf             rmb       16                  ; Output buffer for formatted numbers
                     rmb       200                 ; Stack space
@@ -129,12 +131,8 @@ sync_wait
 
 * Now we are exactly at the start of a second!
                     lda       5,x
-                    sta       start_sec,u
-                    adda      #3                  ; sample for 3 seconds
-                    cmpa      #60
-                    bcs       sec_ok
-                    suba      #60
-sec_ok              sta       end_sec,u
+                    sta       prev_sec,u
+                    clr       sec_count,u
 
                     clra
                     clrb
@@ -161,9 +159,17 @@ inner_loop
 
                     leax      time_buf,u
                     os9       F$Time
-                    lda       5,x
-                    cmpa      end_sec,u
-                    bne       bench_loop
+                    lda       5,x                 ; current second (0..59)
+                    suba      prev_sec,u          ; delta since last sample
+                    beq       bench_loop          ; still in same second -> keep looping
+                    bcc       sec_diff_ok         ; if new_sec >= prev_sec, difference in A
+                    adda      #60                 ; wrapped around 60 (minute rollover or resync)
+sec_diff_ok         adda      sec_count,u         ; accumulate elapsed seconds
+                    sta       sec_count,u
+                    ldb       5,x
+                    stb       prev_sec,u          ; update previous second
+                    cmpa      #3                  ; sampled for at least 3 seconds?
+                    blo       bench_loop
 
 * 4. 3 seconds finished! Calculate MHz:
 * Each batch = 100,000 cycles.
