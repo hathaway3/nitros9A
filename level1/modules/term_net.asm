@@ -31,7 +31,7 @@ PORT_NUM            equ       0
 VPORT_BASE          equ       $FF70
                     endif
 
-HwBASE              equ       VPORT_BASE + PORT_NUM
+HwBASE              equ       VPORT_BASE+PORT_NUM  no spaces: the operand ends at the first blank
 
                     mod       eom,name,tylg,atrv,mgrnam,drvnam
 
