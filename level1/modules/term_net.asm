@@ -1,6 +1,16 @@
 ********************************************************************
 * term_net - Wi-Fi Virtual Terminal Device Descriptor Template
 * Supports /N0, /N1, /N2, /N3 (configured via PORT_NUM)
+*
+* IT.RPR and IT.DUP use the window descriptors' values (w.asm,
+* term_win80.asm), not the serial defaults. SCF turns on its enhanced
+* line editor whenever IT.RPR is not C$RPRT (Ctrl-D); the reprint
+* character then moves the cursor right one character, so right arrow
+* walks across a Shell+ history line the same as on the windowed
+* console, and Ctrl-P/Ctrl-Q/Ctrl-S delete, insert and print the rest
+* of the line. Ctrl-D and Ctrl-A are ordinary characters in this mode.
+* "tmode rpr=04 dup=01" switches a path back to classic SCF input.
+* See RPI-Nine docs/TELNET_TERMINALS.md.
 ********************************************************************
                     nam       term_net
                     ttl       Wi-Fi Virtual Terminal Device Descriptor
@@ -43,8 +53,8 @@ HwBASE              equ       VPORT_BASE + PORT_NUM
                     fcb       C$DEL               IT.DEL delete line character ($18)
                     fcb       C$CR                IT.EOR end of record character ($0D)
                     fcb       C$EOF               IT.EOF end of file character ($1B)
-                    fcb       C$RPRT              IT.RPR reprint line character ($04)
-                    fcb       C$RPET              IT.DUP duplicate last line character ($01)
+                    fcb       C$RARR              IT.RPR reprint/cursor right character ($09 right arrow, enables the line editor)
+                    fcb       C$SHRARR            IT.DUP duplicate rest of line character ($19 shift right arrow)
                     fcb       C$PAUS              IT.PSC pause character ($17)
                     fcb       C$INTR              IT.INT interrupt character ($03 / Ctrl-C)
                     fcb       C$QUIT              IT.QUT quit character ($05 / Ctrl-E)
