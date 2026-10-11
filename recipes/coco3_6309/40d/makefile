@@ -23,9 +23,9 @@ SERIAL_T1 ?= 1
 
 # STARTUP must be set BEFORE include ../coco3_6309.mak: that file's rule for the
 # disk image expands $(STARTUP) into its prerequisite list at parse time.
-ifeq ($(SERIAL_T1),1)
 ifneq ($(MAME),1)
 ifneq ($(MINIMAL),1)
+ifneq ($(filter 1,$(SERIAL_T1) $(VPORT)),)
 STARTUP = startup.t1
 endif
 endif
@@ -77,10 +77,17 @@ ifeq ($(SERIAL_T1),1)
 vpath %.asm $(NITROS9DIR)/level1/modules
 $(MODDIR)/t1_sc6850.dt: term_sc6850.asm | $(MODDIR)
 	$(AS) $(AFLAGS) $< $(ASOUT)$@ -DHwBASE=0xFF68 -DTNum=1
+endif
 
 startup.t1: $(NITROS9DIR)/level2/$(PORT)/startup $(THIS_MAKEFILE)
-	awk 'BEGIN{d=0} {print} /^load utilpak1/ && !d {print "shell i=/t1&"; d=1} END{if(!d) print "shell i=/t1&"}' $< >$@
-endif
+	awk 'BEGIN{d=0} {print} /^load utilpak1/ && !d { \
+		$(if $(filter 1,$(SERIAL_T1)),print "shell i=/t1&";) \
+		$(if $(filter 1,$(VPORT)),print "shell i=/n0&"; print "shell i=/n1&"; print "shell i=/n2&"; print "shell i=/n3&";) \
+		d=1 \
+	} END{if(!d) { \
+		$(if $(filter 1,$(SERIAL_T1)),print "shell i=/t1&";) \
+		$(if $(filter 1,$(VPORT)),print "shell i=/n0&"; print "shell i=/n1&"; print "shell i=/n2&"; print "shell i=/n3&";) \
+	}}' $< >$@
 
 ifeq ($(MINIMAL),1)
 vpath %.asm $(NITROS9DIR)/level1/modules
